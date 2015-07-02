@@ -23,6 +23,11 @@ Seja \textit{T} o conjunto de treino do meta-classificador e \textit{v} o númer
   \label{fig:metodoproposto02}
 \end{figure}
 
+
+Note que o meta-classificador não foi desenvolvido para receber um conjunto de treino com uma lista ordenada no gabarito. 
+Ele deve ser treinado com \textit{datasets} que apresentam apenas um único valor no atributo classe.
+Apos o treinamento com um conjunto de testes deste tipo o meta-classificador é capaz de gerar uma lista ordenada de classes para uma nova instância.
+
 \section{Versões do método}
 
 O método proposto foi desenvolvido em duas versões: estático e dinâmico.
