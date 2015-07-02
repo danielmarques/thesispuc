@@ -1,17 +1,36 @@
 \chapter{Descrição dos Testes}
 
 Neste capítulo discutiremos os testes realizados para avaliar a performance e desempenho do método proposto.
-Apresentaremos os conjuntos de teste utilizados, bem como suas características gerais. 
+Apresentaremos os conjuntos de teste usados, bem como suas características gerais. 
 Os algoritmos utilizados internamente no meta-classificador e suas opções também serão mostrados.
 
-Para avaliar a performance dos métodos um \textit{benckmark} específico é usado em cada teste.
+Para avaliar a performance dos métodos um \textit{benckmark} específico é empregado em cada teste.
 Quando um algorítmo é utilizado internamente no meta-classificador, e.g. Árvore de Decisão, o resultado deste mesmo algorítmo sem o meta-classificador é usado como \textit{benckmark}.
 Isso é possível pois as classes que implementam estes agoritmos, que fazem parte do \textit{framework} Weka (referência), são capazes de gerar uma distribuição de propabilidades de classes como saída.
-Esta distribuição de probabilidades é então usada para montar a lista de saída que servirá como \textit{benckmark} do teste.
+A lista de saída que servirá como \textit{benckmark} do teste é então montada a partir desta distribuição de probabilidades.
 
-%Falar das k-acurácias (aqui ou mais perto dos resultados)
-A métrica empregada para avaliar a performance dos métodos é chamada de \textit{k-acurácia}.
-Esta métrica foi desenvolvida para 
+%Exemplo de distribuição de probabilidades?
+
+%Criar uma sub sessão para as k-acurácias?
+O conjunto de métricas empregadas na avaliação da performance do método proposto é chamado de \textit{k-acurácia}. 
+Como foi discutido, para executar o ranqueamento, o meta-classificador recebe a instância como entrada e retorna uma lista ordenada com as \textit{k} classes mais prováveis para a mesma.
+A métrica \textit{k-acurácia} foi arquitetada para avaliar a estrutura desse tipo de lista.
+Neste trabalho, consideramos a posição da classe verdadeira na lista como o único fator importante.
+Portanto, a \textit{k-acurácia} ignora qualquer outro fator que normalmente é analisado por métricas mais usuais como Tau de Kendall, MAP e NDCG (referências).
+
+A \textit{k-acurácia} é na verdade um conjunto de métricas. 
+Elas variam de 1 até \textit{k}; i.e. \textit{1-acurácia}, \textit{2-acurácia} até \textit{k-acurácia}; onde \textit{k} denota o tamanho da lista retornada.
+O valor de cada acurácia depende da posição da classe verdadeira na lista.
+Se ela está na posição \textit{i}, onde $1 \leq \textit{i} \leq \textit{k}$, então as acurácias anteriores à \textit{i} tem o valor zero e o restante o valor um.
+
+%Exemplo / Figura da k-acurácia?
+
+Note que esse cálculo é feitos por instância. 
+Ao ranquear múltiplas instâncias, os valores obtidos para cada uma são somados, formando um valor total por \textit{i-acurácia}.
+Este valor total é então dividido pelo número de instâncias que foram ranqueadas.
+Com isso os valores das acurácias apresentados neste trabalho estão na forma de percentuais.
+
+
 
 %Falar dos testes em sí: validação cruzada, ambiente de teste
 
