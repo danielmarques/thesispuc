@@ -8,8 +8,8 @@ Para avaliar a performance dos métodos um \textit{benckmark} específico é emp
 Quando um algorítmo é utilizado internamente no meta-classificador, e.g. Árvore de Decisão, o resultado deste mesmo algorítmo sem o meta-classificador é usado como \textit{benckmark}.
 Isso é possível pois as classes que implementam estes agoritmos, que fazem parte do \textit{framework} Weka (referência), são capazes de gerar uma distribuição de propabilidades de classes como saída.
 A lista de saída que servirá como \textit{benckmark} do teste é então montada a partir desta distribuição de probabilidades.
-
-%Exemplo de distribuição de probabilidades?
+Isto é, as classes são colocadas na lista na ordem decrescente de probabilidade.
+Por exemplo, caso tenhamos as classes A, B, C e D com probabilidades 0.2, 0.25, 0.1 e 0.45 respectivamente, a lista de saída será D, B, A e C.
 
 %Criar uma sub sessão para as k-acurácias?
 O conjunto de métricas empregadas na avaliação da performance do método proposto é chamado de \textit{k-acurácia}. 
@@ -22,51 +22,132 @@ A \textit{k-acurácia} é na verdade um conjunto de métricas.
 Elas variam de 1 até \textit{k}; i.e. \textit{1-acurácia}, \textit{2-acurácia} até \textit{k-acurácia}; onde \textit{k} denota o tamanho da lista retornada.
 O valor de cada acurácia depende da posição da classe verdadeira na lista.
 Se ela está na posição \textit{i}, onde $1 \leq \textit{i} \leq \textit{k}$, então as acurácias anteriores à \textit{i} tem o valor zero e o restante o valor um.
+Por exemplo, caso tenhamos a lista de classes D, B, A e C onde a classe verdadeira é B, teremos a \textit{1-acurácia} igual a zero e \textit{2-acurácia} em diante igual a um.
 
-%Exemplo / Figura da k-acurácia?
-
-Note que esse cálculo é feitos por instância. 
+Note que esse cálculo é feito por instância. 
 Ao ranquear múltiplas instâncias, os valores obtidos para cada uma são somados, formando um valor total por \textit{i-acurácia}.
 Este valor total é então dividido pelo número de instâncias que foram ranqueadas.
 Com isso os valores das acurácias apresentados neste trabalho estão na forma de percentuais.
 
+Todos os testes realizados neste capítulo foram realizados com validação cruzada de dez vezes.
+Novamente, os componentes do \textit{framework} Weka foram utilizados para realizar as validações.
+Todos os testes foram executados em máquinas virtuais no ambiente \textit{Google Cloud Platform}. 
+As máquinas tem a seguinte configuração: sistema operacional Linux Ubuntu 14.04, duas unidades de processamento (vCPU) e 13 GB de memória RAM.
+Além disso, ao executar o programa 10 GB de memória são reservados para o heap da JVM com o comando \textit{java -Xmx10g}.
 
-
-%Falar dos testes em sí: validação cruzada, ambiente de teste
-
-%Apresentação dos algoritmos testados
-%Tabela com algoritmos e opções dos mesmos?
-
-Na tabela \ref{tab:algoritmostestes} são apresentados os algoritmos usados nos testes.
+Na tabela \ref{tab:algoritmostestes} são apresentadas as configurações de algoritmos usados nos testes. Todas as classes utiliazadas são do pacote weka.classifiers.
 
 \begin{table}[h!]
   \begin{center}
-    \caption{Algoritmos usados nos testes.}
-    \label{tab:algoritmostestes}
     \begin{tabular}{ccc}
-      \toprule
-      Algoritmo & Classe & Opções\\
-      \midrule
-      prettifies & the & content\\
-      as & well & as\\
-      using & the & booktabs package\\
-      \bottomrule
+      \hline
+      Algoritmo & Classe Weka & Opções \\
+      \hline
+
+      Arvore de Decisão & trees.J48 & padrão \\
+      Naive Bayes & bayes.NaiveBayes & padrão \\
+      Support Vector Machine & functions.SMO & padrão \\
+      Random Forest & trees.RandomForest & padrão \\
+      k vizinhos mais próximos & lazy.IBk & K = 5, 7 e 9 \\
+
+      \hline
     \end{tabular}
+    \caption{Configurações dos algorítmos}
+    \label{tab:algoritmostestes}
   \end{center}
 \end{table}
 
+%incluir breve explicação dos algoritmos? -> conceitos básicos
+
 %Apresentação dos datasets utilizados nos testes
 %Tabela com os datasets gerais e suas  características
-%Colocar os dataets balanceados/desbalanceados em outra tabela
+
+Na tabela \ref{tab:datatestes} são apresentados as características gerais dos conjuntos de dados utilizados nos testes.
+
+\begin{table}[h!]
+  \begin{center}
+    \begin{tabular}{cccc}
+      \hline
+      Dataset & Intâncias & Atributos & Valores de Classe \\
+      \hline
+
+      Iris & 150 & 5 & 3 \\
+      Wine & 178 & 14 & 3 \\ 
+      Glass & 214 & 10 & 7 \\
+      Balance-Scale & 625 & 5 & 3 \\
+      Segment-Challenge & 1500 & 20 & 7 \\
+      Car & 1728 & 7 & 4 \\
+      Data-Zero & 2846 & 202 & 42 \\
+      Nursery & 3330 & 9 & 5 \\
+      Poker-Hand & 3712 & 11 & 10 \\      
+      Covtype-01percent & 5810 & 55 & 7 \\
+      Covtype-10percent & 58101 & 55 & 7 \\    
+
+      \hline
+    \end{tabular}
+    \caption{Conjuntos de dados}
+    \label{tab:datasets}
+  \end{center}
+\end{table}
 
 %Tempos de execução dos métodos estático e dinâmico versus classificadores
 %Tabela com os tempos médios
+
+\begin{table}[h!]
+  \begin{center}
+    \begin{tabular}{cccc}
+      \hline
+      Algoritmo & Configuração & Tempo de Treino & Tempo de Teste \\
+      \hline
+
+
+      \hline
+    \end{tabular}
+    \caption{Tempos médios de execução}
+    \label{tab:tempostestes}
+  \end{center}
+\end{table}
 
 %Desempenho dos algoritmos gerais
 %Tabela com os resultados médios
 %Deveria ter pelo menos um resultado por algoritmo
 %Gráfico que mostra mais resultados com fácil visualização?
 
+\begin{table}[h!]
+  \begin{center}
+    \begin{tabular}{ccccc}
+      \hline
+      Algoritmo & Configuração & 1-Acurácia & 2-Acurácia & 3-Acurácia \\
+      \hline
+
+
+      \hline
+    \end{tabular}
+    \caption{Valores de acurácia médios dos testes}
+    \label{tab:acuracias}
+  \end{center}
+\end{table}
+
 %Discussão sobre balanceado vs desbalanceado
-%Tabela com dataset
+%Tabela com datasets
+
+\begin{table}[h!]
+  \begin{center}
+    \begin{tabular}{ccc}
+      \hline
+      Dataset & Intâncias & Distribuição \\
+      \hline
+
+      Desbalanceado & 702 & 507 6 5 ... 5 3 1 \\
+      Balanceado 1 & 840 & 20 ... 20 \\
+      Balanceado 2 & 711 & 20 ... 20 19 19 19 17 16 14 11 9 7 6 5 5 3 1 \\
+      Balanceado 3 & 1343 & 50 ... 50 43 42 40 39 35 35 33 33 33 31 31 26 21 19 19 19 17 16 14 11 9 7 6 5 5 3 1 \\
+
+      \hline
+    \end{tabular}
+    \caption{Conjuntos de dados}
+    \label{tab:balanceadovsdesbalanceado}
+  \end{center}
+\end{table}
+
 %Tabela com resultados
