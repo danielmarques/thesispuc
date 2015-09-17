@@ -1,0 +1,56 @@
+\chapter{Trabalhos Relacionados}
+
+O método proposto nesta dissertação figura entre diversos outros que procuram solucionar problemas de classificação em múltiplas classes.
+Ainda mais especificamente aqueles voltados para \textit{ranking}, que é uma das tarefas cada vez mais proeminentes em aprendizado supervisionado.
+Diferente da tarefa de classificação clássica em aprendizado de máquina, na classificação em múltiplas classes cada instância está associada à mais de uma classe \cite{Tsoumakas}.
+Em problemas desse tipo é possível ainda que estas classes tenham correlações entre si.
+
+Entre as soluções encontradas na literatura podemos destacar ainda aquelas que performam a transformação do problema \cite{Tsoumakas}.
+Isto é, elas executam uma transformação do problema de classificação em múltiplas classes de forma que ele possa ser solucionado com uma ou mais classificações em uma classe.
+Como o método proposto nesta dissertação também se baseia em transformação do problema (filtragens sucessivas do conjunto de dados), a seguir apresentaremos alguns destes métodos encontrados na literatura.
+
+O método de transformação de problema mais famoso é chamado de \textit{Binary Relevance} \cite{Tsoumakas, Godbole, Zhang}.
+Este método se baseia em transformar um problema de classificação em múltiplas classes em diversos problemas de classificação binários.
+Ou seja, se existem $\vert L \vert$ classes diferentes no conjunto de dados, $\vert L \vert$ classificadores diferentes são treinados.
+Cada um deles é responsável pela classificação binária referente à uma das $\vert L \vert$ classes do conjunto de dados.
+Note porém que este método não é capaz de modelar qualquer tipo de correlação entre as classes, portanto não pode ser usado para gerar listas ordenadas por relevância.
+
+\textit{Label Powerset} é mais um método clássico encontrado na literatura \cite{Tsoumakas02, Read02}.
+Este método se baseia em transformar cada possível combinação entre as $\vert L \vert$ classes em novas classes atômicas.
+Com isso o problema pode ser resolvido por um classificador para múltiplas classes comum.
+Além disso, este método leva diretamente em consideração a coorelação entre classes.
+Todavia, a desvantagem do \textit{Label Powerset} é sua complexidade de tempo no pior caso.
+
+Outro método, baseado em \textit{Label Powerset}, é chamado \textit{RAkEL} (\textit{RAndom k labELsets}) \cite{Tsoumakas03}.
+Sua proposta é segmentar aleatoriamente o conjunto de dados de acordo com as classes.
+Desta forma diversos subgrupos menores (\textit{labelsets}) podem ser criados.
+Estes subgrupos também podem ou não ter classes em comum.
+Um classificador é treinado para cada subgrupo utilizando o método \textit{Label Powerset} citado anteriormente.
+Para classificar uma nova instância o método combina os resultados de todos os classificadores.
+
+Existem diversos métodos que transformam um conjunto de dados com múltiplas classes por exemplo em outro com uma única classe por exemplo \cite{Boutell, Chen}.
+Nestes métodos a proposta é que cada exemplo (x,Y) seja decomposto em $\vert Y \vert$ exemplos (x, l) onde $l \in Y$.
+Com isso um único classificador probabilístico pode ser treinado por meio do conjunto de dados transformado.
+É possível então classificar uma nova instância a partir da distribuição de probabilidades devolvida por tal classificador.
+As classes pertinentes podem ser selecionadas entre aquelas com probabilidade superior a um dado patamar, e.g. 50 \%.
+
+Entre os modelos de transformação de problema também podemos citar o de classificadores em cascata \cite{Read}. 
+No caso de um conjunto de dados D com $\vert L \vert$ valores de classe diferentes, $\vert L \vert$ classificadores são utilizados em cascata. 
+O conjunto de dados de cada classificador é acrescido sucessivamente de um novo atributo binário, que informa o resultado do classificador anterior. 
+Com isso os classificadores em cascata são capazes de utilizar, em certo nível, a informação de interdependência entre classes. 
+Notadamente, a ordem dos classificadores impacta na acurácia final.
+Para resolver este problema o artigo introduz o esquema de conjuntos de classificadores em cascata. 
+Neste caso, subconjuntos aleatórios de D são utilizados para treinar cada classificador. 
+Além disso, cada classificador é treinado com uma ordem aleatória de classes. 
+Ao classificar um novo exemplo a lista de saída é dada pela votação por comitê. 
+Desta forma o conjunto de classificadores em cascata é capaz de gerar um ranking diretamente.
+
+\textit{Ranking by pairwise comparison} é um método que transforma um conjunto de dados com múltiplas classes em diversos conjuntos de dados com a classe binária \cite{Hullermeier, Mencia, Furnkranz}.
+Um novo conjunto é criado para cada par de classes do conjunto de dados original.
+Este encorpora os exemplos que contemplam uma classe ou a outra, mas não as duas.
+Um classificador binário é então treinado para cada um desses conjuntos no intuito de aprender a diferenciar entre as duas classes em questão.
+Por fim, esses classificadores são empregados em conjunto para gerar a lista ordenada de saída referente à uma nova instância.
+
+
+%	Métodos para ranking?
+%	Label Rankings ?
