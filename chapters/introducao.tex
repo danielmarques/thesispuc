@@ -1,0 +1,39 @@
+\chapter{Introdução}
+
+Muitos problemas abordados pela computação na atualidade não podem ser resolvidos por meio da programação tradicional.
+O aprendizado de máquina tem sido utilizado com sucesso para resolver inúmeros destes problemas como por exemplo em \textit{information retrieval}, reconhecimento de imagens, tradução automática de idiomas, reconhecimento de fala, movimentação de autômatos, sistemas de recomendação, biologia computacional, etc.
+
+Note que as soluções para muitos desses problemas dependem de alguma forma de tarefas de \textit{ranking} ou análogas a esta.
+Motivado por isso, este trabalho se concentra neste tipo de tarefa.
+Durante o projeto, criamos um metaclassificador para aprendizado de máquina supervisionado dedicado à tarefas de \textit{ranking}.
+Este metaclassificador é capaz de utilizar internamente qualquer tipo de classificador encontrado na literatura.
+
+Para entender o problema de \textit{ranking} no qual este trabalho se concentra, considere um exemplo onde temos uma rede \textit{R} com \textit{n} nódos.
+Imagine que esta rede pode apresentar falhas eventualmente em seus nódos.
+Para corrigir-las é necessário faze-lo diretamente no nódo onde a falha ocorreu.
+Entretanto o custo do deslocamento até um dos nódos é muito elevado, sendo inviável checar todos sempre que ocorre uma falha.
+
+No âmbito do aprendizado de máquina tradicional os nódos da rede podem ser traduzidos em classes.
+Além disso, temos diversas estatísticas e medições que sobre o estado da rede \textit{R} ao longo do tempo, que podem ser utilizadas como atributos.
+Gostaríamos então de identificar automaticamente o nódo onde uma falha ocorre, provavelmente usando um classificador.
+
+Tendo em vista a dificuldade de gerar essa informação com absoluta precisão por meio do aprendizado de máquina tradicional, uma solução razoável é construir uma lista dos nódos mais prováveis onde a falha ocorreu.
+Quanto mais próximo da primeira posição da lista estiver o nódo verdadeiro, menor será o custo de reparo da rede.
+Embora o metaclassificador desenvolvido possa ser utilizado para tarefas de \textit{ranking} de propósito geral, o problema definido acima será usado ao longo do trabalho como tarefa principal.
+
+As métricas de avaliação de performance que desenvolvemos para este trabalho, as \textit{k-acurácias}, refletem o cenário da rede \textit{R} descrito anteriormente.
+Elas apontam uma maior acurácia quanto mais bem posicionada a classe verdadeira estiver na lista de saída.
+
+Classificadores probabilísticos foram empregados para construir as listas usadas como \textit{Benchmark} durante os testes.
+Eles são capazes de retornar um vetor com as probabilidades de todas as classes.
+Desta forma, executados e discutidos testes do metaclassificador combinado com diversos classificadores famosos como o SVM, Árvore de Decisão e KNN.
+Veremos que o metaclassificador destacou-se nos testes com alguns algoritmos, principalmente com a Árvore de Decisão.
+Além disso, discutiremos os resultados do método quando aplicado à conjuntos de dados balanceados e desbalanceados.
+Os tempos de execução também foram analisados, o método proposto atinge tempos de execução razoáveis ainda que mais lentos do que dos classificadores probabilísticos simples.
+
+Os capítulos deste texto estão organizados da forma a seguir.
+Primeiro são introduzidos os conceitos básicos necessários para o entendimento do trabalho.
+Em seguida, o método proposto, que deu origem ao metaclassificador, é discutido em detalhes.
+Depois os experimentos realizados para testar o método são detalhados e seus resultados são discutidos.
+Posteriormente uma compilação de trabalhos relacionados a este é apresentada.
+Por fim, o texto é concluído com nossas considerações finais sobre o trabalho.
