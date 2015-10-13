@@ -11,11 +11,26 @@ O método proposto compreende um meta-classificador que por sua vez é composto 
   \label{fig:metodoproposto01}
 \end{figure}
 
-Assuma que temos 5 classes distintas no conjunto de dados: A, B, C e E. No exemplo da Figura \ref{fig:metodoproposto01} queremos gerar uma lista de saída de tamanho quatro, logo quatro classificadores internos são utilizados. O classificador inicial (alfa) sempre gera o primeiro item de uma lista. O meta-classificador precisa então escolher um de seus classificadores internos para gerar um próximo item. Como a figura sugere, esta escolha depende de todos os elementos inseridos anteriormente. Por exemplo, na figura o classificador B-D foi usado para gerar o terceiro elemento da lista pois as classes B e D já tinham sido colocadas na mesma.
+Assuma que temos 5 classes distintas no conjunto de dados: A, B, C, D e E. 
+No exemplo da Figura \ref{fig:metodoproposto01} queremos gerar uma lista de saída de tamanho quatro, logo quatro classificadores internos são utilizados. 
+O classificador inicial (alfa) sempre gera o primeiro item de uma lista. 
+O meta-classificador precisa então escolher um de seus classificadores internos para gerar um próximo item. 
+Como a figura sugere, esta escolha depende de todos os elementos inseridos anteriormente. 
+Por exemplo, na figura o classificador B-D foi usado para gerar o terceiro elemento da lista pois as classes B e D já tinham sido colocadas na mesma.
+Veremos a seguir que na verdade este classificador foi treinado com um conjunto de treino filtrado de forma a excluir todas as instânicas com as classes B e D.
 
 \section{Treinamento do Meta-classificador}
 
-Seja \textit{T} o conjunto de treino do meta-classificador e \textit{v} o número de valores distintos que seu atributo classe pode assumir. Este conjunto será filtrado de formas diferentes e utilizado para treinar os classificadores internos. Somente o classificador inicial, usado para gerar o primeiro elemento da lista de saída, é treinado com o conjunto de treino \textit{T} completo. Qualquer outro classificador interno é treinado com um conjunto de treino filtrado. Em geral, o classificador que será usado para classificar o item da lista na posição \textit{k}, onde \textit{k} $<$ \textit{v}, deve ser treinado com um conjunto de treino filtrado \textit{k-1} vezes. Estas filtragens retiram sucessivamente do conjunto de treino as instâncias cujas classes já foram colocadas na lista. Este processo é ilustrado na Figura \ref{fig:metodoproposto02}.
+Seja \textit{T} o conjunto de treino do meta-classificador e \textit{v} o número de valores distintos que seu atributo classe pode assumir. 
+Este conjunto será filtrado de formas diferentes e então utilizado para treinar os classificadores internos. 
+Somente o classificador inicial, usado para gerar o primeiro elemento da lista de saída, é treinado com o conjunto de treino \textit{T} completo. 
+Qualquer outro classificador interno é treinado com uma versão filtrada de  \textit{T}. 
+De forma geral, o classificador que será usado para classificar o item da lista na posição \textit{k}, onde \textit{k} $<$ \textit{v}, deve ser treinado com um conjunto de treino filtrado \textit{k-1} vezes. 
+Estas filtragens retiram sucessivamente do conjunto de treino as instâncias cujas classes já foram colocadas na lista.
+
+No exemplo anterior, da Figura \ref{fig:metodoproposto01}, o classificador A-B-D é usado para gerar o quarto elemento da lista.
+Este classificador foi treinado com um conjunto filtrado 3 vezes (para retirar as instâncias com as classes A, B e D).
+O processo de treinamento de um classificador interno é ilustrado em detalhes na Figura \ref{fig:metodoproposto02}.
 
 \begin{figure}[h!]
   \includegraphics[width=\linewidth]{images/metodoproposto02.eps}
@@ -25,8 +40,38 @@ Seja \textit{T} o conjunto de treino do meta-classificador e \textit{v} o númer
 
 
 Note que o meta-classificador não foi desenvolvido para receber um conjunto de treino com uma lista ordenada no gabarito. 
-Ele deve ser treinado com \textit{datasets} que apresentam apenas um único valor no atributo classe.
+Ele deve ser treinado com conjuntos que apresentam apenas um único valor no atributo classe.
 Apos o treinamento com um conjunto de dados deste tipo o meta-classificador é capaz de gerar uma lista ordenada de classes para uma nova instância.
+
+\section{Motivação}
+
+A principal motivação para utilização deste método é a eliminação de ruído dos dados.
+Como explicamos na seção anterior isso é feito através de filtragens sucessivas do conjunto de treino que eliminam as instâncias cuja classe já foi colocada na lista.
+Para entender melhor a vantagem desta abordagem considere o caso de conjuntos de dados desbalanceados.
+Isto é, que tem instâncias de diversas classes diferentes porém uma com a quantidade muito maior do que o restante.
+
+\begin{figure}[h!]
+  \includegraphics[width=\linewidth]{images/random_data_01.eps}
+  \includegraphics[width=\linewidth]{images/random_data_50.eps}
+  \caption{Conjuntos de dados desbalanceados.}
+  \label{fig:dadosdesbalanceados}
+\end{figure}
+
+A figura \ref{fig:dadosdesbalanceados} ilustra dois conjuntos de dados desbalanceados gerados aleatoriamente.
+Os dois tem a mesma quantidade de pontos que estão agrupados de forma análoga em três distribuições diferentes.
+Considere que os pontos pertencentes à mesma distribuição tem também a mesma classe, denotada pela cor: azul, vermelho ou verde.
+Note que os dados são desbalanceados pois a classe verde tem uma quantidade de pontos muito maior do que as outras, são 3000 pontos verdes contra 250 azuis e 250 vermelhos.
+
+No primeiro cenário da figura \ref{fig:dadosdesbalanceados} os dados da distribuição que contem mais pontos (classe verde) estão afastados do restante.
+Em contraste, no segundo cenário o centro da distribuição de pontos verdes está entre os centros das distribuições de pontos vermelhos e azuis.
+Depois de realizar testes com os dois conjuntos de dados percebemos que alguns classificadores, e.g. \textit{k nearest neighbors}, tem um resultado melhor no primeiro cenário.
+Notadamente, a presença da grande quantidade de pontos verdes próximos ao restante dificulta o aprendizado do classificador e piora o resultado final.
+
+O metodo introduzido neste trabalho foi proposto no intuito de melhorar o resultado de casos como esse.
+Suponha que queremos montar uma lista ordenada das cores mais prováveis para um ponto.
+De acordo com o que já foi apresentado sobre o método, depois de selecionar um ponto verde para a lista, instâncias dessa classe serão eliminadas do conjunto de treino.
+Desta forma o classificador utilizado para gerar o próximo elemento será treinado com um conjunto de treino sem a influência da classe mais numerosa (responsável pelo desbalanceamento).
+Veremos em mais detalhes no capítulo \ref{chap:descricaodostestes} os resultados obtidos por nossa abordagem.
 
 \section{Versões do método}
 
@@ -41,6 +86,7 @@ Sejam \textit{N} o número de classificadores geados pelo método estático, \te
 
 \begin{equation*}
 
+\centering
 \textit{N} = \sum\limits_{i=0}^k \binom{v}{i}
 
 \end{equation*}

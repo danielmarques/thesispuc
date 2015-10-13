@@ -1,13 +1,17 @@
 \chapter{Trabalhos Relacionados}
 
+A \textit{Classificação em Múltiplas Classes} representa um importante subgrupo das tarefas de classificação abordadas pelo aprendizado de máquina.
+Diferente dos problemas clássicos de classificação, neste caso cada instância está associada à mais de uma classe \cite{Tsoumakas}.
+Além disso, é possível que as classes tenham correlações entre si de forma a influenciar no resultado final, aumentando a dificuldade da tarefa.
+De maneira formal, a tarefa de classificação em múltiplas classes requer que o vetor de atributos de entrada \textit{x} seja mapeado em um vetor de saída \textit{y} com valores binários que representam as classes.
+Isto é, \textit{x} é da forma $[a_1, a_2, ..., a_n]$, onde $a_j$ representa um dos n atributos, e \textit{y} da forma $[c_1, c_2, ... , c_k]$ onde $c_j$ pode assumir o valor zero ou um, indicando se aquela classe está relacionada à instância.  
+
 O método proposto nesta dissertação figura entre diversos outros que procuram solucionar problemas de classificação em múltiplas classes.
 Ainda mais especificamente aqueles voltados para \textit{ranking}, que é uma das tarefas cada vez mais proeminentes em aprendizado supervisionado.
-Diferente da tarefa de classificação clássica em aprendizado de máquina, na classificação em múltiplas classes cada instância está associada à mais de uma classe \cite{Tsoumakas}.
-Em problemas desse tipo é possível ainda que estas classes tenham correlações entre si.
 
-Entre as soluções encontradas na literatura podemos destacar ainda aquelas que performam a transformação do problema \cite{Tsoumakas}.
+Entre as soluções encontradas na literatura podemos destacar ainda aquelas que fazem a transformação do problema \cite{Tsoumakas}.
 Isto é, elas executam uma transformação do problema de classificação em múltiplas classes de forma que ele possa ser solucionado com uma ou mais classificações em uma classe.
-Como o método proposto nesta dissertação também se baseia em transformação do problema (filtragens sucessivas do conjunto de dados), a seguir apresentaremos alguns destes métodos encontrados na literatura.
+Como o método proposto nesta dissertação também se baseia em transformação do problema (filtragens sucessivas do conjunto de dados), a seguir apresentaremos alguns destes métodos.
 
 O método de transformação de problema mais famoso é chamado de \textit{Binary Relevance} \cite{Tsoumakas, Godbole, Zhang}.
 Este método se baseia em transformar um problema de classificação em múltiplas classes em diversos problemas de classificação binários.

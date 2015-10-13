@@ -1,9 +1,17 @@
 \chapter{Descrição dos Testes}
+\label{chap:descricaodostestes}
 
 Neste capítulo discutiremos os testes realizados para avaliar o desempenho do método proposto.
 Apresentaremos os conjuntos de dados usados e suas características gerais. 
 Os algoritmos utilizados internamente no metaclassificador, assim como os \textit{Benckmarks} dos testes também serão mostrados.
 Por fim, discutiremos os resultados obtidos ao longo dos diversos testes.
+
+\section{O Framework Weka}
+
+Neste trabalho utilizamos o Framework \textit{Weka} para construir o metaclassificador que implementa nosso método proposto. 
+O \textit{Weka} é uma coleção de algoritmos de aprendizado para tarefas gerais de mineração de dados \cite{Hall}.
+Ele contém ferramentas de pre-processamento, classificação, regressão, clusterização, etc.
+Ele pode ser utilizado para aplicar os algoritmos aos dados por meio de sua interface gráfica ou pode ser chamado diretamente de um código Java.
 
 \section{\textit{Benckmark} dos testes}
 
@@ -17,10 +25,10 @@ Por exemplo, caso tenhamos as classes A, B, C e D com probabilidades 0.2, 0.25, 
 \section{As métricas de \textit{k-Acurácia}}
 
 O conjunto de métricas empregadas na avaliação da performance do método proposto é chamado de \textit{k-Acurácia}. 
-Como foi discutido, para executar o ranqueamento, o meta-classificador recebe a instância como entrada e retorna uma lista ordenada com as \textit{k} classes mais prováveis para a mesma.
+Como foi discutido, para montar o \textit{ranking}, o meta-classificador recebe a instância como entrada e retorna uma lista ordenada com as \textit{k} classes mais prováveis para a mesma.
 A métrica \textit{k-Acurácia} foi arquitetada para avaliar a estrutura desse tipo de lista.
 Neste trabalho, consideramos a posição da classe verdadeira na lista como o único fator importante.
-Portanto, a \textit{k-Acurácia} ignora qualquer outro fator que normalmente é analisado por métricas mais usuais como por exemplo inversões na lista.
+Portanto, a \textit{k-Acurácia} ignora qualquer outro fator que normalmente é analisado por métricas mais usuais como, por exemplo, inversões na lista.
 
 A \textit{k-Acurácia} é na verdade um conjunto de métricas. 
 Elas variam de 1 até \textit{k}; i.e. \textit{1-Acurácia}, \textit{2-Acurácia} até \textit{k-Acurácia}; onde \textit{k} denota o tamanho da lista retornada.
@@ -32,12 +40,33 @@ Considere também que a classe verdadeira em todos os casos ilustrados na figura
 Cada linha do exemplo refere-se então a lista retornada para uma instância distinta e suas consequentes acurácias.
 
 \begin{figure}[h!]
-  \includegraphics[width=\linewidth]{images/descricaodostestes01.eps}
+  \centering
+  \includegraphics[width=100mm,scale=0.7]{images/descricaodostestes01.eps}
   \caption{Exemplos de listas e suas acurácias.}
   \label{fig:descricaodostestes01}
 \end{figure}
 
+Desta forma, podemos calcular os valores percentuais das acurácias ao longo de todos os exemplos da figura \ref{fig:descricaodostestes01}. Os valores são apresentados na tabela \ref{tab:valoresacuraciasexemplo}.
 
+\begin{table}[h!]
+  \begin{center}
+    \begin{tabular}{cc}
+      \hline
+      \textbf{Acurácia} & \textbf{Valor Percentual} \\
+      \hline
+
+      1 & 16,67 \% \\
+      2 & 66,67 \% \\
+      3 & 83,33 \% \\
+      4 & 83,33 \% \\
+      5 & 100 \% \\
+
+      \hline
+    \end{tabular}
+    \caption{Valores percentuais das acurácias do exemplo}
+    \label{tab:valoresacuraciasexemplo}
+  \end{center}
+\end{table}
 
 Existe ainda uma diferença no cálculo da \textit{k-Acurácia} para o \textit{benckmark} dos testes.
 Como a lista de \textit{benckmark} é construída a partir de uma distribuição de probabilidades, podem ocorrer empates.
@@ -46,7 +75,7 @@ Considere o caso onde temos as classes A, B e C com probabilidades 0.4, 0.4 e 0.
 Com essas probabilidades podemos ter as listas de saída (1) A, B e C ou (2) B, A e C.
 No primeiro caso temos as acurácias de um a três iguais a um.
 No segundo caso temos a \textit{1-Acurácia} igual a zero e o restante igual a um.
-Entretanto, por ter acesso as probabilidades, a métrica divide os valores.
+Entretanto, por ter acesso às probabilidades, a métrica divide os valores.
 Teremos então \textit{1-Acurácia} igual 0.5, \textit{2-Acurácia} igual a 0.5 e \textit{3-Acurácia} igual a 1.
 
 Note que todos os cálculos citados até agora são feitos por instância. 
@@ -86,7 +115,7 @@ Na Tabela \ref{tab:algoritmostestes} são apresentadas as configurações de alg
 \end{table}
 
 Na Tabela \ref{tab:datasets} são apresentados as características gerais dos conjuntos de dados utilizados nos testes.
-A maioria dos conjuntos de dados foi retirado do repositório \textit{UCI Machine Learning Repository}, disponível na internet.
+A maioria dos conjuntos de dados foi retirado do repositório \textit{UCI Machine Learning Repository}, disponível na internet no endereço http://archive.ics.uci.edu/ml/.
 Além disso, em alguns casos o conjunto de dados foi pré-processado e reduzido para facilitar a realização dos diversos testes.
 A execessão é o conjunto de dados Data-Zero, este não foi retirado do mesmo repositório.
 O conjunto de dados Data-Zero representa a ocorrência de falhas em uma rede com diversos nódos.
