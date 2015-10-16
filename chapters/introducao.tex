@@ -1,49 +1,84 @@
 \chapter{Introdução}
 
-Muitos problemas abordados pela computação na atualidade não podem ser resolvidos por meio da programação tradicional.
-O aprendizado de máquina tem sido utilizado com sucesso para resolver inúmeros destes problemas como por exemplo em \textit{information retrieval}, reconhecimento de imagens, tradução automática de idiomas, reconhecimento de fala, movimentação de autômatos, sistemas de recomendação, biologia computacional, etc.
+Existem diversas tarefas importantes que o homem costuma desempenhar melhor do que a máquina.
+Entretanto, o aprendizado de máquina tem sido utilizado com sucesso para resolver algumas destas, como por exemplo em reconhecimento de imagens, tradução automática de idiomas, reconhecimento de fala, movimentação de autômatos, sistemas de recomendação, etc.
 
-Note que as soluções para muitos desses problemas dependem de alguma forma de tarefas de \textit{ranking} ou análogas a esta.
-Motivado por isso, este trabalho se concentra neste tipo de tarefa.
-Durante o projeto, criamos um metaclassificador para aprendizado de máquina supervisionado dedicado à tarefas de \textit{ranking}.
-Este metaclassificador é capaz de utilizar internamente qualquer tipo de classificador encontrado na literatura.
+As soluções para algumas dessas tarefas utilizam conceitos de \textit{ranking}.
+Por exemplo, em sistemas de recomendação \textit{ranking} é utilizado para criar listas de documentos com base naqueles vistos anteriormente por um usuário.
+
+Motivado por isso, este trabalho se concentra em tarefas de \textit{ranking}.
+Durante o projeto, criamos um meta-classificador para aprendizado de máquina supervisionado dedicado à este tipo de tarefa.
+Este meta-classificador é capaz de utilizar internamente qualquer tipo de classificador encontrado na literatura.
 
 \section{Descrição do Problema}
 
 Para entender o problema de \textit{ranking} no qual este trabalho se concentra, considere um exemplo onde temos uma rede \textit{R} com \textit{k} nódos.
-Imagine que esta rede pode apresentar falhas eventualmente em seus nódos.
-Cada falha pode causar sérios danos à operação da rede.
+Imagine que esta rede eventualmente pode apresentar falhas em seus nódos, sendo que cada falha pode causar sérios danos à operação da rede.
 Para corrigir-las é necessário faze-lo diretamente no nódo afetado pela falha.
 Além disso, para corrigir uma falha rapidamente, é necessário determinar logo onde a ela ocorreu.
-Para tanto poderiamos verificar simultaneamente todos os \textit{k} nódos, por exemplo enviando equipes até os locais.
+Para tanto poderíamos verificar simultaneamente todos os \textit{k} nódos, por exemplo enviando equipes até os locais.
 Entretanto o custo do deslocamento até um dos nódos é muito elevado, sendo inviável checar toda a rede sempre que ocorre uma falha.
 
 No âmbito do aprendizado de máquina tradicional os nódos da rede podem ser traduzidos em classes.
-Além disso, temos diversas estatísticas e medições sobre o estado da rede \textit{R} ao longo do tempo que podem ser utilizadas como atributos.
+Além disso, temos diversas estatísticas e medições sobre o estado da rede \textit{R} ao longo do tempo.
+Estas podem ser utilizadas como atributos.
 Gostaríamos então de identificar automaticamente o nódo onde uma falha ocorre, provavelmente usando um classificador.
 
-Tendo em vista a dificuldade de gerar essa informação com absoluta precisão por meio do aprendizado de máquina tradicional, uma solução razoável é construir uma lista dos nódos mais prováveis onde a falha ocorreu.
+Tendo em vista a dificuldade de gerar essa informação com absoluta precisão, uma solução razoável é construir uma lista dos nódos mais prováveis onde a falha ocorreu.
 Quanto mais próximo da primeira posição da lista estiver o nódo verdadeiro, menor será o custo de reparo da rede.
-Embora o metaclassificador desenvolvido possa ser utilizado para tarefas de \textit{ranking} de propósito geral, o problema definido acima será usado ao longo do trabalho como tarefa principal.
+Embora o meta-classificador desenvolvido possa ser utilizado para tarefas de \textit{ranking} de propósito geral, o problema definido acima será usado ao longo do trabalho como tarefa principal.
 
 \section{Contribuições}
 
-As métricas de avaliação de performance que desenvolvemos para este trabalho, as \textit{k-acurácias}, refletem o cenário da rede \textit{R} descrito anteriormente.
-Elas apontam uma maior acurácia quanto mais bem posicionada estiver a classe verdadeira na lista de saída.
+Neste trabalho propusemos um método para geração de \textit{rankings} que é capaz de utilizar qualquer tipo de classificador para esta tarefa.
+De fato, como já citamos, da forma que foi implementado ele funciona como um meta-classificador.
 
-Classificadores probabilísticos foram empregados para construir as listas usadas como \textit{Benchmark} durante os testes.
-Eles são capazes de retornar um vetor com as probabilidades de todas as classes.
-Desta forma, executados e discutidos testes do metaclassificador combinado com diversos classificadores conhecidos como o SVM, Árvore de Decisão e KNN.
+O método elimina ruído sucessivamente do conjunto de treino à medida que a lista de saída é construída.
+Isso foi feito por meio de filtragens aplicadas aos dados, que removem intâncias de classes já incluídas na lista.
+Desta forma, os classificadores internos do meta-classificador são treinados com conjuntos de treino filtrados de formas diferentes.
+Isto é, cada classificador gera um modelo único do qual algumas classes foram retiradas.
+Cada modelo é utilizado então para gerar um único elemento da lista de saída.
+Veremos que para classificar diversas intâncias, com listas de saída diferentes, uma grande quantidade de classificadores precisa ser gerada.
+Por exemplo, se o conjunto de dados tem quatro classes diferentes o meta-classificador pode vir a ter mais de cem classificadores internos.
 
-Veremos que o metaclassificador destacou-se nos testes com alguns algoritmos, principalmente com a Árvore de Decisão.
-Além disso, discutiremos os resultados do método quando aplicado à conjuntos de dados balanceados e desbalanceados.
-Os tempos de execução também foram analisados, o método proposto atinge tempos de execução razoáveis ainda que mais lentos do que dos classificadores probabilísticos comuns.
+Além disso, o método foi desenvolvido em duas versões: estática e dinâmica.
+As duas versões diferem no momento no qual os classificadores internos são treinados.
+
+A primeira versão treina todos os classificadores internos possíveis a priori.
+Esta abordagem exigiu um tempo de treinamento maior.
+Isto por que, dependendo do conjunto de dados, a quantidade de classificadores possíveis pode ser grande.
+Todavia, uma vez que todos os classificadores foram treinados, o tempo de classificação das intâncias foi análogo ao de um classificador comum.
+
+A segunda versão treina os classificadores à medida que o \textit{ranking} é gerado.
+Nesta versão, somente os classificadores necessários para construção daquela lista são treinados.
+Com isso o método dinâmico conseguiu tempos de treinamento melhores do que a versão anteriror.
+Por outro lado, seus tempos de classificação foram piores visto que o modelo é treinado durante a construção da lista de saída.
+
+As métricas de avaliação de performance que desenvolvemos para este trabalho foram denominadas \textit{k-acurácias}.
+Onde \textit{k} denota a posição da lista de saída a qual cada uma se refere, e.g. a 1-acurácia remete à primeira posição da lista, a 2-acurácia à segunda e assim por diante.
+Note que essas métricas refletem o cenário da rede \textit{R} descrito anteriormente.
+Portanto elas apontam um melhor resultado quanto mais bem posicionada estiver a classe verdadeira na lista de saída.
+
+Como citamos anteriormente, o método proposto foi implementado na forma de um meta-classificador.
+Este foi programado em Java e utiliza diretamente as classes para aprendizado de máquina do \textit{Framework Weka}.
+Com isso o meta-classificador é capaz de utilizar internamente a uma grande quantidade de classificadores diferentes disponíveis nesta ferramenta.
+
+Propomos a utilização de classificadores probabilísticos para criar o \textit{Benchmark} dos testes de performance do método. 
+Esses classificadores foram utilizados para construir as listas usadas como base para a avaliação dos modelos.
+Isso foi possível pois, eles podem gerar a probabilidade de cada classe para uma dada instância.
+A partir desta informação montamos um \textit{ranking} de classes para a instância.
+
+Durante a avaliação do método, executamos e analisamos testes do meta-classificador em combinação com classificadores conhecidos como o SVM, a Árvore de Decisão e o KNN.
+Vimos que o metaclassificador destacou-se nos testes com alguns deles, principalmente com a Árvore de Decisão.
+Além disso, discutimos os resultados do método quando aplicado à conjuntos de dados balanceados e desbalanceados.
+Os tempos de execução também foram analisados.
+O método proposto atinge tempos de execução razoáveis, ainda que mais lentos do que dos classificadores probabilísticos comuns.
 
 \section{Organização da Dissertação}
 
 Os capítulos deste texto estão organizados da forma a seguir.
-Primeiro são introduzidos os conceitos básicos necessários para o entendimento do trabalho.
-Em seguida, o método proposto, que deu origem ao metaclassificador, é discutido em detalhes.
-Depois os experimentos realizados para testar o método são detalhados e seus resultados são discutidos.
-Posteriormente uma compilação de trabalhos relacionados a este é apresentada.
+Primeiro são introduzidos os conceitos necessários para o entendimento do trabalho no Capítulo \ref{chap:conceitosbasicos} \nameref{chap:conceitosbasicos}.
+Em seguida, no Capítulo \ref{chap:metodoproposto} \nameref{chap:metodoproposto} o método é discutido em detalhes.
+Depois os experimentos realizados para testar o método são detalhados e seus resultados são discutidos no Capítulo \ref{chap:descricaodostestes} \nameref{chap:descricaodostestes}.
+Posteriormente, no Capítulo \ref{chap:trabalhosrelacionados} \nameref{chap:trabalhosrelacionados}, uma compilação de trabalhos relacionados à este é apresentada.
 Por fim, o texto é concluído com nossas considerações finais sobre o trabalho.
