@@ -3,7 +3,7 @@
 
 Aprendizado de máquina é um dos campos de pesquisa da inteligência artificial e por sua vez da ciência da computação.
 Esta área de estudos se concentra na pesquisa e desenvolvimento de algoritmos que possam aprender tarefas automaticamente.
-Tipicamente estes algoritmos geram um \textit{modelo matemático} partir de um ou mais conjuntos de dados.
+Tipicamente estes algoritmos geram um \textit{modelo matemático} a partir de um ou mais conjuntos de dados.
 O modelo é então responsável por desempenhar a tarefa, ou seja, não é necessário escrever um programa para tanto.
 Aprendizado de máquina tem inúmeras aplicações, entre elas podemos citar filtros de spam, reconhecimento ótico de caracteres, motores de busca, visão computacional, entre outras.
 
@@ -64,7 +64,7 @@ onde,
 
 Com isso o problema se resume a calcular os valores do vetor de pesos \textit{w}.
 Considere que temos disponível os dados dos diversos exemplos de círculos e triângulos vistos na figura.
-A os exemplos envolvidos no processo de aprendizado são denominados \textit{conjunto de dados}.
+Os exemplos envolvidos no processo de aprendizado são denominados \textit{conjunto de dados}.
 Cada exemplo contém as coordenadas \textit{(x,y)} mais o valor da classe (circulo ou triângulo).
 O algoritmo supervisionado simples proposto a seguir para resolver este problema é baseado no perceptron.
 \\
@@ -75,7 +75,7 @@ O algoritmo supervisionado simples proposto a seguir para resolver este problema
 \end{center}
 \hline
 \hfill \break
-Inicializa o vetor \textit{w} com valores aleatórios
+Inicializa o vetor \textit{w} com valores aleatórios.
 Para cada exemplo do conjunto de dados:
 \begin{enumerate}
 \item Calcula o valor de saída de \textit{f(x)}
@@ -94,7 +94,39 @@ Todavia existem outras tarefas nas quais o aprendizado supervisionado pode ser e
 
 Em um problema de \textit{ranking}, queremos que o modelo gere uma lista ordenada de classes como saída.
 Para tanto, os exemplos fornecidos ao algoritmo de aprendizado também devem ter uma lista ordenada de classes ao invés de um atributo classe único.
-Isto é, em cada exemplo $ (x_i,\; y_i) $ temos que $y_i$ é da forma $ [l_1, l_2, ..., l_k] $ onde \textit{k} representa o número total de classes. Veremos em outros capítulos que esta dissertação de mestrado se concentra em problemas desse tipo.
+Isto é, em cada exemplo $ (x_i,\; y_i) $ temos que $y_i$ é da forma $ [l_1, l_2, ..., l_k] $ onde \textit{k} representa o número total de classes.
+
+As tabelas \ref{tab:exdados1} e \ref{tab:exdados2} dão exemplos de dados que podem ser usados para classificação comum e para \textit{ranking} respectivamente.
+Os dois exemplos apresentam um certo número de atributos numéricos que podem ser usados pelos algorítimos de aprendizado.
+Porém eles diferem no atributo classe, o primeiro tem apenas uma classe enquanto o segundo uma lista.
+
+\begin{table}[h!]
+  \begin{center}
+    \begin{tabular}{ccccc}
+      \textbf{Atributo 1} & \textbf{Atributo 2} & ... & \textbf{Atributo k} & \textbf{Classe} \\
+      \hline
+
+      3,14 & 166,55 & ... & -17 & Nódo 10 \\
+
+    \end{tabular}
+    \caption{Exemplo de dados para classificação}
+    \label{tab:exdados1}
+  \end{center}
+\end{table}
+
+\begin{table}[h!]
+  \begin{center}
+    \begin{tabular}{ccccc}
+      \textbf{Atributo 1} & \textbf{Atributo 2} & ... & \textbf{Atributo z} & \textbf{Lista de Classes} \\
+      \hline
+
+      42 & -33,33 & ... & 0,8 & Nódo 2, Nódo 9, Nódo 5 \\
+
+    \end{tabular}
+    \caption{Exemplo de dados para \textit{ranking}}
+    \label{tab:exdados2}
+  \end{center}
+\end{table}
 
 \subsection{Algoritmos de aprendizado}
 
@@ -161,7 +193,7 @@ Por fim, os resultados de todos os modelos são combinados para gerar as estatí
 
 \subsection{Métricas de Avaliação}
 
-Para ilustrar as métricas de avaliação suponha um exemplo onde temos um modelo \textit{M}.
+Para explicar as métricas de avaliação suponha um exemplo onde temos um modelo \textit{M}.
 Ele foi treinado para identificar se uma máquina apresenta falha ou não, baseando-se em uma série de medidas recolhidas sobre a mesma (atributos).
 Aplicamos então esse modelo à um conjunto de 100 instâncias e obtemos um resultado como o da tabela \ref{tab:positivosenegativos}.
 
@@ -182,7 +214,7 @@ Aplicamos então esse modelo à um conjunto de 100 instâncias e obtemos um resu
   \end{center}
 \end{table}
 
-Os dados da tabela \ref{tab:positivosenegativos} estão separados em \textit{true positive}, \textit{true negative},\textit{false positive} e \textit{false negative}.
+Os dados da tabela \ref{tab:positivosenegativos} estão separados em \textit{true positive} (TP), \textit{true negative} (TN),\textit{false positive} (FP) e \textit{false negative} (FN).
 Os dois primeiros indicam o número de instâncias corretamente classificadas e o restante a quantidade classificada incorretamente.
 A partir desses valores é possível gerar algumas das métricas mais usuais em aprendizado de máquina, as quais apresentaremos nas equações a seguir.
 
@@ -193,15 +225,29 @@ A partir desses valores é possível gerar algumas das métricas mais usuais em 
 \[ \textit{Recall} &= \frac{TP}{TP+FN} \]
 \end{align*}
 
-Baseando-se nas equações, temos no exemplo da tabela \ref{tab:positivosenegativos} um valor de \textit{Acurácia} igual a 85 \%, \textit{Precision} igual a 50 \% e \textit{Recall} igual a 33,33 \%.
+Conforme as métricas foram apresentadas temos que a \textit{Acurácia} tem um valor único para o modelo.
+Contudo o \textit{Precision} e o \textit{Recall} se referem à uma classe por vez.
+Note que no exemplo temos duas classes: "com falha" e "sem falha".
+Logo, baseando-se nas equações, temos no exemplo da tabela \ref{tab:positivosenegativos} para classe "com falha" um valor de \textit{Acurácia} igual a 85\%, \textit{Precision} igual a 50\% e \textit{Recall} igual a 33,33\%.
 
 Notadamente cada uma dessas métricas é mais apropriada em casos distintos.
-A \textit{Acurácia} talvez seja a métrica mais instintiva e simples, visto que ela representa a proporção de elementos corretamente classificados.
+A \textit{Acurácia} talvez seja a métrica mais intuitiva e simples, visto que ela representa a proporção de elementos corretamente classificados.
 Mas nem sempre é possível avaliar um modelo da melhor maneira com ela.
 Considere por exemplo o caso de um modelo \textit{M'} que simplesmente classifica as instâncias como \textit{sem falha}.
-Ele atingiria uma \textit{Acurácia} de 85 \% mas seria incapaz de identificar máquinas com falha.
+Ele atingiria uma \textit{Acurácia} de 85\% mas seria incapaz de identificar máquinas com falha, seu \textit{Precision} e \textit{Recall} para classe "com falha" seriam zero.
+
+É possível calcular o \textit{Precision} e o \textit{Recall} para o modelo como um todo.
+Para tanto podemos somar os resultados \textit{true positive}, \textit{false positive} e \textit{false negative} para todas as classes.
+Seja \textit{k} o número de classes existentes no conjunto de dados, o \textit{Precision} e o \textit{Recall} multi-classe podem ser calculados pelas equações a seguir.
+
+\begin{align*}
+
+\[ \textit{Precision} &= \frac{\sum_{i=1}^{k} TP_i}{\sum_{i=1}^{k} TP_i+FP_i} \] \\
+\[ \textit{Recall} &= \frac{\sum_{i=1}^{k} TP_i}{\sum_{i=1}^{k} TP_i+FN_i} \]
+
+\end{align*}
+
 
 Para compreender intuitivamente o \textit{Precision} e o \textit{Recall} podemos recorrer à conceitos de \textit{Information Retrieval}.
 Neste contexto o \textit{Precision} denota qual proporção dos elementos selecionados pelo modelo realmente são relevantes, no caso do exemplo da tabela \ref{tab:positivosenegativos} máquinas com falha.
 Por outro lado, o \textit{Recall} representa qual proporção dos elementos relevantes presentes nos dados foi selecionada pelo modelo.
-

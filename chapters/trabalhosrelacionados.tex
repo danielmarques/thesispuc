@@ -10,9 +10,13 @@ Isto é, \textit{x} é da forma $[a_1, a_2, ..., a_n]$, onde $a_j$ representa um
 O método proposto nesta dissertação figura entre diversos outros que procuram solucionar problemas de classificação em múltiplas classes.
 Ainda mais especificamente aqueles voltados para \textit{ranking}, que é uma das tarefas cada vez mais proeminentes em aprendizado supervisionado.
 
+\section{Métodos de Transformação do Problema}
+
 Entre as soluções encontradas na literatura podemos destacar ainda aquelas que fazem a transformação do problema \cite{Tsoumakas}.
 Isto é, elas executam uma transformação do problema de classificação em múltiplas classes de forma que ele possa ser solucionado com uma ou mais classificações em uma classe.
 Como o método proposto nesta dissertação também se baseia em transformação do problema (filtragens sucessivas do conjunto de dados), a seguir apresentaremos alguns destes métodos.
+
+\subsection{Métodos Clássicos}
 
 O método de transformação de problema mais famoso é chamado de \textit{Binary Relevance} \cite{Tsoumakas, Godbole, Zhang}.
 Este método se baseia em transformar um problema de classificação em múltiplas classes em diversos problemas de classificação binários.
@@ -26,7 +30,9 @@ Com isso o problema pode ser resolvido por um classificador para múltiplas clas
 Além disso, este método leva diretamente em consideração a coorelação entre classes.
 Todavia, a desvantagem do \textit{Label Powerset} é sua complexidade de tempo no pior caso.
 
-Outro método, baseado em \textit{Label Powerset}, é chamado \textit{RAkEL} (\textit{RAndom k labELsets}) \cite{Tsoumakas03}.
+\subsection{Outros Métodos}
+
+O método denominado \textit{RAkEL} (\textit{RAndom k labELsets}) é baseaado em \textit{Label Powerset} \cite{Tsoumakas03}.
 Sua proposta é segmentar aleatoriamente o conjunto de dados de acordo com as classes.
 Desta forma diversos subgrupos menores (\textit{labelsets}) podem ser criados.
 Estes subgrupos também podem ou não ter classes em comum.

@@ -1,4 +1,4 @@
-\chapter{Descrição dos Testes}
+\chapter{Estudo Experimental}
 \label{chap:descricaodostestes}
 
 Neste capítulo discutiremos os testes realizados para avaliar o desempenho do método proposto.
@@ -35,7 +35,7 @@ Elas variam de 1 até \textit{k}; i.e. \textit{1-Acurácia}, \textit{2-Acurácia
 Os valores das acurácias para uma dada instância dependem da posição da classe verdadeira na lista.
 Se ela está na posição \textit{i}, onde $1 \leq \textit{i} \leq \textit{k}$, então as acurácias anteriores à \textit{i} tem o valor zero e o restante o valor um.
 Observe na Figura \ref{fig:descricaodostestes01} diversos exemplos de listas e suas acurácias.
-Para estes exemplos imagine que temos um conjunto de dados com cinco classes diferentes: A, B, C D e E.
+Para estes exemplos imagine que temos um conjunto de dados com cinco classes diferentes: A, B, C, D e E.
 Considere também que a classe verdadeira em todos os casos ilustrados na figura é A (em vermelho).
 Cada linha do exemplo refere-se então a lista retornada para uma instância distinta e suas consequentes acurácias.
 
@@ -46,7 +46,23 @@ Cada linha do exemplo refere-se então a lista retornada para uma instância dis
   \label{fig:descricaodostestes01}
 \end{figure}
 
-Desta forma, podemos calcular os valores percentuais das acurácias ao longo de todos os exemplos da figura \ref{fig:descricaodostestes01}. Os valores são apresentados na tabela \ref{tab:valoresacuraciasexemplo}.
+Existe ainda uma diferença no cálculo da \textit{k-Acurácia} para o \textit{benckmark} dos testes.
+Como a lista de \textit{benckmark} é construída a partir de uma distribuição de probabilidades, podem ocorrer empates.
+Quando a probabilidade da classe verdadeira está empatada com a de uma ou mais classes, múltiplas listas poderiam ser criadas a partir desta distribuição.
+Considere o caso onde temos as classes A, B e C com probabilidades 0.4, 0.4 e 0.2 respectivamente e a classe verdadeira é A.
+Com essas probabilidades podemos ter as listas de saída (1) A, B e C ou (2) B, A e C.
+No primeiro caso temos as acurácias de um a três iguais a um.
+No segundo caso temos a \textit{1-Acurácia} igual a zero e o restante igual a um.
+Entretanto, por ter acesso às probabilidades, a métrica divide os valores.
+Teremos então \textit{1-Acurácia} igual 0.5, \textit{2-Acurácia} igual a 0.5 e \textit{3-Acurácia} igual a 1.
+
+Note que todos os cálculos citados até agora são feitos por instância. 
+Ao gerar listas de saída para múltiplas instâncias, os valores obtidos para cada acurácia são somados, formando um valor total por \textit{i-Aurácia}.
+Este valor total é então dividido pelo número de instâncias que foram ranqueadas e multiplicado por cem.
+Com isso os valores das acurácias apresentados neste trabalho estão na forma de percentuais.
+
+Desta forma, podemos calcular os valores percentuais das acurácias ao longo de todos os exemplos da figura \ref{fig:descricaodostestes01}.
+Os valores são apresentados na tabela \ref{tab:valoresacuraciasexemplo}.
 
 \begin{table}[h!]
   \begin{center}
@@ -67,21 +83,6 @@ Desta forma, podemos calcular os valores percentuais das acurácias ao longo de 
     \label{tab:valoresacuraciasexemplo}
   \end{center}
 \end{table}
-
-Existe ainda uma diferença no cálculo da \textit{k-Acurácia} para o \textit{benckmark} dos testes.
-Como a lista de \textit{benckmark} é construída a partir de uma distribuição de probabilidades, podem ocorrer empates.
-Quando a probabilidade da classe verdadeira está empatada com a de uma ou mais classes, múltiplas listas poderiam ser criadas a partir desta distribuição.
-Considere o caso onde temos as classes A, B e C com probabilidades 0.4, 0.4 e 0.2 respectivamente e a classe verdadeira é A.
-Com essas probabilidades podemos ter as listas de saída (1) A, B e C ou (2) B, A e C.
-No primeiro caso temos as acurácias de um a três iguais a um.
-No segundo caso temos a \textit{1-Acurácia} igual a zero e o restante igual a um.
-Entretanto, por ter acesso às probabilidades, a métrica divide os valores.
-Teremos então \textit{1-Acurácia} igual 0.5, \textit{2-Acurácia} igual a 0.5 e \textit{3-Acurácia} igual a 1.
-
-Note que todos os cálculos citados até agora são feitos por instância. 
-Ao gerar listas de saída para múltiplas instâncias, os valores obtidos para cada acurácia são somados, formando um valor total por \textit{i-Aurácia}.
-Este valor total é então dividido pelo número de instâncias que foram ranqueadas e multiplicado por cem.
-Com isso os valores das acurácias apresentados neste trabalho estão na forma de percentuais.
 
 \section{Resultados dos Testes}
 
@@ -117,7 +118,7 @@ Na Tabela \ref{tab:algoritmostestes} são apresentadas as configurações de alg
 Na Tabela \ref{tab:datasets} são apresentados as características gerais dos conjuntos de dados utilizados nos testes.
 A maioria dos conjuntos de dados foi retirado do repositório \textit{UCI Machine Learning Repository}, disponível na internet no endereço http://archive.ics.uci.edu/ml/.
 Além disso, em alguns casos o conjunto de dados foi pré-processado e reduzido para facilitar a realização dos diversos testes.
-A execessão é o conjunto de dados Data-Zero, este não foi retirado do mesmo repositório.
+A exceção é o conjunto de dados Data-Zero, este não foi retirado do mesmo repositório.
 O conjunto de dados Data-Zero representa a ocorrência de falhas em uma rede com diversos nódos.
 Seu atriburo classe denota em qual nódo a falha ocorreu.
 
@@ -265,90 +266,3 @@ Desta forma, as diferenças na \textit{1-Acurácia} observadas na Tabela \ref{ta
 Ainda na Tabela \ref{tab:acuracias}, note que o metaclassificador destacou-se nos testes com o algoritmo Árvore de Decisão.
 Ele teve cerca de 5\% de vantagem na \textit{2-Acurácia} e 8\% na \textit{3-Acurácia}.
 Nos demais casos as diferenças nas acurácias foram muito pequenas, em alguns o classificador teve um resultado marginalmente melhor em outros o metaclassificador.
-
-\subsection{Testes com Dados Balanceados e Desbalanceados}
-
-Além dos testes apresentados até agora, experimentos com o objetivo de entender o comportamento do metaclassificador para conjuntos do dados balanceados e desbalanceados também foram conduzidos.
-Gostaríamos de saber se o método proposto apresenta resultados superiores para \textit{datasets} desbalanceados.
-Este seria um resultado razoável tendo em vista a forma como o metaclassificador constrói a lista de saída: filtrando o conjunto de treino múltiplas vezes e eliminando assim instâncias que poderiam interferir negativamente no resultado.
-Nas Tabelas \ref{tab:balanceadovsdesbalanceado} e \ref{tab:distribuicoesbalanceadovsdesbalanceado} os conjuntos de dado empregados nestes experimentos são apresentados.
-Todos esses conjuntos são derivados do conjunto data-zero, apresentado anteriormente na Tabela \ref{tab:datasets}.
-
-\begin{table}[h!]
-  \begin{center}
-    \begin{tabular}{cc}
-      \hline
-      \textbf{Dataset} & \textbf{Intâncias} \\
-      \hline
-
-      Balanceado 1 & 840\\
-      Balanceado 2 & 711\\
-      Balanceado 3 & 1343\\
-      Desbalanceado & 702\\
-
-      \hline
-    \end{tabular}
-    \caption{Balanceado vs. desbalanceado - Conjuntos de dados}
-    \label{tab:balanceadovsdesbalanceado}
-  \end{center}
-\end{table}
-
-
-\begin{table}[h!]
-  \begin{center}
-    \begin{tabular}{c}
-      \hline
-      \textbf{Dataset e Distribuição} \\
-      \hline
-
-      Balanceado 1 & 20 ... 20 \\
-      \hline
-      Balanceado 2 & 20 ... 20 19 19 19 17 16 14 11 9 7 6 5 5 3 1 \\
-      \hline
-      Balanceado 3 & 50 ... 50 43 42 40 39 35 35 33 33 33 31 31 26 21 19 19 19 17 16 14 11 9 7 6 5 5 3 1 \\
-      \hline
-      Desbalanceado & 507 6 5 ... 5 3 1 \\
-
-      \hline
-    \end{tabular}
-    \caption{Balanceado vs. desbalanceado - Distribuições dos conjuntos de dados}
-    \label{tab:distribuicoesbalanceadovsdesbalanceado}
-  \end{center}
-\end{table}
-
-Na Tabela \ref{tab:acuraciasbalanceadovsdesbalanceado} são apresentados os resultados médios das acurácias para os diversos conjuntos de dados deste experimento.
-Da mesma forma que nos outros exemplos, a coluna \textit{Configuração} indica como a lista de saída foi gerada: classificador ou metaclassificador.
-Os resultados apresentados se referem apenas ao algoritmo \textit{Arvore de Decisão} com uma lista de saída de tamanho 3.
-Entretanto, o experimento não se restringiu a este único algoritmo.
-Como os demais algoritimos apresentaram resultados semelhantes, estes são exibidos apenas no apêndice.
-
-\begin{table}[h!]
-  \begin{center}
-    \begin{tabular}{ccccc}
-      \hline
-      \textbf{Algoritmo} & \textbf{Configuração} & \textbf{1-Acurácia} & \textbf{2-Acurácia} & \textbf{3-Acurácia} \\
-      \hline 
-
-      Balanceado 1 &  classificador & 72.2023809524 & 77.6480836237 & 77.8110481998\\
-      Balanceado 1 &  metaclassificador & 72.619047619 &  82.7380952381 & 87.1428571429\\
-      Balanceado 2 &  classificador & 54.2194092827 & 59.1900792426 & 59.4701725498\\
-      Balanceado 2 &  metaclassificador & 54.1490857947 & 69.1983122363 & 76.9338959212\\
-      Balanceado 3 &  classificador & 59.1710101762 & 64.4001719243 & 65.0239725405\\
-      Balanceado 3 &  metaclassificador & 58.749069248 &  72.8220402085 & 80.3425167535\\
-      Desbalanceado &  classificador & 83.1908831909 &  83.9280626781 & 83.9602965885\\      
-      Desbalanceado &  metaclassificador & 83.0484330484 &  88.4615384615 & 90.8831908832\\
-
-      \hline
-    \end{tabular}
-    \caption{Balanceado vs. desbalanceado - Valores de acurácia médios para a árvore de decisão}
-    \label{tab:acuraciasbalanceadovsdesbalanceado}
-  \end{center}
-\end{table}
-
-É possível observar na Tabela \ref{tab:acuraciasbalanceadovsdesbalanceado} que o conjunto Desbalanceado apresentou o melhor resultado, seguido do Balanceado 1. 
-Os conjutos Balanceado 2 e 3 apresentaram resultados inferiores.
-Além disso, no caso da Árvore de Decisão, o metaclassificador superou o classificador por uma margem maior nos os conjuntos Balanceado 1 e Desbalanceado.
-Isso não se repete para os demais algoritmos testados: KNN, SMV, Random Forest e Naive Bayes.
-Por fim, note que o classificador e o metaclassificador chegaram sempre a resultados similares para um mesmo conjunto de dados.
-Isto é, quando o resultado de um melhora o do outro também.
-Com isso não é possível observar vantagens aparentes do método proposto quando empregado em conjuntos de dados desbalanceados.

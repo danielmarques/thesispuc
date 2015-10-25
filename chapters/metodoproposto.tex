@@ -3,7 +3,7 @@
 
 O método proposto deve receber como entrada um conjunto de treino, a partir do qual um modelo é construído. Quando uma nova instância é recebida este modelo pode ser usado para gerar uma lista ordenada de saída (ranking). Esta lista é composta pelos valores de classe (do conjunto de treino) mais prováveis para aquela instância, de forma que o primeiro valor é o mais provável. 
 
-O método proposto compreende um meta-classificador que por sua vez é composto por um conjunto de classificadores internos. Estes diversos classificadores são empregados em cascata para gerar a lista ordenada de saída. Note que, cada item da lista é dado por apenas um classificador interno. A Figura \ref{fig:metodoproposto01} ilustra como a lista de saída é gerada pelos classificadores internos.
+O método proposto compreende um meta-classificador que por sua vez é composto por um conjunto de classificadores internos. Estes diversos classificadores são empregados em cascata para gerar a lista ordenada de saída. Note que, cada item da lista é dado por apenas um classificador interno. 
 
 \begin{figure}[h!]
   \includegraphics[width=\linewidth]{images/metodoproposto01.eps}
@@ -11,6 +11,7 @@ O método proposto compreende um meta-classificador que por sua vez é composto 
   \label{fig:metodoproposto01}
 \end{figure}
 
+A Figura \ref{fig:metodoproposto01} ilustra como a lista de saída é gerada pelos classificadores internos.
 Assuma que temos 5 classes distintas no conjunto de dados: A, B, C, D e E. 
 No exemplo da Figura \ref{fig:metodoproposto01} queremos gerar uma lista de saída de tamanho quatro, logo quatro classificadores internos são utilizados. 
 O classificador inicial (alfa) sempre gera o primeiro item de uma lista. 
@@ -30,7 +31,27 @@ Estas filtragens retiram sucessivamente do conjunto de treino as instâncias cuj
 
 No exemplo anterior, da Figura \ref{fig:metodoproposto01}, o classificador A-B-D é usado para gerar o quarto elemento da lista.
 Este classificador foi treinado com um conjunto filtrado 3 vezes (para retirar as instâncias com as classes A, B e D).
-O processo de treinamento de um classificador interno é ilustrado em detalhes na Figura \ref{fig:metodoproposto02}.
+
+O processo de treinamento de um classificador interno é ilustrado na Figura \ref{fig:metodoproposto02}.
+Além disso, o pseudo-código a seguir também descreve esse procedimento de treinamento para a versão dinâmica do método (vide seção \ref{sec:versoesdometodo}).
+\\
+
+\hline
+\begin{center}
+\textbf{Pseudo-Código: Treinamento de Classificador Interno}
+\end{center}
+\hline
+\hfill \break
+Carrega o conjunto de treino completo\newline
+Para cada item \textit{i} da lista de saída:
+\begin{enumerate}
+\item Verifica as \textit{i-1} classes que já foram colocadas na lista de saída
+\item Remove do conjunto de treino os exemplos dessas classes
+\item Treina um classificador com o conjunto de treino modificado e armazena internamente o modelo gerado
+\item Utiliza este modelo para gerar o \textit{iésimo} item da lista de saída
+\end{enumerate}
+\hline
+\hfill \break
 
 \begin{figure}[h!]
   \includegraphics[width=\linewidth]{images/metodoproposto02.eps}
@@ -57,14 +78,15 @@ Isto é, que tem instâncias de diversas classes diferentes porém uma com a qua
   \label{fig:dadosdesbalanceados}
 \end{figure}
 
-A figura \ref{fig:dadosdesbalanceados} ilustra dois conjuntos de dados desbalanceados gerados aleatoriamente.
-Os dois tem a mesma quantidade de pontos que estão agrupados de forma análoga em três distribuições diferentes.
+A Figura \ref{fig:dadosdesbalanceados} ilustra dois conjuntos de dados desbalanceados gerados aleatoriamente.
+Ambos tem a mesma quantidade de pontos, que estão agrupados de forma análoga em três grupos diferentes.
+Os grupos de pontos foram gerados seguindo distribuições normais bivariadas.
 Considere que os pontos pertencentes à mesma distribuição tem também a mesma classe, denotada pela cor: azul, vermelho ou verde.
 Note que os dados são desbalanceados pois a classe verde tem uma quantidade de pontos muito maior do que as outras, são 3000 pontos verdes contra 250 azuis e 250 vermelhos.
 
-No primeiro cenário da figura \ref{fig:dadosdesbalanceados} os dados da distribuição que contem mais pontos (classe verde) estão afastados do restante.
+No primeiro cenário da Figura \ref{fig:dadosdesbalanceados} os dados da distribuição que contem mais pontos (classe verde) estão afastados do restante.
 Em contraste, no segundo cenário o centro da distribuição de pontos verdes está entre os centros das distribuições de pontos vermelhos e azuis.
-Depois de realizar testes com os dois conjuntos de dados percebemos que alguns classificadores, e.g. \textit{k nearest neighbors}, tem um resultado melhor no primeiro cenário.
+Depois de realizar testes com os dois conjuntos de dados percebemos que alguns classificadores, e.g. \textit{k nearest neighbors}, tem acurácias mais elevadas no primeiro cenário.
 Notadamente, a presença da grande quantidade de pontos verdes próximos ao restante dificulta o aprendizado do classificador e piora o resultado final.
 
 O metodo introduzido neste trabalho foi proposto no intuito de melhorar o resultado de casos como esse.
@@ -74,6 +96,7 @@ Desta forma o classificador utilizado para gerar o próximo elemento será trein
 Veremos em mais detalhes no capítulo \ref{chap:descricaodostestes} os resultados obtidos por nossa abordagem.
 
 \section{Versões do método}
+\label{sec:versoesdometodo}
 
 O método proposto foi desenvolvido em duas versões: estático e dinâmico.
 
