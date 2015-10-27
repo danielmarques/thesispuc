@@ -96,7 +96,7 @@ Em um problema de \textit{ranking}, queremos que o modelo gere uma lista ordenad
 Para tanto, os exemplos fornecidos ao algoritmo de aprendizado também devem ter uma lista ordenada de classes ao invés de um atributo classe único.
 Isto é, em cada exemplo $ (x_i,\; y_i) $ temos que $y_i$ é da forma $ [l_1, l_2, ..., l_k] $ onde \textit{k} representa o número total de classes.
 
-As tabelas \ref{tab:exdados1} e \ref{tab:exdados2} dão exemplos de dados que podem ser usados para classificação comum e para \textit{ranking} respectivamente.
+As Tabelas \ref{tab:exdados1} e \ref{tab:exdados2} dão exemplos de dados que podem ser usados para classificação comum e para \textit{ranking} respectivamente.
 Os dois exemplos apresentam um certo número de atributos numéricos que podem ser usados pelos algorítimos de aprendizado.
 Porém eles diferem no atributo classe, o primeiro tem apenas uma classe enquanto o segundo uma lista.
 
@@ -137,7 +137,7 @@ Quando realizamos os experimentos deste trabalho procuramos comparar classificad
 Foram usados os classificadores: SVM, \textit{Naive Bayes} \cite{Murphy}, Arvore de Decisão \cite{Quinlan}, \textit{Random Forest} \cite{Breiman} e \textit{k-nearest neighbors} (KNN) \cite{Duda}.
 Descreveremos a seguir de forma breve como esses algoritmos funcionam.
 
-Como foi dito, o SVM é derivado diretamente do Perceptron.
+Como foi dito, o \textbf{SVM} é erivado diretamente do Perceptron.
 Ambos são classificadores binários lineares não probabilísticos.
 O SVM também pode ser usado para resolver problemas como o da figura \ref{fig:conceitosbasicos02}.
 Este classificador considera cada vetor de atributos de entrada \textit{x} com \textit{d} dimensões.
@@ -148,13 +148,13 @@ Além disso, o SVM procura encontrar o melhor hiperplano de separação para os 
 Para tanto ele considera a existência uma \texiit{margem} que representa o afastamento do hiperplano para os pontos.
 Por fim ele calcula o hiperplano de margem máxima.
 
-\textit{Naive Bayes} são classificadores probabilísticos baseados no teorema de Bayes.
+\textbf{\textit{Naive Bayes}} são classificadores probabilísticos baseados no teorema de Bayes.
 Este algoritmo cria um modelo de probabilidade condicional que recebe como entrada o vetor $ \textit{x} = (x_1, x_2, ... , x_d) $, com \textit{d} atributos.
 Ele assume entretanto que estes atributos de entrada são independentes.
 Para classificar uma instância o modelo determina a probabilidade de cada classe $C_i$ possível, dada por $p(C_i|x_1, x_2, ... , x_d)$, com a ajuda do teorema de Bayes.
 Por fim, o classificador utiliza as probabilidades para decidir qual classe escolher baseado em uma regra preestabelecida, e.g. a classe mais provável.
 
-As árvores de decisão são modelos de predição que utilizam os atributos de entrada para tomar decisões e desta forma inferir a classe de uma intância.
+As \textbf{árvores de decisão} são modelos de predição que utilizam os atributos de entrada para tomar decisões e desta forma inferir a classe de uma intância.
 Sendo assim, as folhas da árvore representam classes enquanto os nódos representam decisões baseadas nos atributos.
 De forma geral, para construir um modelo a partir do conjunto de treino, a árvore de decisão escolhe a cada nódo o atributo que melhor divide o conjunto.
 Depois que o modelo está pronto, é possível utilizar os atributos de uma nova instância para percorrer a árvore de acordo com as decisões nos nódos.
@@ -162,14 +162,14 @@ Com isso chega-se até uma folha que determinará a classe da instância.
 Note que tipos distintos de árvore podem utilizar critérios diferentes para a escolha do atributo decisório dos nódos.
 O \textit{ Ganho de Informação} por exemplo é empregado nas arvores de decisão do tipo C4.5 (utilizadas nos testes conduzidos neste trabalho).
 
-O \textit{Random Forest} é um método que utiliza um comitê de árvores de decisão para classificação.
+O \textbf{\textit{Random Forest}} é um método que utiliza um comitê de árvores de decisão para classificação.
 Isto é, durante o treinamento o algoritimo cria diversas árvores de decisão que compõem o modelo.
 Cada árvore contribui votando em uma classe e no final a classe mais votada é escolhida.
 Esse algoritimo utiliza \textit{Bagging} para criar subconjuntos aleatórios do conjunto de treino.
 Cada subconjunto é utilizado para treinar uma das árvores de decisão.
 Além disso, o \textit{Random Forest} também emprega o \textit{Feature Bagging}, i.e. cada árvore utiliza somente um subgrupo aleatório dos atributos originais no treinamento.
 
-O algoritimo KNN apenas recebe os vetores de atributos de entrada do conjunto de treino em um primeiro momento.
+O algoritimo \textbf{KNN} apenas recebe os vetores de atributos de entrada do conjunto de treino em um primeiro momento.
 Para classificar uma instância ele simplesmente determina qual é a classe mais frequente entre os \textit{k} exemplos mais próximos, onde \textit{k} é definido pelo usuário.
 Este método pode utilizar diferentes métricas de proximidade para determinar os vetores próximos, uma das mais utilizadas é a distância euclidiana.
 
@@ -214,7 +214,7 @@ Aplicamos então esse modelo à um conjunto de 100 instâncias e obtemos um resu
   \end{center}
 \end{table}
 
-Os dados da tabela \ref{tab:positivosenegativos} estão separados em \textit{true positive} (TP), \textit{true negative} (TN),\textit{false positive} (FP) e \textit{false negative} (FN).
+Os dados da Tabela \ref{tab:positivosenegativos} estão separados em \textit{true positive} (TP), \textit{true negative} (TN),\textit{false positive} (FP) e \textit{false negative} (FN).
 Os dois primeiros indicam o número de instâncias corretamente classificadas e o restante a quantidade classificada incorretamente.
 A partir desses valores é possível gerar algumas das métricas mais usuais em aprendizado de máquina, as quais apresentaremos nas equações a seguir.
 
@@ -228,13 +228,13 @@ A partir desses valores é possível gerar algumas das métricas mais usuais em 
 Conforme as métricas foram apresentadas temos que a \textit{Acurácia} tem um valor único para o modelo.
 Contudo o \textit{Precision} e o \textit{Recall} se referem à uma classe por vez.
 Note que no exemplo temos duas classes: "com falha" e "sem falha".
-Logo, baseando-se nas equações, temos no exemplo da tabela \ref{tab:positivosenegativos} para classe "com falha" um valor de \textit{Acurácia} igual a 85\%, \textit{Precision} igual a 50\% e \textit{Recall} igual a 33,33\%.
+Logo, baseando-se nas equações, temos no exemplo da Tabela \ref{tab:positivosenegativos} para classe "com falha" um valor de \textit{Acurácia} igual a 85\%, \textit{Precision} igual a 50\% e \textit{Recall} igual a 33,33\%.
 
 Notadamente cada uma dessas métricas é mais apropriada em casos distintos.
 A \textit{Acurácia} talvez seja a métrica mais intuitiva e simples, visto que ela representa a proporção de elementos corretamente classificados.
 Mas nem sempre é possível avaliar um modelo da melhor maneira com ela.
 Considere por exemplo o caso de um modelo \textit{M'} que simplesmente classifica as instâncias como \textit{sem falha}.
-Ele atingiria uma \textit{Acurácia} de 85\% mas seria incapaz de identificar máquinas com falha, seu \textit{Precision} e \textit{Recall} para classe "com falha" seriam zero.
+Ele atingiria uma \textit{Acurácia} de 85\% mas seria incapaz de identificar máquinas com falha, seu \textit{Recall} para classe "com falha" seria zero.
 
 É possível calcular o \textit{Precision} e o \textit{Recall} para o modelo como um todo.
 Para tanto podemos somar os resultados \textit{true positive}, \textit{false positive} e \textit{false negative} para todas as classes.
