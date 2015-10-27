@@ -17,10 +17,10 @@ No exemplo da Figura \ref{fig:metodoproposto01} queremos gerar uma lista de saí
 O classificador inicial (alfa) sempre gera o primeiro item de uma lista. 
 O meta-classificador precisa então escolher um de seus classificadores internos para gerar um próximo item. 
 Como a figura sugere, esta escolha depende de todos os elementos inseridos anteriormente. 
-Por exemplo, na figura o classificador B-D foi usado para gerar o terceiro elemento da lista pois as classes B e D já tinham sido colocadas na mesma.
+Por exemplo, na figura o classificador /BD foi usado para gerar o terceiro elemento da lista pois as classes B e D já tinham sido colocadas na mesma.
 Veremos a seguir que na verdade este classificador foi treinado com um conjunto de treino filtrado de forma a excluir todas as instânicas com as classes B e D.
 
-\section{Treinamento do Meta-classificador}
+\section{Funcionamento do Meta-classificador}
 
 Seja \textit{T} o conjunto de treino do meta-classificador e \textit{v} o número de valores distintos que seu atributo classe pode assumir. 
 Este conjunto será filtrado de formas diferentes e então utilizado para treinar os classificadores internos. 
@@ -32,7 +32,7 @@ Estas filtragens retiram sucessivamente do conjunto de treino as instâncias cuj
 No exemplo anterior, da Figura \ref{fig:metodoproposto01}, o classificador A-B-D é usado para gerar o quarto elemento da lista.
 Este classificador foi treinado com um conjunto filtrado 3 vezes (para retirar as instâncias com as classes A, B e D).
 
-O processo de treinamento de um classificador interno é ilustrado na Figura \ref{fig:metodoproposto02}.
+O processo de treinamento e classificação para um classificador interno é ilustrado na Figura \ref{fig:metodoproposto02}.
 Além disso, o pseudo-código a seguir também descreve esse procedimento de treinamento para a versão dinâmica do método (vide seção \ref{sec:versoesdometodo}).
 \\
 
