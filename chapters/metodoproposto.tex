@@ -14,11 +14,13 @@ O método proposto compreende um meta-classificador que por sua vez é composto 
 A Figura \ref{fig:metodoproposto01} ilustra como a lista de saída é gerada pelos classificadores internos.
 Assuma que temos 5 classes distintas no conjunto de dados: A, B, C, D e E. 
 No exemplo da Figura \ref{fig:metodoproposto01} queremos gerar uma lista de saída de tamanho quatro, logo quatro classificadores internos são utilizados. 
-O classificador inicial (alfa) sempre gera o primeiro item de uma lista. 
+O classificador inicial (alfa),que foi treinado com o conjunto de treino completo, sempre gera o primeiro item de uma lista. 
 O meta-classificador precisa então escolher um de seus classificadores internos para gerar um próximo item. 
-Como a figura sugere, esta escolha depende de todos os elementos inseridos anteriormente. 
-Por exemplo, na figura o classificador /BD foi usado para gerar o terceiro elemento da lista pois as classes B e D já tinham sido colocadas na mesma.
-Veremos a seguir que na verdade este classificador foi treinado com um conjunto de treino filtrado de forma a excluir todas as instânicas com as classes B e D.
+Como a figura sugere, esta escolha depende de todos os elementos inseridos anteriormente na lista.
+Repare na notação utiliza para nomear os classificadores, as letras depois barra "/" indicam as classes retiradas do conjunto de treino original para treinar aquele classificador.
+Ou seja, o classificador /D foi treinado com um conjunto de treino filtrado de forma a excluir todas as instânicas da classe D, já o /BD exluiu aquelas das classes B e D e assim por diante.
+Desta forma, o classificador /BD foi usado para gerar o terceiro elemento da lista por que as classes B e D já tinham sido colocadas na mesma.
+Com isso o conjunto de treino utilizado para este classificador está livre da influência dessas classes.
 
 \section{Funcionamento do Meta-classificador}
 
@@ -29,36 +31,9 @@ Qualquer outro classificador interno é treinado com uma versão filtrada de  \t
 De forma geral, o classificador que será usado para classificar o item da lista na posição \textit{k}, onde \textit{k} $<$ \textit{v}, deve ser treinado com um conjunto de treino filtrado \textit{k-1} vezes. 
 Estas filtragens retiram sucessivamente do conjunto de treino as instâncias cujas classes já foram colocadas na lista.
 
-No exemplo anterior, da Figura \ref{fig:metodoproposto01}, o classificador A-B-D é usado para gerar o quarto elemento da lista.
+No exemplo anterior, da Figura \ref{fig:metodoproposto01}, o classificador /ABD é usado para gerar o quarto elemento da lista.
 Este classificador foi treinado com um conjunto filtrado 3 vezes (para retirar as instâncias com as classes A, B e D).
-
 O processo de treinamento e classificação para um classificador interno é ilustrado na Figura \ref{fig:metodoproposto02}.
-Além disso, o pseudo-código a seguir também descreve esse procedimento de treinamento para a versão dinâmica do método (vide seção \ref{sec:versoesdometodo}).
-\\
-
-\hline
-\begin{center}
-\textbf{Pseudo-Código: Treinamento de Classificador Interno}
-\end{center}
-\hline
-\hfill \break
-Carrega o conjunto de treino completo\newline
-Para cada item \textit{i} da lista de saída:
-\begin{enumerate}
-\item Verifica as \textit{i-1} classes que já foram colocadas na lista de saída
-\item Remove do conjunto de treino os exemplos dessas classes
-\item Treina um classificador com o conjunto de treino modificado e armazena internamente o modelo gerado
-\item Utiliza este modelo para gerar o \textit{iésimo} item da lista de saída
-\end{enumerate}
-\hline
-\hfill \break
-
-\begin{figure}[h!]
-  \includegraphics[width=\linewidth]{images/metodoproposto02.eps}
-  \caption{Filtragem do conjunto de treino e treinamento de um classificador.}
-  \label{fig:metodoproposto02}
-\end{figure}
-
 
 Note que o meta-classificador não foi desenvolvido para receber um conjunto de treino com uma lista ordenada no gabarito. 
 Ele deve ser treinado com conjuntos que apresentam apenas um único valor no atributo classe.
@@ -80,12 +55,39 @@ Isto é, que tem instâncias de diversas classes diferentes porém uma com a qua
 
 A Figura \ref{fig:dadosdesbalanceados} ilustra dois conjuntos de dados desbalanceados gerados aleatoriamente.
 Ambos tem a mesma quantidade de pontos, que estão agrupados de forma análoga em três grupos diferentes.
-Os grupos de pontos foram gerados seguindo distribuições normais bivariadas.
-Considere que os pontos pertencentes à mesma distribuição tem também a mesma classe, denotada pela cor: azul, vermelho ou verde.
+Considere que os pontos pertencentes ao mesmo grupo tem também a mesma classe, denotada pela cor: azul, vermelho ou verde.
 Note que os dados são desbalanceados pois a classe verde tem uma quantidade de pontos muito maior do que as outras, são 3000 pontos verdes contra 250 azuis e 250 vermelhos.
 
+Cada grupo de pontos foi gerado seguindo uma distribuição normal bivariada.
+Apresentamos sua função densidade de probabilidade para um vetor aleatório \textit{(x,y)} a seguir.
+
+\begin{equation*}
+\resizebox{.99\hsize}{!}{
+$f(x,y)=\frac{1}{2\pi \sigma _x\sigma _y\sqrt{1-\rho ^2}}\exp \left\{ -\frac 1{2(1-\rho ^2)}\left[ \left( \frac{x-\mu _x}{\sigma _x}\right) ^2-2\rho \left( \frac{x-\mu _x}{\sigma _x}\right) \left(\frac{y-\mu _y}{\sigma _y}\right) +\left( \frac{y-\mu _y}{\sigma _y}\right)^2\right] \right\}$
+}
+\end{equation*}
+
+onde,
+
+- $\mu$ é o vetor de médias dado por $\[ 
+\left( \begin{array}{c}
+\mu _x \\
+\mu _y
+\end{array} 
+\right)\] $
+ 
+- $\rho$ é a correlação entre x e y
+
+- $\sigma$ remete à matriz de covariâncias $\Sigma=\[ \left( \begin{array}{cc}
+\sigma _x ^2 & \rho \sigma _x \sigma _y \\
+\rho \sigma _x \sigma _y & \sigma _y ^2 
+\end{array} 
+\right)\] $
+\end{itemize}
+\newline
+
 No primeiro cenário da Figura \ref{fig:dadosdesbalanceados} os dados da distribuição que contem mais pontos (classe verde) estão afastados do restante.
-Em contraste, no segundo cenário o centro da distribuição de pontos verdes está entre os centros das distribuições de pontos vermelhos e azuis.
+Em contraste, no segundo cenário a média da distribuição de pontos verdes está entre os centros das distribuições de pontos vermelhos e azuis.
 Depois de realizar testes com os dois conjuntos de dados percebemos que alguns classificadores, e.g. \textit{k nearest neighbors}, tem acurácias mais elevadas no primeiro cenário.
 Notadamente, a presença da grande quantidade de pontos verdes próximos ao restante dificulta o aprendizado do classificador e piora o resultado final.
 
@@ -103,9 +105,49 @@ O método proposto foi desenvolvido em duas versões: estático e dinâmico.
 
 \subsection{Método Estático}
 
-O método estático gera a priori todas os subconjuntos de classe que podem compor a lista de saída. Ele então treina todos os possíveis classificadores, cada um com sua versão filtrada do conjunto de treino, armazenando-os internamente. Este conjunto de classificadores internos é efetivamente o modelo gerado pelo meta-classificador. Este pode ser usado então para gerar rankings ao receber novas instâncias. Note que, quanto mais valores a classe do conjunto de treino original puder assumir, mais classificadores internos comporão o modelo do meta-classificador.
+O método estático gera a priori todas os subconjuntos de classe que podem compor a lista de saída. 
+Ele então treina todos os possíveis classificadores, cada um com sua versão filtrada do conjunto de treino, armazenando-os internamente.
+Este conjunto de classificadores internos é efetivamente o modelo gerado pelo meta-classificador. 
+Este pode ser usado então para gerar rankings ao receber novas instâncias. 
 
-Sejam \textit{N} o número de classificadores geados pelo método estático, \textit{v} o número de valores de classe distintos no conjunto universo e \textit{k} o tamanho da lista que se deseja gerar. De forma geral, considerando que $\textit{k} \leq \textit{v}$, temos que:
+O pseudo-código a seguir descreve o procedimento de treinamento e classificação para a versão estática do método.
+\\
+
+\hline
+\begin{center}
+\textbf{Pseudo-Código: Funcionamento do Meta-Classificador}
+
+\textbf{Versão Estática}
+\end{center}
+\hline
+\hfill \break
+-- \textit{Treinamento}\newline
+Carrega o conjunto de treino completo\newline
+Gera todas as possíveis combinações de classe sem repetições\newline
+Para cada combinação de classe que foi gerada faça:
+
+\quad Copia o conjunto de treino completo
+
+\quad Remove da cópia os exemplos dessas classes
+
+\quad Treina um classificador com este conjunto de treino modificado
+
+\quad Armazena internamente o modelo gerado\newline
+-- \textit{Classificação}\newline
+Para cada item \textit{i} da lista de saída faça:
+
+\quad Verifica as \textit{i-1} classes que já foram colocadas na lista de saída
+
+\quad Recupera o modelo interno treinado sem essas classes
+
+\quad Utiliza este modelo para gerar o \textit{iésimo} item da lista de saída
+
+\hline
+\hfill \break
+
+Note que, quanto mais valores a classe do conjunto de treino original puder assumir, mais classificadores internos comporão o modelo do meta-classificador.
+Sejam \textit{N} o número de classificadores geados pelo método estático, \textit{v} o número de valores de classe distintos no conjunto universo e \textit{k} o tamanho da lista que se deseja gerar. 
+De forma geral, considerando que $\textit{k} \leq \textit{v}$, temos que:
 
 \begin{equation*}
 
@@ -127,6 +169,40 @@ A versão estática pode ser lenta durante a fase de treinamento, pois precisa t
 \subsection{Método Dinâmico}
 
 O método dinâmico constrói o modelo na medida do necessário, treinando apenas os classificadores requeridos para a construção da lista de saída para a instância em questão. Ou seja, o modelo é treinado ao mesmo tempo que a classificação de instâncias é feita. De forma análoga ao método anterior, os classificadores são armazenados internamente a medida que são treinados. Desta forma, ao construir a lista de saída, os classificadores já treinados são reutilizados. Sendo assim, um mesmo classificador nunca é treinado mais de uma vez. 
+
+O pseudo-código a seguir descreve o procedimento de treinamento e classificação para a versão dinâmica do método.
+\\
+
+\hline
+\begin{center}
+\textbf{Pseudo-Código: Treinamento de Classificador Interno}
+
+\textbf{Versão Dinâmica}
+\end{center}
+\hline
+\hfill \break
+Carrega o conjunto de treino completo\newline
+Para cada item \textit{i} da lista de saída faça:
+
+\quad Verifica as \textit{i-1} classes que já foram colocadas na lista de saída
+
+\quad Copia o conjunto de treino completo
+
+\quad Remove da cópia os exemplos das \textit{i-1} classes já incluidas na lista
+
+\quad Treina um classificador com o conjunto de treino modificado
+
+\quad Armazena internamente o modelo gerado
+
+\quad Utiliza este modelo para gerar o \textit{iésimo} item da lista de saída
+\hline
+\hfill \break
+
+\begin{figure}[h!]
+  \includegraphics[width=\linewidth]{images/metodoproposto02.eps}
+  \caption{Filtragem do conjunto de treino e treinamento de um classificador.}
+  \label{fig:metodoproposto02}
+\end{figure}
 
 Esta segunda versão tende a ser mais rápida do que a anterior, visto que não precisa treinar todas as possíveis combinações de classificadores a priori. Entretanto, como o treinamento do modelo é feito ao mesmo tempo que a classificação de instâncias, o tempo de classificação da versão dinâmica é maior do que a versão estática. 
 
