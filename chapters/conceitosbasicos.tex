@@ -236,17 +236,31 @@ Mas nem sempre é possível avaliar um modelo da melhor maneira com ela.
 Considere por exemplo o caso de um modelo \textit{M'} que simplesmente classifica as instâncias como \textit{sem falha}.
 Ele atingiria uma \textit{Acurácia} de 85\% mas seria incapaz de identificar máquinas com falha, seu \textit{Recall} para classe "com falha" seria zero.
 
-É possível calcular o \textit{Precision} e o \textit{Recall} para o modelo como um todo.
-Para tanto podemos somar os resultados \textit{true positive}, \textit{false positive} e \textit{false negative} para todas as classes.
-Seja \textit{k} o número de classes existentes no conjunto de dados, o \textit{Precision} e o \textit{Recall} multi-classe podem ser calculados pelas equações a seguir.
+É possível calcular o \textit{Precision} e o \textit{Recall} para o modelo como um todo de algumas formas.
+Podemos por exemplo somar os resultados \textit{true positive}, \textit{false positive} e \textit{false negative} para todas as classes.
+Seja \textit{k} o número de classes existentes no conjunto de dados, o \textit{Micro Precision} e o \textit{Micro Recall} multi-classe podem ser calculados pelas equações a seguir.
 
 \begin{align*}
 
-\[ \textit{Precision} &= \frac{\sum_{i=1}^{k} TP_i}{\sum_{i=1}^{k} TP_i+FP_i} \] \\
-\[ \textit{Recall} &= \frac{\sum_{i=1}^{k} TP_i}{\sum_{i=1}^{k} TP_i+FN_i} \]
+\[ \textit{Micro Precision} &= \frac{\sum_{i=1}^{k} TP_i}{\sum_{i=1}^{k} TP_i+FP_i} \] \\
+\[ \textit{Micro Recall} &= \frac{\sum_{i=1}^{k} TP_i}{\sum_{i=1}^{k} TP_i+FN_i} \]
 
 \end{align*}
 
+Outras formas de generalização dessas métricas que encontramos na literatura são denominadas \textit{Macro Precision} e \textit{Macro Recall}.
+Neste caso as métricas são calculadas inividualmente para cada classe e no final é tirada uma média aritmética.
+Por fim, existe ainda a versão onde a média é ponderada pela quantidade de instâncias das classes.
+Apresentamos a seguir as fórmulas dessas outras formas de calcular as métricas.
+Nestas fórmulas considere que $N_i$ é o número de instâncias da classe \textit{i} e $N_T$ o número de instâncias total.
+
+\begin{align*}
+
+\[ \textit{Macro Precision} &= \frac{\sum_{i=1}^{k} \frac{TP_i}{TP_i+FP_i}}{k} \] \\
+\[ \textit{Macro Recall} &= \frac{\sum_{i=1}^{k} \frac{TP_i}{TP_i+FN_i}}{k} \]
+\[ \textit{Precision Ponderado} &= \frac{\sum_{i=1}^{k} N_i\frac{TP_i}{TP_i+FP_i}}{N_T} \]
+\[ \textit{Recall Ponderado} &= \frac{\sum_{i=1}^{k} N_i\frac{TP_i}{TP_i+FN_i}}{N_T} \]
+
+\end{align*}
 
 Para compreender intuitivamente o \textit{Precision} e o \textit{Recall} podemos recorrer à conceitos de \textit{Information Retrieval}.
 Neste contexto o \textit{Precision} denota qual proporção dos elementos selecionados pelo modelo realmente são relevantes, no caso do exemplo da tabela \ref{tab:positivosenegativos} máquinas com falha.

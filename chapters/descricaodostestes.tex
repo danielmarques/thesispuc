@@ -54,7 +54,7 @@ Com essas probabilidades podemos ter as listas de saída (1) A, B e C ou (2) B, 
 No primeiro caso temos as acurácias de um a três iguais a um.
 No segundo caso temos a \textit{1-Acurácia} igual a zero e o restante igual a um.
 Entretanto, por ter acesso às probabilidades, a métrica divide os valores.
-Teremos então \textit{1-Acurácia} igual 0.5, \textit{2-Acurácia} igual a 0.5 e \textit{3-Acurácia} igual a 1.
+Teremos então \textit{1-Acurácia} igual 0.5, \textit{2-Acurácia} igual a 1 e \textit{3-Acurácia} igual a 1.
 
 Note que todos os cálculos citados até agora são feitos por instância. 
 Ao gerar listas de saída para múltiplas instâncias, os valores obtidos para cada acurácia são somados, formando um valor total por \textit{i-Aurácia}.
@@ -86,6 +86,162 @@ Os valores são apresentados na tabela \ref{tab:valoresacuraciasexemplo}.
 
 \section{As métricas k-Precision e k-Recall}
 
+O \textit{k-Precision} e o \textit{k-Recall} são outros conjuntos de métricas que utilizamos na avaliação do método.
+Estes são inspirados nas métricas \textit{Precision} e \textit{Recall}, largamente utilizadas em aprendizado de máquina.
+Porém, da mesma forma como fizemos com as \textit{k-Acurácias}, adaptamos essas métricas para avaliar listas de classes de acordo com a posição da classe verdadeira.
+Portanto, o \textit{k-Precision} e o \textit{k-Recall} também variam de 1 até \textit{k}; i.e. \textit{1-Precision}, \textit{2-Precision} até \textit{k-Precision}; onde \textit{k} denota o tamanho da lista retornada.
+
+Como sabemos, os valores dessas métricas são calculados a partir da contabilização dos \textit{true positives (tp)}, \textit{false positives (fp)} e \textit{false negatives (fn)} (vide Capítulo \ref{chap:conceitosbasicos}).
+Estes por sua vez dependem da posição da classe verdadeira na lista.
+Se A é a classe verdadeira e ela aparece na posição \textit{i} da lista, onde $1 \leq \textit{i} \leq \textit{k}$, então as posições anteriores à \textit{i} contam como $fn_A$ e restante como $tp_A$.
+Além disso, para cada posição anterior à \textit{i} também é contado um fp para a classe que foi prevista erradamente no lugar de A.
+
+Observe na Figura \ref{fig:descricaodostestes02} o mesmo exemplo anterior agora com a contagem de tp, fn e fp para cada classe.
+Recorde que no exemplo temos um conjunto de dados com as classes A, B, C, D e E, sendo A (em vermelho) a classe verdadeira em todos os exemplos.
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=120mm,scale=0.8]{images/descricaodostestes02.eps}
+  \caption{Exemplos de listas e suas contagens de tp, tn e fp.}
+  \label{fig:descricaodostestes02}
+\end{figure}
+
+Da mesma forma que fizemos para as \textit{k-Acurácias} o cálculo é feito de forma diferente para o \textit{benckmark} dos testes.
+Lembre que quando a probabilidade da classe verdadeira está empatada com a de uma ou mais classes, múltiplas listas poderiam ser criadas a partir desta distribuição.
+Retornemos ao exemplo da seção anterior, onde tinhamos as classes A, B e C com probabilidades 0.4, 0.4 e 0.2 respectivamente e onde a classe verdadeira é A.
+Podemos ter as listas de saída (1) A, B e C ou (2) B, A e C.
+No primeiro caso as posições de um a três contam como um $tp_A$.
+No segundo caso a primeira posição conta um $fn_A$, um $fp_B$ e o restante das posições conta um $tp_A$.
+Usando as probabilidades podemos contar de outra forma.
+A primeira posição conta 0.5 $tp_A$, 0.5 $fn_A$ e 0.5 $fp_B$, visto que existe 50\% de chance de cada caso ocorrer.
+O restante das posições conta simplesmente como um $tp_A$.
+
+O cálculo do \textit{k-Precision} e do \textit{k-Recall} é feito de duas formas: \textit{Micro} e \textit{Média Ponderada}.
+No primeiro caso somamos os \textit{true positives (tp)}, \textit{false positives (fp)} e \textit{false negatives (fn)} de todas as classes para cada \textit{i-Precision} e \textit{i-Recall}.
+Depois aplicamos esses valores totais às fórmulas do \textit{Precision} e \textit{Recall}.
+No segundo caso calculamos as métricas, usando as fórmulas, para cada classe a priori.
+Depois tiramos uma média ponderada pela quantidade de cada classe no conjunto de dados.
+Em ambos os casos os valores apresentados neste trabalho são convertidos para a forma de percentuais.
+
+Desta forma, podemos calcular os valores percentuais do \textit{Micro Precision} e \textit{Micro Recall} ao longo de todos os exemplos da figura \ref{fig:descricaodostestes02}.
+Os valores são apresentados na tabela \ref{tab:valores_micro}.
+Note que sempre teremos o mesmo valor para essas duas métricas pois a contagem total de \textit{false positives} e sempre igual a de \textit{false negatives}.
+
+\begin{table}[h!]
+  \begin{center}
+    \begin{tabular}{ccc}
+      \hline
+      \textbf{k} & \textbf{Precision} & \textbf{Recall} \\
+      \hline
+
+      1 & 16,67 \% & 16,67 \% \\
+      2 & 66,67 \% & 66,67 \% \\
+      3 & 83,33 \% & 83,33 \% \\
+      4 & 83,33 \% & 83,33 \% \\
+      5 & 100 \% & 100 \% \\
+
+      \hline
+    \end{tabular}
+    \caption{Valores percentuais do \textit{Micro Precision} e \textit{Micro Recall} do exemplo}
+    \label{tab:valores_micro}
+  \end{center}
+\end{table}
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=120mm,scale=0.9]{images/descricaodostestes03.eps}
+  \caption{Exemplos de listas com três classes e suas contagens de tp, tn e fp.}
+  \label{fig:descricaodostestes03}
+\end{figure}
+
+Para entender o cálculo do \textit{Precison Ponderado} e do \textit{Recall Ponderado} multi-classe, considere outro exemplo onde temos apenas as classes A, B e C.
+Este exemplo é apresentado na figura \ref{fig:descricaodostestes03}, que mostra as dez listas retornadas e suas contagem de \textit{true positives}, \textit{false positives} e \textit{false negatives} para os níveis 1 e 2.
+
+A partir disso podemos chegar às matrizes apresentadas na Tabela \ref{tab:confusao1} para as métricas de nível 1 e \ref{tab:confusao2} para as de nível 2.
+Com os valores contabilizados em cada matriz é possível então calcular as métricas de nível 1 e 2 para cada classe, cujos resultados são apresentados na Tabela \ref{tab:valores_classes}.
+Por fim, o valor final das métricas ponderadas é apresentado na Tabela \ref{tab:valores_pon}.
+
+Para fazer esses cálculos utilizamos as fórmulas de \textit{Precision} e \textit{Recall} introduzidas no Capítulo \ref{chap:conceitosbasicos}.
+Por exemplo, para chegar os valores do \textit{1-Precison Ponderado} da Tabela \ref{tab:valores_pon} deveos fazer os claculos a seguir.
+Considere que $N_A$, $N_B$ e $N_C$ são as quantidades de instãncias das classes A, B e C respectivamente.
+
+\begin{align*}
+\text{1-Precision Ponderado} &= \frac{(\text{1-$Prec_A$} \times N_A)+(\text{1-$Prec_B$} \times N_B)+(\text{1-$Prec_C$} \times N_C)}{N_A+N_B+N_C} \\
+&= \frac{(50\% \times 4)+(60\% \times 4)+(33,33\% \times 2)}{10} \\
+&= 50,07\%
+\end{align*}
+
+\begin{table}[h!]
+  \begin{center}
+    \begin{tabular}{cccc}
+      \hline
+         & \textbf{Real: A} & \textbf{Real: B} & \textbf{Real: C} \\
+      \hline
+
+      Previsto: A & 1 & 0 & 1\\
+      Previsto: B & 2 & 3 & 0\\
+      Previsto: C & 1 & 1 & 1\\
+
+      \hline
+    \end{tabular}
+    \caption{Contabilização dos valores para métricas ponderadas de nível 1}
+    \label{tab:confusao1}
+  \end{center}
+\end{table}
+
+\begin{table}[h!]
+  \begin{center}
+    \begin{tabular}{cccc}
+      \hline
+         & \textbf{Real: A} & \textbf{Real: B} & \textbf{Real: C} \\
+      \hline
+
+      Previsto: A & 2 & 0 & 0\\
+      Previsto: B & 1 & 4 & 1\\
+      Previsto: C & 1 & 0 & 1\\
+
+      \hline
+    \end{tabular}
+    \caption{Contabilização dos valores para métricas ponderadas de nível 1}
+    \label{tab:confusao2}
+  \end{center}
+\end{table}
+
+\begin{table}[h!]
+  \begin{center}
+    \begin{tabular}{cccc}
+      \hline
+       Métrica  & \textbf{Classe A} & \textbf{Classe B} & \textbf{Classe C} \\
+      \hline
+
+      \textbf{1-Precision} & 50\% & 60\% & 33,33\% \\
+      \textbf{2-Precision} & 100\% & 66,67\% & 50\% \\
+      \textbf{1-Recall} & 25\% & 75\% & 50\% \\
+      \textbf{2-Recall} & 50\% & 100\% & 50\% \\
+      
+      \hline
+    \end{tabular}
+    \caption{Contabilização dos valores métricas ponderadas de nível 1}
+    \label{tab:valores_classes}
+  \end{center}
+\end{table}
+
+\begin{table}[h!]
+  \begin{center}
+    \begin{tabular}{ccc}
+      \hline
+      \textbf{k} & \textbf{Precision} & \textbf{Recall} \\
+      \hline
+
+      1 & 50,07 \% & 50 \% \\
+      2 & 76,67 \% & 70 \% \\
+
+      \hline
+    \end{tabular}
+    \caption{Valores percentuais do \textit{Precision Ponderado} e \textit{Recall Ponderado} do exemplo}
+    \label{tab:valores_pon}
+  \end{center}
+\end{table}
 
 \section{Resultados dos Testes}
 
@@ -142,7 +298,6 @@ Seu atriburo classe denota em qual nódo a falha ocorreu.
       Nursery & 3330 & 9 & 5 \\
       Poker-Hand & 3712 & 11 & 10 \\      
       Covtype-01percent & 5810 & 55 & 7 \\
-      Covtype-10percent & 58101 & 55 & 7 \\    
 
       \hline
     \end{tabular}
@@ -161,7 +316,6 @@ Isto é, o teste pode ter empregado o modelo gerado pelo \textit{classificador} 
 A coluna \textit{Treino} informa o tempo médio de treinamento do modelo e a coluna \textit{Teste} o tempo médio que o modelo levou para gerar as listas de saída para as instâncias.
 Estes valores foram obtidos com a média aritimética de cada Tempo ao longo das iterações da validação cruzada.
 
-
 Note que, para todos os casos, temos que o tempo total do classificador é menor que os tempos das versões do método proposto.
 Este resultado já era esperado, visto que o método proposto precisa treinar diversos classificadores para construir a lista de saída.
 Além disso, a versão estática apresentou tempos totais maiores que a dinâmca.
@@ -171,6 +325,7 @@ Por fim, uma vez que ambas as versões do método incorrem o mesmo resultado, so
 
 \begin{table}[h!]
   \begin{center}
+    \resizebox{\textwidth}{!} {
     \begin{tabular}{ccccc}
       \hline
       \textbf{Algoritmo} & \textbf{Configuração} & \textbf{Treino (ms)} & \textbf{Teste (ms)} & \textbf{Total (ms)}\\
@@ -192,9 +347,9 @@ Por fim, uma vez que ambas as versões do método incorrem o mesmo resultado, so
       KNN 5 & estática  & 90.49 & 111.69  & 202.19\\
       KNN 5 & dinâmica  & - & 101.84 & 101.84\\
 
-
       \hline
     \end{tabular}
+    }
     \caption{Tempos médios de execução em milisegundos}
     \label{tab:tempostestes}
   \end{center}
@@ -204,7 +359,7 @@ Por fim, uma vez que ambas as versões do método incorrem o mesmo resultado, so
 
 A Tabela \ref{tab:acuracias} exibe os valores de acurácia médios para cada algoritmo. 
 Estes valores foram obtidos com a média aritimética de cada acurácia ao longo de todos os conjuntos de dados testados.
-Novamente, a coluna \textit{Configuração} indica a forma que a lista de saída foi gerada. 
+Novamente, a coluna \textit{Configuração} indica a forma como a lista de saída foi gerada. 
 O valor \textit{classificador} significa que nestes testes usamos a distribuição de probabilidades do classificador para gerar a lista de saída, ou seja, é o \textit{benckmark} daquele teste.
 Já o valor \textit{metaclassificador} significa que o método proposto (versão dinâmica) foi utilizado.
 No intuito de facilitar a comparação, apresentamos as acurácias 1, 2 e 3 do classificador e do metaclassificador sempre em linhas subsequentes.
@@ -215,30 +370,31 @@ Note que a contagem da tabela \ref{tab:acuracias2} se refere aos testes individu
 
 \begin{table}[h!]
   \begin{center}
+    \resizebox{\textwidth}{!} {
     \begin{tabular}{ccccc}
       \hline
       \textbf{Algoritmo} & \textbf{Configuração} & \textbf{1-Acurácia} & \textbf{2-Acurácia} & \textbf{3-Acurácia}\\
       \hline
 
-      Árvore de Decisão & classificador & 75.61 & 82.26 & 84.88\\
-      Árvore de Decisão & metaclassificador & 75.69 & 87.63 & 92.78\\
-      Naive Bayes & classificador & 66.72 & 78.92 & 86.3\\
-      Naive Bayes & metaclassificador & 66.72 & 78.93 & 86.3\\
-      Random Forest & classificador & 82.62 & 91.15 & 95.12\\
-      Random Forest & metaclassificador & 82.63 & 90.96 & 95.25\\
-      SVM & classificador & 72.71 & 84.22 & 89.58\\
-      SVM & metaclassificador & 72.71 & 84.08 & 89.92\\
-      KNN 5 & classificador & 75.85 & 86.11 & 90.06\\
-      KNN 5 & metaclassificador & 75.85 & 86.01 & 91.05\\
-      KNN 7 & classificador & 74.79 & 85.69 & 89.75\\
-      KNN 7 & metaclassificador & 74.62 & 85.4 & 90.43\\
-      KNN 9 & classificador & 74.07 & 85.45 & 89.93\\
-      KNN 9 & metaclassificador & 74.02 & 84.41 & 89.85\\
-
+Árvore de Decisão	&	classificador	&	78.97	&	86.85	&	90.9	\\
+Árvore de Decisão	&	metaclassificador	&	79.1	&	91.37	&	96.37	\\
+NaiveBayes	&	classificador	&	71.7	&	85.44	&	93.68	\\
+NaiveBayes	&	metaclassificador	&	71.7	&	85.36	&	93.64	\\
+SVM	&	classificador	&	77.86	&	90.2	&	95.62	\\
+SVM	&	metaclassificador	&	77.82	&	90.16	&	95.71	\\
+RandomForest	&	classificador	&	84.24	&	93.74	&	97.75	\\
+RandomForest	&	metaclassificador	&	84.28	&	93.21	&	97.67	\\
+KNN 5	&	classificador	&	80.66	&	90.84	&	94.73	\\
+KNN 5	&	metaclassificador	&	80.45	&	91.3	&	96.24	\\
+KNN 7	&	classificador	&	80.17	&	90.97	&	95.3	\\
+KNN 7	&	metaclassificador	&	79.92	&	91.28	&	96.18	\\
+KNN 9	&	classificador	&	80.03	&	91.04	&	95.67	\\
+KNN 9	&	metaclassificador	&	79.93	&	90.56	&	95.93	\\
 
       \hline
     \end{tabular}
-    \caption{Valores de acurácia médios por algorítimo}
+    }
+    \caption{Valores de acurácia médios por algoritmo}
     \label{tab:acuracias}
   \end{center}
 \end{table}
@@ -250,9 +406,9 @@ Note que a contagem da tabela \ref{tab:acuracias2} se refere aos testes individu
       \textbf{Ganhador} & \textbf{1-Acurácia} & \textbf{2-Acurácia} & \textbf{3-Acurácia}\\
       \hline
 
-      Classificador & 20 & 16 & 13\\
-      Metaclassificador & 20 & 34 & 29\\
-      Empate & 30 & 20 & 28\\
+Classificador	&	20	&	18	&	16	\\
+Metaclassificador	&	19	&	32	&	26	\\
+Empate	&	31	&	20	&	28	\\
 
       \hline
     \end{tabular}
@@ -267,5 +423,125 @@ Como foi explicado, quando ocorre empate de probabilidades na construção desse
 Desta forma, as diferenças na \textit{1-Acurácia} observadas na Tabela \ref{tab:acuracias} são devidas ao tratamento diferente nestes casos de empate.
 
 Ainda na Tabela \ref{tab:acuracias}, note que o metaclassificador destacou-se nos testes com o algoritmo Árvore de Decisão.
-Ele teve cerca de 5\% de vantagem na \textit{2-Acurácia} e 8\% na \textit{3-Acurácia}.
+Ele teve cerca de 4,5\% de vantagem na \textit{2-Precision} e 5,5\% na \textit{3-Precision}.
 Nos demais casos as diferenças nas acurácias foram muito pequenas, em alguns o classificador teve um resultado marginalmente melhor em outros o metaclassificador.
+
+\subsection{Análise do \textit{Precision} e \textit{Recall}}
+
+As Tabelas \ref{tab:prec_micro} e \ref{tab:prec_pon} exibem respectivamente os valores de \textit{Micro Precision} e \textit{Precision Ponderado} médios para cada algoritmo.
+Estes valores foram gerados calculando-se a média aritimética de cada métrica ao longo de todos os conjuntos de dados testados.
+Como anteriormente, a coluna \textit{Configuração} denota a forma como a lista de saída foi gerada. 
+Nesta coluna o valor \textit{classificador} indica o \textit{benckmark} do teste enquanto o valor \textit{metaclassificador} o resultado do método proposto (versão dinâmica).
+Note que, os \textit{Precisions} 1, 2 e 3 do classificador e do metaclassificador são apresentados em linhas subsequentes.
+
+Como já era esperado, o \textit{Micro Recall} resultou nos mesmos valores que o \textit{Micro Precision}, exibidos na Tabela \ref{tab:prec_micro}.
+Além disso, o \textit{Recall Ponderado} também resultou nesses mesmos valores.
+Portanto não apresentaremos tabelas com valores de \textit{Recall}.
+
+\begin{table}[h!]
+  \begin{center}
+    \resizebox{\textwidth}{!} {
+    \begin{tabular}{ccccc}
+      \hline
+      \textbf{Algoritmo} & \textbf{Configuração} & \textbf{1-Precision} & \textbf{2-Precision} & \textbf{3-Precision}\\
+      \hline
+
+Árvore de Decisão	&	classificador	&	79.1	&	88.03	&	90.8	\\
+Árvore de Decisão	&	metaclassificador	&	79.1	&	91.37	&	96.37	\\
+NaiveBayes	&	classificador	&	71.7	&	85.44	&	93.68	\\
+NaiveBayes	&	metaclassificador	&	71.7	&	85.36	&	93.64	\\
+SVM	&	classificador	&	77.82	&	89.9	&	94.99	\\
+SVM	&	metaclassificador	&	77.82	&	90.16	&	95.71	\\
+RandomForest	&	classificador	&	84.28	&	93.44	&	97.53	\\
+RandomForest	&	metaclassificador	&	84.28	&	93.21	&	97.67	\\
+KNN 5	&	classificador	&	80.45	&	89.46	&	93.38	\\
+KNN 5	&	metaclassificador	&	80.45	&	91.3	&	96.24	\\
+KNN 7	&	classificador	&	79.92	&	89.92	&	94.01	\\
+KNN 7	&	metaclassificador	&	79.92	&	91.28	&	96.18	\\
+KNN 9	&	classificador	&	79.93	&	89.98	&	94.24	\\
+KNN 9	&	metaclassificador	&	79.93	&	90.56	&	95.93	\\
+
+      \hline
+    \end{tabular}
+    }
+    \caption{Valores de \textit{Micro Precision} médios por algoritmo}
+    \label{tab:prec_micro}
+  \end{center}
+\end{table}
+
+\begin{table}[h!]
+  \begin{center}
+    \resizebox{\textwidth}{!} {
+    \begin{tabular}{ccccc}
+      \hline
+      \textbf{Algoritmo} & \textbf{Configuração} & \textbf{1-Precision} & \textbf{2-Precision} & \textbf{3-Precision}\\
+      \hline
+
+Árvore de Decisão	&	classificador	&	78.68	&	89.98	&	93.3	\\
+Árvore de Decisão	&	metaclassificador	&	78.68	&	90.74	&	96.27	\\
+NaiveBayes	&	classificador	&	73	&	85.84	&	93.4	\\
+NaiveBayes	&	metaclassificador	&	73	&	85.71	&	93.32	\\
+SVM	&	classificador	&	75.99	&	87.3	&	93.26	\\
+SVM	&	metaclassificador	&	75.99	&	87.61	&	93.97	\\
+RandomForest	&	classificador	&	84.31	&	93.06	&	97.26	\\
+RandomForest	&	metaclassificador	&	84.31	&	92.41	&	97.39	\\
+KNN 5	&	classificador	&	79.55	&	89.48	&	94.01	\\
+KNN 5	&	metaclassificador	&	79.55	&	90.9	&	96.05	\\
+KNN 7	&	classificador	&	79.25	&	89.76	&	94.36	\\
+KNN 7	&	metaclassificador	&	79.25	&	91	&	95.94	\\
+KNN 9	&	classificador	&	78.99	&	89.77	&	94.54	\\
+KNN 9	&	metaclassificador	&	78.99	&	89.9	&	95.65	\\
+
+      \hline
+    \end{tabular}
+    }
+    \caption{Valores de \textit{Precision Ponderado} médios por algoritmo}
+    \label{tab:prec_pon}
+  \end{center}
+\end{table}
+
+Além disso, é possivel observar de forma rápida nas tabelas \ref{tab:count_micro} e \ref{tab:count_pon} quantas vezes cada configuração obteve o melhor resultado para cada métrica.
+Lembre que as contagens nestas tabelas se referem aos testes individuais, i.e., um teste por combinação de algoritmo e conjunto de dados.
+
+\begin{table}[h!]
+  \begin{center}
+    \begin{tabular}{cccc}
+      \hline
+      \textbf{Ganhador} & \textbf{1-Precision} & \textbf{2-Precision} & \textbf{3-Precision}\\
+      \hline
+
+Classificador	&	0	&	10	&	7	\\
+Metaclassificador	&	0	&	40	&	43	\\
+Empate	&	70	&	20	&	20	\\
+
+      \hline
+    \end{tabular}
+    \caption{\textit{Micro Precision}: Número de vezes que cada configuração ganhou}
+    \label{tab:count_micro}
+  \end{center}
+\end{table}
+
+\begin{table}[h!]
+  \begin{center}
+    \begin{tabular}{cccc}
+      \hline
+      \textbf{Ganhador} & \textbf{1-Precision} & \textbf{2-Precision} & \textbf{3-Precision}\\
+      \hline
+
+Classificador	&	0	&	15	&	12	\\
+Metaclassificador	&	0	&	37	&	39	\\
+Empate	&	70	&	18	&	19	\\
+
+      \hline
+    \end{tabular}
+    \caption{\textit{Precision Ponderado}: Número de vezes que cada configuração ganhou}
+    \label{tab:count_pon}
+  \end{center}
+\end{table}
+
+É possível observar nas Tabelas \ref{tab:prec_micro} e \ref{tab:prec_pon} que os valores da \textit{1-Precision} são muito próximos para o classificador (\textit{Benckmark}) e o metaclassifficador.
+Também é possível notar que, assim como ocorreu com as acurácias, o metaclassificador superou o \textit{benchmark} por margens maiores com o algoritmo Árvore de Decisão.
+Ele teve cerca de 3,5\% de vantagem na \textit{2-Precision (Micro)}, 5,5\% na \textit{3-Precision (Micro)} e 3\% na \textit{3-Precision (Ponderada)}. 
+Entretanto desta vez o algoritmo KNN também conseguiu se destacar na \textit{2-Precision} e \textit{3-Precision}, tanto nas versões \textit{Micro} quanto \textit{Ponderada}. 
+Ele superou o \textit{benchmark} por margens superiores a 1\% nas \textit{2-Precision} e 2\% nas \textit{3-precision}.
+Nos demais casos as diferenças entre classificador e metaclassificador foram muito pequenas (inferiores à 1\%).
