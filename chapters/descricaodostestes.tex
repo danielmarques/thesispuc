@@ -545,3 +545,168 @@ Ele teve cerca de 3,5\% de vantagem na \textit{2-Precision (Micro)}, 5,5\% na \t
 Entretanto desta vez o algoritmo KNN também conseguiu se destacar na \textit{2-Precision} e \textit{3-Precision}, tanto nas versões \textit{Micro} quanto \textit{Ponderada}. 
 Ele superou o \textit{benchmark} por margens superiores a 1\% nas \textit{2-Precision} e 2\% nas \textit{3-precision}.
 Nos demais casos as diferenças entre classificador e metaclassificador foram muito pequenas (inferiores à 1\%).
+
+\section{Testes com Dados Sintéticos}
+
+Nos experimentos com conjuntos de dados retirados de bases públicas as métricas indicaram que o resultado do metaclassificador foi similar ao do \textit{benchmark}, superando este em alguns casos.
+Entretanto, no intuito de entender melhor o comportamento do método proposto decidimos conduzir uma série de testes com dados sintéticos.
+Estes dados foram construídos para emular características específicas nos dados, como por exemplo as quantidades de instâncias de cada classe balanceadas ou não.
+Desta forma pudemos utilizar as métricas \textit{k-Acurácia}, \textit{k-Precision} e \textit{k-Recall} para entender como o método proposto responde à essas características dos conjuntos de dados.
+
+\subsection{Descrição dos conjuntos de dados Sintéticos}
+\label{sub:descsinteticos}
+
+Todos os conjuntos de dados sintéticos que criamos são compostos por três classes: azul, vermelha e verde.
+Para gerar os pontos dessas classes utilizamos distribuições normais bivariadas.
+Veja a seção Motivação do Capítulo \ref{chap:metodoproposto} para mais detalhes sobre esse tipo de distribuição.
+Sendo assim, cada instância tem dois atributos numéricos gerados aleatóriamente de acordo com a distribuição de sua classe.
+Utilizamos a mesma matriz de covariâncias nas distribuições das três classes (apresentada abaixo).
+Por outro lado, variamos as médias das distribuições e as quantidades de pontos de cada classe.
+
+\begin{equation*}
+\text{Matriz de Covariâncias} =\[\left( 
+\begin{array}{cc}
+	2,5  & 1,5 \\
+	1,5 & 2,5 
+\end{array} 
+\right)\]
+\end{equation*}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=120mm,scale=0.7]{images/dist1500-1500-5.eps}
+  \includegraphics[width=120mm,scale=0.7]{images/dist1000-2500-5.eps}
+  \includegraphics[width=120mm,scale=0.7]{images/dist250-4000-5.eps}
+  \caption{Conjuntos de dados sintéticos com diferentes quantidades de instâncias de cada classe}
+  \label{fig:dist_diferentes}
+\end{figure}
+
+Todos os conjuntos de dados criados tem 4500 pontos.
+Entretanto versões com proporções diferentes de instâncias das classes foram criadas: \textit{balanceado}, \textit{normal} e \textit{desbalanceado}.
+A tabela \ref{tab:dados_sinteticos} mostra as quantidades de instâncias de classes para as diferentes versões de dados.
+A figura \ref{fig:dist_diferentes} apresenta um conjunto de dados de cada versão.
+Note que os três conjuntos de dados da figura tem quantidades diferentes de instâncias de cada classe.
+Todavia as médias das distribuições de cada classe nos diferentes conjuntos de dados são as mesmas.
+
+\begin{table}[h!]
+  \begin{center}
+    \begin{tabular}{cccc}
+      \hline
+      \textbf{Conjunto de Dados} & \textbf{Verde} & \textbf{Azul} & \textbf{Vermelho}\\
+      \hline
+
+Blanceado (B)	&	 1500 & 1500 & 1500	\\
+Normal (N)	&	 2500 & 1000 & 1000	\\
+Desbalanceado (D)      & 4000 & 250 & 250	\\
+
+      \hline
+    \end{tabular}
+    \caption{Versões de quantidades de instâncias de cada classe}
+    \label{tab:dados_sinteticos}
+  \end{center}
+\end{table}
+
+Além disso, os conjuntos de dados com a mesma distribuição também foram gerados em três versões diferentes.
+Estas versões se diferenciam pelo posicionamento relativo das distribuições de classes: \textit{próxima}, \textit{adjacente} e \textit{distante}.
+A figura \ref{fig:dist_iguais} ilustra essas três versões para o conjunto de dados \textit{desbalanceado}.
+Note que na versão \textit{próxima} a média da classe dominante (verde) está entre as médias das outras duas classes.
+Nas versões \textit{adjacente} e \textit{distante} a média da classe dominante é afastada sucessivamente das outras duas classes.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=120mm,scale=0.7]{images/dist250-4000-5.eps}
+  \includegraphics[width=120mm,scale=0.7]{images/dist250-4000-12.eps}
+  \includegraphics[width=120mm,scale=0.7]{images/dist250-4000-20.eps}
+  \caption{Conjuntos de dados sintéticos com a média da distribuição da classe dominante (verde) deslocada}
+  \label{fig:dist_iguais}
+\end{figure}
+
+\subsection{Resultados dos Testes com os Dados Sintéticos}
+
+Utilizamos nove conjuntos de dados sintéticos diferentes nos testes apresentados nesta seção.
+Cada conjunto combina a caracteristica \textit{balanceado}, \textit{normal} ou \textit{ desbalanceado} com uma das configurações de posições de distribuições de classe \textit{próxima}, \textit{adjacente} ou \textit{distante}.
+Com isso pudemos testar o comportamento do método de duas formas.
+Na primeira verificamos como o método reage à variações no balanceamento entre classes.
+Na segunda estudamos a influência da posição das distribuições de classes, i.e. elas podem estar sobrepostas, ter apenas uma interseção parcial ou serem totalmente disjuntas.
+
+Para medir os resultados utilizamos as mesmas métricas \textit{k-Acurácia}, \textit{k-Precision} e \textit{k-Recall} apresentadas anterirormente.
+Lembre que essas duas últimas vem em três tipos \textit{Micro}, \textit{Ponderada} (média ponderada das classes) e \textit{Macro} (média aritmética das classes).
+
+Separamos na Tabela \ref{tab:ganho_meta} alguns dos resultados de destaque encontrados durante os experimentos com dados sintéticos.
+É importante notar que os números apresentados nesta tabela são as diferenças entre os resultados do metaclassificador e do classificador simples.
+Portanto um resultado positivo significa que o médodo superou o \textit{benchmark} por um percentual com aquele valor.
+
+Como vimos anteriormente o \textit{Micro Precision} e o \textit{Micro Recall} sempre são iguais.
+Além disso, o \textit{Precision Ponderado} e o \textit{Recall Ponderado} tem valores muito próximos das versões \textit{Micro}.
+Portanto não apresentamos todas as métricas na tabela \ref{tab:ganho_meta}, apenas aquelas que foram mais informativas neste teste.
+
+Os resultados apresentados ne Tabela \ref{tab:ganho_meta} se referem à testes conduzidos com conjuntos de dados cuja posição das distribuições das classes era \textit{próxima}.
+De fato os centros das distribuições de classes nesses conjuntos de dados são \textit{vermelha} = (3,3), \textit{verde} = (5,5) e \textit{azul} = (7,7).
+A partir disso, variamos o balanceamento entre as classes ao longo do teste.
+A Tabela \ref{tab:ganho_meta} identifica se os dados são balanceados (B), normais (N) ou desbalanceados (D), conforme foi detalhado na seção \ref{sub:descsinteticos}.
+
+\begin{table}[h!]
+  \begin{center}
+   \resizebox{\textwidth}{!} {
+   \begin{tabular}{cccccc}
+      \hline
+      \textbf{Alagoritmo} & \textbf{Dados} &  \textbf{2-Acu.} & \textbf{2-Prec./Rec.} & \textbf{2-Prec.} & \textbf{2-Rec.} \\
+          &     &     & \textbf{(Micro)} & \textbf{(Macro)} & \textbf{(Macro)} \\
+      \hline
+
+
+Árvore	&	B	&	0.24	&	0.33	&	0.32	&	0.33	\\
+Árvore	&	N	&	0.99	&	0.98	&	1.45	&	1.45	\\
+Árvore	&	D	&	1.04	&	1.04	&	6.8	&	6.27	\\
+KNN 5	&	B	&	3.46	&	8	&	7.92	&	8	\\
+KNN 5	&	N	&	2.78	&	4.27	&	5.41	&	4.4	\\
+KNN 5	&	D	&	1.69	&	1.73	&	7.06	&	9.9	\\
+KNN 7	&	B	&	7.32	&	10.58	&	8.53	&	9.01	\\
+KNN 7	&	N	&	-0.41	&	-0.67	&	-0.97	&	-0.78	\\
+KNN 7	&	D	&	-0.38	&	0	&	0	&	0	\\
+KNN 9	&	B	&	1.64	&	4.29	&	4.29	&	4.29	\\
+KNN 9	&	N	&	1.12	&	2	&	2.48	&	2.58	\\
+KNN 9	&	D	&	1.04	&	1	&	4.61	&	5.88	\\
+R. Forest	&	B	&	0.99	&	1.64	&	1.64	&	1.64	\\
+R. Forest	&	N	&	0.53	&	0.84	&	1	&	1.09	\\
+R. Forest	&	D	&	0.67	&	0.62	&	3.37	&	3.61	\\
+
+      \hline
+    \end{tabular}
+    }
+    \caption{Valores percentuais de ganho do Metaclassificador em relação ao \textit{Benchmark}}
+    \label{tab:ganho_meta}
+  \end{center}
+\end{table}
+
+É possível observar na Tabela \ref{tab:ganho_meta} que o algorítmo \textit{Árvore de Decisão } ganha por uma margem maior que 6\% no \textit{2-Precision Macro} e no \textit{2-Recall Macro} quando os dados são \textit{desbalanceados}.
+Em contraste, neste mesmo cenário, o ganho é de apenas 1\% para as métricas \textit{2-Acurácia}, \textit{2-Precision Micro} e \textit{2-Recall Micro}.
+
+Note entretanto que essas últimas métricas não tratam todas as classes do conjunto de dados por igual.
+A Acurácia é uma medida geral do desempenho do modelo que simplesmente avalia a quantidade de instâncias corretamente classificadas.
+Enquanto a versão \textit{Micro} do \textit{Precision} e \textit{Recall} contabilizam os totais de \textit{true positives}, \textit{false positives} e \textit{false negatives} para a partir destes calcularem os valores finais.
+Desta forma, uma classe dominante com maior quantidade de instâncias, como é o caso da classe \tectit{verde}, tem maior influência no valor final dessas métricas.
+Por outro lado, as versões \textit{Macro} do \textit{Precision} e \textit{Recall} são uma \textit{média aritmética} das métricas de cada classe.
+Portanto, em um cenário com dados desbalanceados, essas últimas tem a sensibilidade para capturar de forma mais evidente as variações de desempenho do modelo para todas as classes do conjunto de dados.
+
+Seguindo com a mesma análise das as métricas \textit{Macro Precision} e \textit{Macro Recall}, observamos ganhos em outros algorítimos além das \textit{Árvores de Decisão}.
+Para algorítmo \textit{KNN 5} os ganhos foram de aproximadamente 7\% e 10\%, para o \textit{KNN 9} de 4,5\% e 6\% e para o \textit{Random Forest} de 3,5\%.
+Desta forma podemos concluir que o método proposto foi eficiente para melhorar o resultado desses algorítimos em um cenário com dados desbalanceados e com distribuições de classes muito próximas.
+
+Outro conjunto notável de resultados que podem ser vistos na Tabela \ref{tab:ganho_meta} são aqueles referentes aos dados perfeitamente balanceados.
+Note que neste contexto o algorítmo \textit{KNN 5} exibe ganhos de cerca de 8\% em todas as métricas \textit{Precision} e \textit{Recall}.
+Um ganho de desempeho similar, embora menor, pode ser visto nos testes com os algorítmos \textit{KNN 9} e \textit{Random Forest}.
+Este cenário de testes é especial pois representa uma tarefa mais dificil para muitos algorítmos.
+Lembre que neste caso as médias das distribuições das três classes do conjunto de dados estão muito próximas e portanto estas tem uma grande interseção no espaço amostral (vide primeira imagem da Figura \ref{fig:dist_diferentes}).
+Este resultado demosntra que o método proposto também melhorou o desempenho desses algoritimos neste caso.
+
+Por fim, ainda é possivel observar ganhos de 3,5\% a 5,5\% no \textit{Precison} e \textit{Recall} para o algorítmo \textit{KNN 5} nos testes com dados do tipo \textit{normal}.
+Recorde que estes são um meio termo entre os dados \textit{balanceados} e \textit{desbalanceados}.
+Ganhos menores são observaveis na mesma situação para os algorítmos \textit{KNN 9} e \textit{Random Forest}.
+Novamente este resultado reforça que o método proposto melhora o resultado desses algorítmos para conjuntos de dados cujas classes tem distribuições com médias muito próximas e que portanto se sobrepõem.
+
+Como citamos, diversos outros testes com dados sintéticos foram feitos mas mostramos apenas os resultados de interesse nesta seção.
+Realizamos os mesmos testes discutidos aqui com dados onde as disitribuições das classes estão mais afastadas (\textit{adjacente} e \textit{distante}), conforme ilustrado na figura \ref{fig:dist_iguais}.
+Porém nestes demais cenários o metaclassificador não se destacou de maneira substancial.
+Embora ele tenha apresentado algum ganho na maioria dos casos, estes são iguais ou inferiores a 1\%.
+Para ver o restante dos resultados com os dados sintéticos consulte o apêndice desta dissertação.
