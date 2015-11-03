@@ -38,7 +38,7 @@ Embora o meta-classificador desenvolvido possa ser utilizado para tarefas de \te
 
 \section{Contribuições}
 
-Neste trabalho propomos um método para geração de \textit{rankings} que é capaz de utilizar qualquer tipo de classificador para esta tarefa.
+Neste trabalho propomos um método para geração de \textit{rankings} capaz de utilizar qualquer tipo de classificador para esta tarefa.
 De fato, como já citamos, da forma que foi implementado ele funciona como um meta-classificador.
 
 O método elimina ruído sucessivamente do conjunto de treino à medida que a lista de saída é construída.
@@ -62,7 +62,7 @@ Nesta versão, somente os classificadores necessários para construção daquela
 Com isso o método dinâmico conseguiu tempos de treinamento melhores do que a versão anteriror.
 Por outro lado, seus tempos de classificação foram piores visto que o modelo é treinado durante a construção da lista de saída.
 
-Para avaliar os resultados de problemas como o da rede, desenvolvemos para este trabalho métricas denominadas \textit{k-acurácias}.
+Para avaliar os resultados de problemas como o da rede, desenvolvemos para este trabalho métricas denominadas \textit{k-Acurácia}, \textit{k-Precision} e \textit{k-Recall}.
 Onde \textit{k} denota a posição da lista de saída a qual cada uma se refere, e.g. a 1-acurácia remete à primeira posição da lista, a 2-acurácia à segunda e assim por diante.
 Note que essas métricas refletem o cenário da rede \textit{R} descrito anteriormente.
 Considere que equipes são enviadas para corrigir os erros; a 1-acurácia se aplica ao cenário onde uma equipe foi enviada, a 2-acurácia duas equipes e assim por diante.

@@ -1,0 +1,41 @@
+\chapter{Conclusão}
+
+Retornemos agora ao problema da rede \textit{R} com \textit{n} nódos que podem apresentar falhas.
+Considere que temos conjuntos de dados com medições sobre o funcionamento da rede os quais podemos utilizar para aprendizado supervisionado.
+Imagine que quando ocorre uma falha é necessário deslocar equipes para efetuar os reparos, mas essa operação tem alto custo.
+Também não é aceitável que a rede fique inoperante por muito tempo.
+No pior caso teríamos que enviar \textit{n} equipes para verificar todos os nódos rapidamente.
+
+O ideal neste cenário seria descobrir o nódo falho e dirigir apenas uma equipe ao local, minimizando assim o custo e tempo de reparo.
+Mas recorde que é muito dificil prever, com total certeza, onde uma falha ocorre nesta rede usando aprendizado de máquina tradicional.
+Por isso propomos a utilização de \textit{ranking} para criar listas com os nódos mais prováveis onde a falha ocorreu.
+Se garantirmos que o nódo com falha está entre as \textit{k} primeiras posições da lista, saberemos que apenas \textit{k} equipes precisam ser enviadas para resolver o problema.
+
+Note que as métricas \textit{k-Acurácia}, \textit{k-Precision} e \textit{k-Recall}, propostas neste trabalho, capturam exatamente esta problemática.
+Por exemplo, se temos um valor de \textit{3-Acurácia} de 100\% isso garante que se enviarmos 3 equipes, uma à cada  nódo das três primeiras posições do \textit{ranking}, conseguiremos encontrar e corrigir a falha.
+Sendo assim, este trabalho se focou em desenvolver um método de geração de \textit{rankings} com o intuito de maximizar o resultado obtido com essas métricas.
+
+Como vimos, o método proposto foi implementado na forma de um metaclassificador que pode utilizar qualquer outro classificador internamente.
+Exploramos essa característica durante os estudos experimentais, onde o metaclassificador foi testado em conjunto com diversos classificadores famosos.
+
+Outra característica importante do método proposto é o tratamento dado ao conjunto de treino.
+Isto é, à medida que o metaclassificador gera o \textit{ranking}, ele também remove dos dados as intâncias das classes que já foram colocadas na lista.
+Desta forma o classificador interno responsável por gerar o próximo elemento da lista é treinado com dados sem a influência das classes anteriores.
+
+Durante o estudo exeprimental conjuntos de dados sintéticos foram construídos para avaliar essa característica.
+Alguns desses dados simulavam situações onde a influência de uma classe poderia prejudicar o desempenlho de um classificador, e.g. dados desbalanceados com uma classe dominante.
+Neste contexto observamos ganhos de desempenho substanciais do método proposto em realção o \textit{Benchmark}.
+
+Os testes conduzidos neste trabalho utilizaram diversos dados retirados de bases públicas.
+De forma geral, conseguimos identificar que o método proposto contribui para a melhoria do desempenho de diversos classificadores na geração de \textit{rankings}.
+Em grande parte dos casos essas melhorias foram pequenas, da ordem de 1\%.
+Porém podemos destacar que com os algoritmos \textit{Árvore de Decisão} e \textit{k-Nearest Neighbors} ganhos maiores foram medidos.
+Para reforçar esta conclusão exploramos métricas além da \textit{k-Acurácia}.
+Durante o estudo com dados sintéticos, utilizando o \textit{Macro k-Precision} e o \textit{Macro k-Recall}, pudemos observar com maior clareza esses ganhos de desempenho.
+
+Não obstante o foco deste trabalho tenha sido o problema da rede, inúmeras outras tarefas de destaque tem características análogas.
+Muitas destas são aplicações de comun utilização do público geral atualmente como o \textit{ranking} de páginas na \textit{web}, sistemas de recomendação de produtos e sistemas de reconhecimento de voz e imagens.
+Portanto, o metaclassificdor pode ser eficaz em diversos desses casos.
+Além disso, note que as métricas desenvolvidas se mostraram pertinentes na avaliação de modelos aplicados à problemas de \textit{ranking}.
+Por isso, elas podem contribuir de forma geral para a análise de problemas desse tipo.
+Sendo assim, o que foi produzido neste trabalho, tanto para a melhoria de geração de \textit{rankings} como para a análise de desmpenho dos modelos, pode ser aplicado na solução de diversos problemas reais.
