@@ -3,37 +3,46 @@
 
 Neste capítulo discutiremos os testes realizados para avaliar o desempenho do método proposto.
 Apresentaremos os conjuntos de dados usados e suas características gerais. 
-Os algoritmos utilizados internamente no metaclassificador, assim como os \textit{Benckmarks} dos testes também serão mostrados.
+Os algoritmos utilizados internamente no metaclassificador, assim como os \textit{Benchmark} dos testes também serão mostrados.
 Por fim, discutiremos os resultados obtidos ao longo dos diversos testes.
 
 \section{O Framework Weka}
 
 Neste trabalho utilizamos o Framework \textit{Weka} para construir o metaclassificador que implementa nosso método proposto. 
 O \textit{Weka} é uma coleção de algoritmos de aprendizado para tarefas gerais de mineração de dados \cite{Hall}.
-Ele contém ferramentas de pre-processamento, classificação, regressão, clusterização, etc.
+Ele contém ferramentas de preprocessamento, classificação, regressão, clusterização, etc.
 Ele pode ser utilizado para aplicar os algoritmos aos dados por meio de sua interface gráfica ou pode ser chamado diretamente de um código Java.
 
-\section{\textit{Benckmark} dos testes}
+\section{\textit{Benchmark} dos testes}
 
-Para avaliar a performance do método proposto um \textit{benckmark} específico é empregado em cada teste.
-Quando um algoritmo é utilizado internamente no metaclassificador, e.g. Árvore de Decisão, o resultado deste mesmo algoritmo sem o metaclassificador é usado como \textit{benckmark}.
+Para avaliar a performance do método proposto um \textit{benchmark} específico é empregado em cada teste.
+Quando um algoritmo é utilizado internamente no metaclassificador, e.g. Árvore de Decisão, o resultado deste mesmo algoritmo sem o metaclassificador é usado como \textit{benchmark}.
 Isso é possível pois as classes que implementam estes algoritmos, que fazem parte do \textit{framework} Weka, são capazes de gerar uma distribuição de probabilidades de classes como saída.
-A lista de saída que servirá como \textit{benckmark} do teste é então montada a partir desta distribuição de probabilidades.
+A lista de saída que servirá como \textit{benchmark} do teste é então montada a partir desta distribuição de probabilidades.
 Isto é, as classes são colocadas na lista na ordem decrescente de probabilidade.
 Por exemplo, caso tenhamos as classes A, B, C e D com probabilidades 0.2, 0.25, 0.1 e 0.45 respectivamente, a lista de saída será D, B, A e C.
 
 \section{As métricas de \textit{k-Acurácia}}
 
-Um dos conjuntos de métricas empregadas na avaliação da performance do método proposto é chamado de \textit{k-Acurácia}. 
-Como foi discutido, para montar o \textit{ranking}, o meta-classificador recebe a instância como entrada e retorna uma lista ordenada com as \textit{k} classes mais prováveis para a mesma.
-A métrica \textit{k-Acurácia} foi arquitetada para avaliar a estrutura desse tipo de lista.
-Neste trabalho, consideramos a posição da classe verdadeira na lista como o único fator importante.
-Portanto, a \textit{k-Acurácia} ignora qualquer outro fator que normalmente é analisado por métricas mais usuais como, por exemplo, inversões na lista.
+Recorde o caso da rede \textit{R} com \textit{n} nodos que podem apresentar falhas.
+Imagine que sempre que a rede apresenta uma falha precisamos enviar uma ou mais equipes à nodos diferentes no intuito de corrigir o problema rapidamente.
+No pior caso, sem qualquer indicio de onde a falha ocorreu, enviaremos \textit{n} equipes.
+Porém, se por exemplo estivermos na dúvida entre apenas três nodos, saberemos que somente três equipes serão necessárias.
 
-A \textit{k-Acurácia} é na verdade um conjunto de métricas. 
+As métricas apresentadas nessa seção foram desenvolvidas para avaliar a performance dos modelos de acordo com esse cenário.
+No caso da rede, precisamos de métricas que indiquem o grau de confiança que podemos ter ao enviar um certo número de equipes.
+Como foi discutido, o metaclassificador recebe uma instância como entrada, neste caso medições sobre o estado de \textit{R} com ocorrência de falha.
+Ele então retorna uma lista ordenada com as \textit{k} classes (nodos) mais prováveis.
+De acordo com o problema proposto, a posição da classe verdadeira (nodo com falha) nesta lista é o fator mais importante.
+Isto é, se a classe verdadeira aparece em uma das três primeiras posições da lista, este é o caso onde precisamos de apenas três equipes para efetuar o reparo.
+
+Desta forma, a \textit{k-Acurácia} é na verdade um conjunto de métricas.
 Elas variam de 1 até \textit{k}; i.e. \textit{1-Acurácia}, \textit{2-Acurácia} até \textit{k-Acurácia}; onde \textit{k} denota o tamanho da lista retornada.
 Os valores das acurácias para uma dada instância dependem da posição da classe verdadeira na lista.
 Se ela está na posição \textit{i}, onde $1 \leq \textit{i} \leq \textit{k}$, então as acurácias anteriores à \textit{i} tem o valor zero e o restante o valor um.
+Com isso, a \textit{i-Acurácia} indica a certeza da classe verdadeira aparecer na lista até a posição \textit{i}.
+Ou, sob a ótica do problema da rede, a confiança em reparar a falha se enviarmos esse mesmo número de equipes.
+
 Observe na Figura \ref{fig:descricaodostestes01} diversos exemplos de listas e suas acurácias.
 Para estes exemplos imagine que temos um conjunto de dados com cinco classes diferentes: A, B, C, D e E.
 Considere também que a classe verdadeira em todos os casos ilustrados na figura é A (em vermelho).
@@ -46,8 +55,8 @@ Cada linha do exemplo refere-se então a lista retornada para uma instância dis
   \label{fig:descricaodostestes01}
 \end{figure}
 
-Existe ainda uma diferença no cálculo da \textit{k-Acurácia} para o \textit{benckmark} dos testes.
-Como a lista de \textit{benckmark} é construída a partir de uma distribuição de probabilidades, podem ocorrer empates.
+Existe ainda uma diferença no cálculo da \textit{k-Acurácia} para o \textit{benchmark} dos testes.
+Como a lista de \textit{benchmark} é construída a partir de uma distribuição de probabilidades, podem ocorrer empates.
 Quando a probabilidade da classe verdadeira está empatada com a de uma ou mais classes, múltiplas listas poderiam ser criadas a partir desta distribuição.
 Considere o caso onde temos as classes A, B e C com probabilidades 0.4, 0.4 e 0.2 respectivamente e a classe verdadeira é A.
 Com essas probabilidades podemos ter as listas de saída (1) A, B e C ou (2) B, A e C.
@@ -57,7 +66,7 @@ Entretanto, por ter acesso às probabilidades, a métrica divide os valores.
 Teremos então \textit{1-Acurácia} igual 0.5, \textit{2-Acurácia} igual a 1 e \textit{3-Acurácia} igual a 1.
 
 Note que todos os cálculos citados até agora são feitos por instância. 
-Ao gerar listas de saída para múltiplas instâncias, os valores obtidos para cada acurácia são somados, formando um valor total por \textit{i-Aurácia}.
+Ao gerar listas de saída para múltiplas instâncias, os valores obtidos para cada acurácia são somados, formando um valor total por \textit{i-Acurácia}.
 Este valor total é então dividido pelo número de instâncias que foram ranqueadas e multiplicado por cem.
 Com isso os valores das acurácias apresentados neste trabalho estão na forma de percentuais.
 
@@ -102,13 +111,13 @@ Recorde que no exemplo temos um conjunto de dados com as classes A, B, C, D e E,
 \begin{figure}[h!]
   \centering
   \includegraphics[width=120mm,scale=0.8]{images/descricaodostestes02.eps}
-  \caption{Exemplos de listas e suas contagens de tp, tn e fp.}
+  \caption{Exemplos de listas e suas contagens de tp, fn e fp.}
   \label{fig:descricaodostestes02}
 \end{figure}
 
-Da mesma forma que fizemos para as \textit{k-Acurácias} o cálculo é feito de forma diferente para o \textit{benckmark} dos testes.
+Da mesma forma que fizemos para as \textit{k-Acurácias} o cálculo é feito de forma diferente para o \textit{benchmark} dos testes.
 Lembre que quando a probabilidade da classe verdadeira está empatada com a de uma ou mais classes, múltiplas listas poderiam ser criadas a partir desta distribuição.
-Retornemos ao exemplo da seção anterior, onde tinhamos as classes A, B e C com probabilidades 0.4, 0.4 e 0.2 respectivamente e onde a classe verdadeira é A.
+Retornemos ao exemplo da seção anterior, onde tínhamos as classes A, B e C com probabilidades 0.4, 0.4 e 0.2 respectivamente e onde a classe verdadeira é A.
 Podemos ter as listas de saída (1) A, B e C ou (2) B, A e C.
 No primeiro caso as posições de um a três contam como um $tp_A$.
 No segundo caso a primeira posição conta um $fn_A$, um $fp_B$ e o restante das posições conta um $tp_A$.
@@ -150,11 +159,11 @@ Note que sempre teremos o mesmo valor para essas duas métricas pois a contagem 
 \begin{figure}[h!]
   \centering
   \includegraphics[width=120mm,scale=0.9]{images/descricaodostestes03.eps}
-  \caption{Exemplos de listas com três classes e suas contagens de tp, tn e fp.}
+  \caption{Exemplos de listas com três classes e suas contagens de tp, fn e fp.}
   \label{fig:descricaodostestes03}
 \end{figure}
 
-Para entender o cálculo do \textit{Precison Ponderado} e do \textit{Recall Ponderado} multi-classe, considere outro exemplo onde temos apenas as classes A, B e C.
+Para entender o cálculo do \textit{Precision Ponderado} e do \textit{Recall Ponderado} mutilasse, considere outro exemplo onde temos apenas as classes A, B e C.
 Este exemplo é apresentado na figura \ref{fig:descricaodostestes03}, que mostra as dez listas retornadas e suas contagem de \textit{true positives}, \textit{false positives} e \textit{false negatives} para os níveis 1 e 2.
 
 A partir disso podemos chegar às matrizes apresentadas na Tabela \ref{tab:confusao1} para as métricas de nível 1 e \ref{tab:confusao2} para as de nível 2.
@@ -162,8 +171,8 @@ Com os valores contabilizados em cada matriz é possível então calcular as mé
 Por fim, o valor final das métricas ponderadas é apresentado na Tabela \ref{tab:valores_pon}.
 
 Para fazer esses cálculos utilizamos as fórmulas de \textit{Precision} e \textit{Recall} introduzidas no Capítulo \ref{chap:conceitosbasicos}.
-Por exemplo, para chegar os valores do \textit{1-Precison Ponderado} da Tabela \ref{tab:valores_pon} deveos fazer os claculos a seguir.
-Considere que $N_A$, $N_B$ e $N_C$ são as quantidades de instãncias das classes A, B e C respectivamente.
+Por exemplo, para chegar os valores do \textit{1-Precision Ponderado} da Tabela \ref{tab:valores_pon} devemos fazer os cálculos a seguir.
+Considere que $N_A$, $N_B$ e $N_C$ são as quantidades de instancias das classes A, B e C respectivamente.
 
 \begin{align*}
 \text{1-Precision Ponderado} &= \frac{(\text{1-$Prec_A$} \times N_A)+(\text{1-$Prec_B$} \times N_B)+(\text{1-$Prec_C$} \times N_C)}{N_A+N_B+N_C} \\
@@ -276,10 +285,10 @@ Na Tabela \ref{tab:algoritmostestes} são apresentadas as configurações de alg
 
 Na Tabela \ref{tab:datasets} são apresentados as características gerais dos conjuntos de dados utilizados nos testes.
 A maioria dos conjuntos de dados foi retirado do repositório \textit{UCI Machine Learning Repository}, disponível na internet no endereço http://archive.ics.uci.edu/ml/.
-Além disso, em alguns casos o conjunto de dados foi pré-processado e reduzido para facilitar a realização dos diversos testes.
+Além disso, em alguns casos o conjunto de dados foi preprocessado e reduzido para facilitar a realização dos diversos testes.
 A exceção é o conjunto de dados Data-Zero, este não foi retirado do mesmo repositório.
-O conjunto de dados Data-Zero representa a ocorrência de falhas em uma rede com diversos nódos.
-Seu atriburo classe denota em qual nódo a falha ocorreu.
+O conjunto de dados Data-Zero representa a ocorrência de falhas em uma rede com diversos nodos.
+Seu atributo classe denota em qual nodo a falha ocorreu.
 
 \begin{table}[h!]
   \begin{center}
@@ -314,11 +323,11 @@ Os resultados para os demais conjuntos de treino seguem a mesma tendência e pod
 A coluna \textit{Configuração} indica como a lista de saída foi construída.
 Isto é, o teste pode ter empregado o modelo gerado pelo \textit{classificador} diretamente para construir a lista ou uma versão do método proposto (\textit{estática} ou \textit{dinâmica}).
 A coluna \textit{Treino} informa o tempo médio de treinamento do modelo e a coluna \textit{Teste} o tempo médio que o modelo levou para gerar as listas de saída para as instâncias.
-Estes valores foram obtidos com a média aritimética de cada Tempo ao longo das iterações da validação cruzada.
+Estes valores foram obtidos com a média aritmética de cada Tempo ao longo das iterações da validação cruzada.
 
 Note que, para todos os casos, temos que o tempo total do classificador é menor que os tempos das versões do método proposto.
 Este resultado já era esperado, visto que o método proposto precisa treinar diversos classificadores para construir a lista de saída.
-Além disso, a versão estática apresentou tempos totais maiores que a dinâmca.
+Além disso, a versão estática apresentou tempos totais maiores que a dinâmica.
 Isso ocorre pois a primeira precisa treinar todos os classificadores possíveis a partir do conjunto de treino, enquanto a segunda treina apenas aqueles que são efetivamente utilizados.
 Lembre que a versão dinâmica treina o modelo ao mesmo tempo que classifica as instâncias, portanto não é possível separar os tempos de treino e teste.
 Por fim, uma vez que ambas as versões do método incorrem o mesmo resultado, somente a versão dinâmica foi utilizada nos demais testes apresentados neste capítulo.
@@ -350,7 +359,7 @@ Por fim, uma vez que ambas as versões do método incorrem o mesmo resultado, so
       \hline
     \end{tabular}
     }
-    \caption{Tempos médios de execução em milisegundos}
+    \caption{Tempos médios de execução em milissegundos}
     \label{tab:tempostestes}
   \end{center}
 \end{table}
@@ -358,13 +367,13 @@ Por fim, uma vez que ambas as versões do método incorrem o mesmo resultado, so
 \subsection{Análise das Acurácias}
 
 A Tabela \ref{tab:acuracias} exibe os valores de acurácia médios para cada algoritmo. 
-Estes valores foram obtidos com a média aritimética de cada acurácia ao longo de todos os conjuntos de dados testados.
+Estes valores foram obtidos com a média aritmética de cada acurácia ao longo de todos os conjuntos de dados testados.
 Novamente, a coluna \textit{Configuração} indica a forma como a lista de saída foi gerada. 
-O valor \textit{classificador} significa que nestes testes usamos a distribuição de probabilidades do classificador para gerar a lista de saída, ou seja, é o \textit{benckmark} daquele teste.
+O valor \textit{classificador} significa que nestes testes usamos a distribuição de probabilidades do classificador para gerar a lista de saída, ou seja, é o \textit{benchmark} daquele teste.
 Já o valor \textit{metaclassificador} significa que o método proposto (versão dinâmica) foi utilizado.
 No intuito de facilitar a comparação, apresentamos as acurácias 1, 2 e 3 do classificador e do metaclassificador sempre em linhas subsequentes.
 
-Além disso, é possivel observar de forma rápida na tabela \ref{tab:acuracias2} quantas vezes cada configuração obteve o melhor resultado em cada acurácia.
+Além disso, é possível observar de forma rápida na tabela \ref{tab:acuracias2} quantas vezes cada configuração obteve o melhor resultado em cada acurácia.
 Note que a contagem da tabela \ref{tab:acuracias2} se refere aos testes individuais e não às médias, ou seja, um teste por combinação de algoritmo e conjunto de dados.
 
 
@@ -417,9 +426,9 @@ Empate	&	31	&	20	&	28	\\
   \end{center}
 \end{table}
 
-Observe na Tabela \ref{tab:acuracias} que os valores da \textit{1-Acurácia} são sempre muito similares para o classificador e o metaclassifficador.
-Este resultado é esperado pois o primeiro modelo interno do metaclassificador (aquele que foi treinado com todo o conjunto de treino) é sempre igual ao modelo que gera a distribuição de probabilidades para o \textit{benckmark}.
-Como foi explicado, quando ocorre empate de probabilidades na construção desse \textit{benckmark}, a métrica \textit{k-Acurácia} distribui o valor total entre as posições empatadas.
+Observe na Tabela \ref{tab:acuracias} que os valores da \textit{1-Acurácia} são sempre muito similares para o classificador e o metaclassificador.
+Este resultado é esperado pois o primeiro modelo interno do metaclassificador (aquele que foi treinado com todo o conjunto de treino) é sempre igual ao modelo que gera a distribuição de probabilidades para o \textit{benchmark}.
+Como foi explicado, quando ocorre empate de probabilidades na construção desse \textit{benchmark}, a métrica \textit{k-Acurácia} distribui o valor total entre as posições empatadas.
 Desta forma, as diferenças na \textit{1-Acurácia} observadas na Tabela \ref{tab:acuracias} são devidas ao tratamento diferente nestes casos de empate.
 
 Ainda na Tabela \ref{tab:acuracias}, note que o metaclassificador destacou-se nos testes com o algoritmo Árvore de Decisão.
@@ -429,9 +438,9 @@ Nos demais casos as diferenças nas acurácias foram muito pequenas, em alguns o
 \subsection{Análise do \textit{Precision} e \textit{Recall}}
 
 As Tabelas \ref{tab:prec_micro} e \ref{tab:prec_pon} exibem respectivamente os valores de \textit{Micro Precision} e \textit{Precision Ponderado} médios para cada algoritmo.
-Estes valores foram gerados calculando-se a média aritimética de cada métrica ao longo de todos os conjuntos de dados testados.
+Estes valores foram gerados calculando-se a média aritmética de cada métrica ao longo de todos os conjuntos de dados testados.
 Como anteriormente, a coluna \textit{Configuração} denota a forma como a lista de saída foi gerada. 
-Nesta coluna o valor \textit{classificador} indica o \textit{benckmark} do teste enquanto o valor \textit{metaclassificador} o resultado do método proposto (versão dinâmica).
+Nesta coluna o valor \textit{classificador} indica o \textit{benchmark} do teste enquanto o valor \textit{metaclassificador} o resultado do método proposto (versão dinâmica).
 Note que, os \textit{Precisions} 1, 2 e 3 do classificador e do metaclassificador são apresentados em linhas subsequentes.
 
 Como já era esperado, o \textit{Micro Recall} resultou nos mesmos valores que o \textit{Micro Precision}, exibidos na Tabela \ref{tab:prec_micro}.
@@ -500,7 +509,7 @@ KNN 9	&	metaclassificador	&	78.99	&	89.9	&	95.65	\\
   \end{center}
 \end{table}
 
-Além disso, é possivel observar de forma rápida nas tabelas \ref{tab:count_micro} e \ref{tab:count_pon} quantas vezes cada configuração obteve o melhor resultado para cada métrica.
+Além disso, é possível observar de forma rápida nas tabelas \ref{tab:count_micro} e \ref{tab:count_pon} quantas vezes cada configuração obteve o melhor resultado para cada métrica.
 Lembre que as contagens nestas tabelas se referem aos testes individuais, i.e., um teste por combinação de algoritmo e conjunto de dados.
 
 \begin{table}[h!]
@@ -539,7 +548,7 @@ Empate	&	70	&	18	&	19	\\
   \end{center}
 \end{table}
 
-É possível observar nas Tabelas \ref{tab:prec_micro} e \ref{tab:prec_pon} que os valores da \textit{1-Precision} são muito próximos para o classificador (\textit{Benckmark}) e o metaclassifficador.
+É possível observar nas Tabelas \ref{tab:prec_micro} e \ref{tab:prec_pon} que os valores da \textit{1-Precision} são muito próximos para o classificador (\textit{Benchmark}) e o metaclassificador.
 Também é possível notar que, assim como ocorreu com as acurácias, o metaclassificador superou o \textit{benchmark} por margens maiores com o algoritmo Árvore de Decisão.
 Ele teve cerca de 3,5\% de vantagem na \textit{2-Precision (Micro)}, 5,5\% na \textit{3-Precision (Micro)} e 3\% na \textit{3-Precision (Ponderada)}. 
 Entretanto desta vez o algoritmo KNN também conseguiu se destacar na \textit{2-Precision} e \textit{3-Precision}, tanto nas versões \textit{Micro} quanto \textit{Ponderada}. 
@@ -559,7 +568,7 @@ Desta forma pudemos utilizar as métricas \textit{k-Acurácia}, \textit{k-Precis
 Todos os conjuntos de dados sintéticos que criamos são compostos por três classes: azul, vermelha e verde.
 Para gerar os pontos dessas classes utilizamos distribuições normais bivariadas.
 Veja a seção Motivação do Capítulo \ref{chap:metodoproposto} para mais detalhes sobre esse tipo de distribuição.
-Sendo assim, cada instância tem dois atributos numéricos gerados aleatóriamente de acordo com a distribuição de sua classe.
+Sendo assim, cada instância tem dois atributos numéricos gerados aleatoriamente de acordo com a distribuição de sua classe.
 Utilizamos a mesma matriz de covariâncias nas distribuições das três classes (apresentada abaixo).
 Por outro lado, variamos as médias das distribuições e as quantidades de pontos de cada classe.
 
@@ -595,7 +604,7 @@ Todavia as médias das distribuições de cada classe nos diferentes conjuntos d
       \textbf{Conjunto de Dados} & \textbf{Verde} & \textbf{Azul} & \textbf{Vermelho}\\
       \hline
 
-Blanceado (B)	&	 1500 & 1500 & 1500	\\
+Balanceado (B)	&	 1500 & 1500 & 1500	\\
 Normal (N)	&	 2500 & 1000 & 1000	\\
 Desbalanceado (D)      & 4000 & 250 & 250	\\
 
@@ -624,23 +633,23 @@ Nas versões \textit{adjacente} e \textit{distante} a média da classe dominante
 \subsection{Resultados dos Testes com os Dados Sintéticos}
 
 Utilizamos nove conjuntos de dados sintéticos diferentes nos testes apresentados nesta seção.
-Cada conjunto combina a caracteristica \textit{balanceado}, \textit{normal} ou \textit{ desbalanceado} com uma das configurações de posições de distribuições de classe \textit{próxima}, \textit{adjacente} ou \textit{distante}.
+Cada conjunto combina a característica \textit{balanceado}, \textit{normal} ou \textit{ desbalanceado} com uma das configurações de posições de distribuições de classe \textit{próxima}, \textit{adjacente} ou \textit{distante}.
 Com isso pudemos testar o comportamento do método de duas formas.
 Na primeira verificamos como o método reage à variações no balanceamento entre classes.
 Na segunda estudamos a influência da posição das distribuições de classes, i.e. elas podem estar sobrepostas, ter apenas uma interseção parcial ou serem totalmente disjuntas.
 
-Para medir os resultados utilizamos as mesmas métricas \textit{k-Acurácia}, \textit{k-Precision} e \textit{k-Recall} apresentadas anterirormente.
+Para medir os resultados utilizamos as mesmas métricas \textit{k-Acurácia}, \textit{k-Precision} e \textit{k-Recall} apresentadas anteriormente.
 Lembre que essas duas últimas vem em três tipos \textit{Micro}, \textit{Ponderada} (média ponderada das classes) e \textit{Macro} (média aritmética das classes).
 
 Separamos na Tabela \ref{tab:ganho_meta} alguns dos resultados de destaque encontrados durante os experimentos com dados sintéticos.
 É importante notar que os números apresentados nesta tabela são as diferenças entre os resultados do metaclassificador e do classificador simples.
-Portanto um resultado positivo significa que o médodo superou o \textit{benchmark} por um percentual com aquele valor.
+Portanto um resultado positivo significa que o método superou o \textit{benchmark} por um percentual com aquele valor.
 
 Como vimos anteriormente o \textit{Micro Precision} e o \textit{Micro Recall} sempre são iguais.
 Além disso, o \textit{Precision Ponderado} e o \textit{Recall Ponderado} tem valores muito próximos das versões \textit{Micro}.
 Portanto não apresentamos todas as métricas na tabela \ref{tab:ganho_meta}, apenas aquelas que foram mais informativas neste teste.
 
-Os resultados apresentados ne Tabela \ref{tab:ganho_meta} se referem à testes conduzidos com conjuntos de dados cuja posição das distribuições das classes era \textit{próxima}.
+Os resultados apresentados na Tabela \ref{tab:ganho_meta} se referem à testes conduzidos com conjuntos de dados cuja posição das distribuições das classes era \textit{próxima}.
 De fato os centros das distribuições de classes nesses conjuntos de dados são \textit{vermelha} = (3,3), \textit{verde} = (5,5) e \textit{azul} = (7,7).
 A partir disso, variamos o balanceamento entre as classes ao longo do teste.
 A Tabela \ref{tab:ganho_meta} identifica se os dados são balanceados (B), normais (N) ou desbalanceados (D), conforme foi detalhado na seção \ref{sub:descsinteticos}.
@@ -650,7 +659,7 @@ A Tabela \ref{tab:ganho_meta} identifica se os dados são balanceados (B), norma
    \resizebox{\textwidth}{!} {
    \begin{tabular}{cccccc}
       \hline
-      \textbf{Alagoritmo} & \textbf{Dados} &  \textbf{2-Acu.} & \textbf{2-Prec./Rec.} & \textbf{2-Prec.} & \textbf{2-Rec.} \\
+      \textbf{Algoritmo} & \textbf{Dados} &  \textbf{2-Acu.} & \textbf{2-Prec./Rec.} & \textbf{2-Prec.} & \textbf{2-Rec.} \\
           &     &     & \textbf{(Micro)} & \textbf{(Macro)} & \textbf{(Macro)} \\
       \hline
 
@@ -679,7 +688,7 @@ R. Forest	&	D	&	0.67	&	0.62	&	3.37	&	3.61	\\
   \end{center}
 \end{table}
 
-É possível observar na Tabela \ref{tab:ganho_meta} que o algorítmo \textit{Árvore de Decisão } ganha por uma margem maior que 6\% no \textit{2-Precision Macro} e no \textit{2-Recall Macro} quando os dados são \textit{desbalanceados}.
+É possível observar na Tabela \ref{tab:ganho_meta} que o algoritmo \textit{Árvore de Decisão } ganha por uma margem maior que 6\% no \textit{2-Precision Macro} e no \textit{2-Recall Macro} quando os dados são \textit{desbalanceados}.
 Em contraste, neste mesmo cenário, o ganho é de apenas 1\% para as métricas \textit{2-Acurácia}, \textit{2-Precision Micro} e \textit{2-Recall Micro}.
 
 Note entretanto que essas últimas métricas não tratam todas as classes do conjunto de dados por igual.
@@ -690,23 +699,23 @@ Por outro lado, as versões \textit{Macro} do \textit{Precision} e \textit{Recal
 Portanto, em um cenário com dados desbalanceados, essas últimas tem a sensibilidade para capturar de forma mais evidente as variações de desempenho do modelo para todas as classes do conjunto de dados.
 
 Seguindo com a mesma análise das as métricas \textit{Macro Precision} e \textit{Macro Recall}, observamos ganhos em outros algorítimos além das \textit{Árvores de Decisão}.
-Para algorítmo \textit{KNN 5} os ganhos foram de aproximadamente 7\% e 10\%, para o \textit{KNN 9} de 4,5\% e 6\% e para o \textit{Random Forest} de 3,5\%.
+Para algoritmo \textit{KNN 5} os ganhos foram de aproximadamente 7\% e 10\%, para o \textit{KNN 9} de 4,5\% e 6\% e para o \textit{Random Forest} de 3,5\%.
 Desta forma podemos concluir que o método proposto foi eficiente para melhorar o resultado desses algorítimos em um cenário com dados desbalanceados e com distribuições de classes muito próximas.
 
 Outro conjunto notável de resultados que podem ser vistos na Tabela \ref{tab:ganho_meta} são aqueles referentes aos dados perfeitamente balanceados.
-Note que neste contexto o algorítmo \textit{KNN 5} exibe ganhos de cerca de 8\% em todas as métricas \textit{Precision} e \textit{Recall}.
-Um ganho de desempeho similar, embora menor, pode ser visto nos testes com os algorítmos \textit{KNN 9} e \textit{Random Forest}.
-Este cenário de testes é especial pois representa uma tarefa mais dificil para muitos algorítmos.
+Note que neste contexto o algoritmo \textit{KNN 5} exibe ganhos de cerca de 8\% em todas as métricas \textit{Precision} e \textit{Recall}.
+Um ganho de desempenho similar, embora menor, pode ser visto nos testes com os algoritmos \textit{KNN 9} e \textit{Random Forest}.
+Este cenário de testes é especial pois representa uma tarefa mais difícil para muitos algoritmos.
 Lembre que neste caso as médias das distribuições das três classes do conjunto de dados estão muito próximas e portanto estas tem uma grande interseção no espaço amostral (vide primeira imagem da Figura \ref{fig:dist_diferentes}).
-Este resultado demosntra que o método proposto também melhorou o desempenho desses algoritimos neste caso.
+Este resultado demonstra que o método proposto também melhorou o desempenho desses algoritmos neste caso.
 
-Por fim, ainda é possivel observar ganhos de 3,5\% a 5,5\% no \textit{Precison} e \textit{Recall} para o algorítmo \textit{KNN 5} nos testes com dados do tipo \textit{normal}.
+Por fim, ainda é possível observar ganhos de 3,5\% a 5,5\% no \textit{Precision} e \textit{Recall} para o algoritmo \textit{KNN 5} nos testes com dados do tipo \textit{normal}.
 Recorde que estes são um meio termo entre os dados \textit{balanceados} e \textit{desbalanceados}.
-Ganhos menores são observaveis na mesma situação para os algorítmos \textit{KNN 9} e \textit{Random Forest}.
-Novamente este resultado reforça que o método proposto melhora o resultado desses algorítmos para conjuntos de dados cujas classes tem distribuições com médias muito próximas e que portanto se sobrepõem.
+Ganhos menores são observáveis na mesma situação para os algorítimos \textit{KNN 9} e \textit{Random Forest}.
+Novamente este resultado reforça que o método proposto melhora o resultado desses algoritmos para conjuntos de dados cujas classes tem distribuições com médias muito próximas e que portanto se sobrepõem.
 
 Como citamos, diversos outros testes com dados sintéticos foram feitos mas mostramos apenas os resultados de interesse nesta seção.
-Realizamos os mesmos testes discutidos aqui com dados onde as disitribuições das classes estão mais afastadas (\textit{adjacente} e \textit{distante}), conforme ilustrado na figura \ref{fig:dist_iguais}.
+Realizamos os mesmos testes discutidos aqui com dados onde as distribuições das classes estão mais afastadas (\textit{adjacente} e \textit{distante}), conforme ilustrado na figura \ref{fig:dist_iguais}.
 Porém nestes demais cenários o metaclassificador não se destacou de maneira substancial.
 Embora ele tenha apresentado algum ganho na maioria dos casos, estes são iguais ou inferiores a 1\%.
 Para ver o restante dos resultados com os dados sintéticos consulte o apêndice desta dissertação.

@@ -10,7 +10,7 @@ Aprendizado de máquina tem inúmeras aplicações, entre elas podemos citar fil
 \section{Aprendizado Supervisionado}
 
 Aprendizado supervisionado é inspirado na ideia de aprendizado por exemplos.
-Isto é, uma grande quantidade de exemplos é fornecida para o algoritmo no intuito de faze-lo aprender.
+Isto é, uma grande quantidade de exemplos é fornecida para o algoritmo no intuito de fazê-lo aprender.
 Todos os exemplos devem ter o mesmo formato.
 Cada um deles é composto por dois ou mais atributos, sendo que um dos atributos deve ser o alvo da tarefa de aprendizado.
 Os demais atributos devem constituir informações relevantes que permitam ao algoritmo aprender a tarefa.
@@ -31,7 +31,7 @@ Veja na figura \ref{fig:conceitosbasicos01} um diagrama que ilustra o processo d
 Para exemplificar como funciona o aprendizado supervisionado, consideremos o problema da figura \ref{fig:conceitosbasicos02}.
 Neste queremos um modelo capaz de diferenciar entre círculos e triângulos.
 Ou seja, temos um problema de classificação binária.
-Para resolve-lo precisamos de um modelo que funcione como um separador linear.
+Para resolvê-lo precisamos de um modelo que funcione como um separador linear.
 O algoritmo utilizado para gerar o modelo deve então aprender uma função \textit{f(x)} que mapeia o vetor de entrada \textit{x} em um único valor de saída. Esta função pode ser definida como:
 
 \begin{equation*}
@@ -50,7 +50,7 @@ f(x) =
 
 onde,
 \begin{itemize}
-\item Os valores de saída de \textit{f(x)} representam a resposta do classificador, por exemplo o valor 0 pode indicar um círculo e o valor 1 um trigângulo
+\item Os valores de saída de \textit{f(x)} representam a resposta do classificador, por exemplo o valor 0 pode indicar um círculo e o valor 1 um triângulo
 \item \textit{x} é um vetor de números reais que representam os valores de atributos de entrada, no exemplo podem ser as coordenadas dos centros de cada círculo e triângulo
 \item \textit{w} é um vetor de números reais que representam os pesos conferidos aos atributos pelo algoritmo de aprendizado
 \item \textit{b} é uma constante de bias
@@ -106,7 +106,7 @@ Porém eles diferem no atributo classe, o primeiro tem apenas uma classe enquant
       \textbf{Atributo 1} & \textbf{Atributo 2} & ... & \textbf{Atributo k} & \textbf{Classe} \\
       \hline
 
-      3,14 & 166,55 & ... & -17 & Nódo 10 \\
+      3,14 & 166,55 & ... & -17 & Nodo 10 \\
 
     \end{tabular}
     \caption{Exemplo de dados para classificação}
@@ -120,7 +120,7 @@ Porém eles diferem no atributo classe, o primeiro tem apenas uma classe enquant
       \textbf{Atributo 1} & \textbf{Atributo 2} & ... & \textbf{Atributo z} & \textbf{Lista de Classes} \\
       \hline
 
-      42 & -33,33 & ... & 0,8 & Nódo 2, Nódo 9, Nódo 5 \\
+      42 & -33,33 & ... & 0,8 & Nodo 2, Nodo 9, Nodo 5 \\
 
     \end{tabular}
     \caption{Exemplo de dados para \textit{ranking}}
@@ -137,7 +137,7 @@ Quando realizamos os experimentos deste trabalho procuramos comparar classificad
 Foram usados os classificadores: SVM, \textit{Naive Bayes} \cite{Murphy}, Arvore de Decisão \cite{Quinlan}, \textit{Random Forest} \cite{Breiman} e \textit{k-nearest neighbors} (KNN) \cite{Duda}.
 Descreveremos a seguir de forma breve como esses algoritmos funcionam.
 
-Como foi dito, o \textbf{SVM} é erivado diretamente do Perceptron.
+Como foi dito, o \textbf{SVM} é derivado diretamente do Perceptron.
 Ambos são classificadores binários lineares não probabilísticos.
 O SVM também pode ser usado para resolver problemas como o da figura \ref{fig:conceitosbasicos02}.
 Este classificador considera cada vetor de atributos de entrada \textit{x} com \textit{d} dimensões.
@@ -154,22 +154,22 @@ Ele assume entretanto que estes atributos de entrada são independentes.
 Para classificar uma instância o modelo determina a probabilidade de cada classe $C_i$ possível, dada por $p(C_i|x_1, x_2, ... , x_d)$, com a ajuda do teorema de Bayes.
 Por fim, o classificador utiliza as probabilidades para decidir qual classe escolher baseado em uma regra preestabelecida, e.g. a classe mais provável.
 
-As \textbf{árvores de decisão} são modelos de predição que utilizam os atributos de entrada para tomar decisões e desta forma inferir a classe de uma intância.
-Sendo assim, as folhas da árvore representam classes enquanto os nódos representam decisões baseadas nos atributos.
-De forma geral, para construir um modelo a partir do conjunto de treino, a árvore de decisão escolhe a cada nódo o atributo que melhor divide o conjunto.
-Depois que o modelo está pronto, é possível utilizar os atributos de uma nova instância para percorrer a árvore de acordo com as decisões nos nódos.
+As \textbf{árvores de decisão} são modelos de predição que utilizam os atributos de entrada para tomar decisões e desta forma inferir a classe de uma instância.
+Sendo assim, as folhas da árvore representam classes enquanto os nodos representam decisões baseadas nos atributos.
+De forma geral, para construir um modelo a partir do conjunto de treino, a árvore de decisão escolhe a cada nodo o atributo que melhor divide o conjunto.
+Depois que o modelo está pronto, é possível utilizar os atributos de uma nova instância para percorrer a árvore de acordo com as decisões nos nodos.
 Com isso chega-se até uma folha que determinará a classe da instância.
-Note que tipos distintos de árvore podem utilizar critérios diferentes para a escolha do atributo decisório dos nódos.
+Note que tipos distintos de árvore podem utilizar critérios diferentes para a escolha do atributo decisório dos nodos.
 O \textit{ Ganho de Informação} por exemplo é empregado nas arvores de decisão do tipo C4.5 (utilizadas nos testes conduzidos neste trabalho).
 
 O \textbf{\textit{Random Forest}} é um método que utiliza um comitê de árvores de decisão para classificação.
-Isto é, durante o treinamento o algoritimo cria diversas árvores de decisão que compõem o modelo.
+Isto é, durante o treinamento o algoritmo cria diversas árvores de decisão que compõem o modelo.
 Cada árvore contribui votando em uma classe e no final a classe mais votada é escolhida.
-Esse algoritimo utiliza \textit{Bagging} para criar subconjuntos aleatórios do conjunto de treino.
+Esse algoritmo utiliza \textit{Bagging} para criar subconjuntos aleatórios do conjunto de treino.
 Cada subconjunto é utilizado para treinar uma das árvores de decisão.
 Além disso, o \textit{Random Forest} também emprega o \textit{Feature Bagging}, i.e. cada árvore utiliza somente um subgrupo aleatório dos atributos originais no treinamento.
 
-O algoritimo \textbf{KNN} apenas recebe os vetores de atributos de entrada do conjunto de treino em um primeiro momento.
+O algoritmo \textbf{KNN} apenas recebe os vetores de atributos de entrada do conjunto de treino em um primeiro momento.
 Para classificar uma instância ele simplesmente determina qual é a classe mais frequente entre os \textit{k} exemplos mais próximos, onde \textit{k} é definido pelo usuário.
 Este método pode utilizar diferentes métricas de proximidade para determinar os vetores próximos, uma das mais utilizadas é a distância euclidiana.
 
@@ -238,7 +238,7 @@ Ele atingiria uma \textit{Acurácia} de 85\% mas seria incapaz de identificar m�
 
 É possível calcular o \textit{Precision} e o \textit{Recall} para o modelo como um todo de algumas formas.
 Podemos por exemplo somar os resultados \textit{true positive}, \textit{false positive} e \textit{false negative} para todas as classes.
-Seja \textit{k} o número de classes existentes no conjunto de dados, o \textit{Micro Precision} e o \textit{Micro Recall} multi-classe podem ser calculados pelas equações a seguir.
+Seja \textit{k} o número de classes existentes no conjunto de dados, o \textit{Micro Precision} e o \textit{Micro Recall} multiclasse podem ser calculados pelas equações a seguir.
 
 \begin{align*}
 
@@ -248,7 +248,7 @@ Seja \textit{k} o número de classes existentes no conjunto de dados, o \textit{
 \end{align*}
 
 Outras formas de generalização dessas métricas que encontramos na literatura são denominadas \textit{Macro Precision} e \textit{Macro Recall}.
-Neste caso as métricas são calculadas inividualmente para cada classe e no final é tirada uma média aritmética.
+Neste caso as métricas são calculadas individualmente para cada classe e no final é tirada uma média aritmética.
 Por fim, existe ainda a versão onde a média é ponderada pela quantidade de instâncias das classes.
 Apresentamos a seguir as fórmulas dessas outras formas de calcular as métricas.
 Nestas fórmulas considere que $N_i$ é o número de instâncias da classe \textit{i} e $N_T$ o número de instâncias total.

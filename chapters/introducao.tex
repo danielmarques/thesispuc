@@ -2,7 +2,7 @@
 
 Existem diversas tarefas importantes que o homem costuma desempenhar melhor do que a máquina.
 Entretanto, o aprendizado de máquina tem sido utilizado com sucesso para resolver algumas destas.
-Especilamente aquelas que exigem o processamento de uma grande quantidade de dados, o que seria inviável ser feito manualmente.
+Especialmente aquelas que exigem o processamento de uma grande quantidade de dados, o que seria inviável ser feito manualmente.
 Exemplos destas tarefas são reconhecimento de imagens, tradução automática de idiomas, reconhecimento de fala, movimentação de autômatos, sistemas de recomendação, entre outras.
 
 \begin{figure}[h!]
@@ -12,42 +12,43 @@ Exemplos destas tarefas são reconhecimento de imagens, tradução automática d
 \end{figure}
 
 As soluções para algumas dessas tarefas utilizam conceitos de \textit{ranking}.
-Por exemplo, em sistemas de recomendação \textit{ranking} é utilizado para criar listas de documentos com base naqueles vistos anteriormente por um usuário.
+Por exemplo, a figura \ref{fig:metodoproposto01} mostra o resultado de uma busca por páginas na \textit{web}.
+Mecanismos de busca como esse são parte importande da vida de todos hoje em dia, eles utilizam \textit{ranking} criar listas de páginas relevantes com base em divérsos critérios.
 
 Motivado por isso, este trabalho se concentra em tarefas de \textit{ranking}.
-Durante o projeto, criamos um meta-classificador para aprendizado de máquina supervisionado adequado para este tipo de tarefa.
-Este meta-classificador é capaz de utilizar internamente qualquer tipo de classificador encontrado na literatura.
+Durante o projeto, criamos um metaclassificador para aprendizado de máquina supervisionado adequado para este tipo de tarefa.
+Este metaclassificador é capaz de utilizar internamente qualquer tipo de classificador encontrado na literatura.
 
 \section{Descrição do Problema}
 
-Para entender o problema de \textit{ranking} no qual este trabalho se concentra, considere um exemplo onde temos uma rede \textit{R} com \textit{k} nódos.
-Imagine que esta rede eventualmente pode apresentar falhas em seus nódos, sendo que cada falha pode causar sérios danos à operação da rede.
-Para corrigir-las é necessário faze-lo diretamente no nódo afetado pela falha.
+Para entender o problema de \textit{ranking} no qual este trabalho se concentra, considere um exemplo onde temos uma rede \textit{R} com \textit{n} nodos.
+Imagine que esta rede eventualmente pode apresentar falhas em seus nodos, sendo que cada falha pode causar sérios danos à operação da rede.
+Para corrigi-las é necessário fazê-lo diretamente no nodo afetado pela falha.
 Além disso, para corrigir uma falha rapidamente, é necessário determinar logo onde ela ocorreu.
-Para tanto poderíamos verificar simultaneamente todos os \textit{k} nódos, por exemplo enviando equipes até os locais.
-Entretanto o custo do deslocamento até um dos nódos é muito elevado, sendo inviável checar toda a rede sempre que ocorre uma falha.
+Para tanto poderíamos verificar simultaneamente todos os \textit{n} nodos, por exemplo enviando equipes até os locais.
+Entretanto o custo do deslocamento até um dos nodos é muito elevado, sendo inviável checar toda a rede sempre que ocorre uma falha.
 
-No âmbito do aprendizado de máquina tradicional os nódos da rede podem ser traduzidos em classes.
+No âmbito do aprendizado de máquina tradicional os nodos da rede podem ser traduzidos em classes.
 Além disso, temos diversas estatísticas e medições sobre o estado da rede \textit{R} ao longo do tempo.
 Estas podem ser utilizadas como atributos.
-Gostaríamos então de identificar automaticamente o nódo onde uma falha ocorre, provavelmente usando um classificador.
+Gostaríamos então de identificar automaticamente o nodo onde uma falha ocorre, provavelmente usando um classificador.
 
-Tendo em vista a dificuldade de gerar essa informação com absoluta precisão, uma solução razoável é construir uma lista dos nódos mais prováveis onde a falha ocorreu.
-Quanto mais próximo da primeira posição da lista estiver o nódo verdadeiro, menor será o custo de reparo da rede.
-Embora o meta-classificador desenvolvido possa ser utilizado para tarefas de \textit{ranking} de propósito geral, o problema definido acima será usado ao longo do trabalho como tarefa principal.
+Tendo em vista a dificuldade de gerar essa informação com absoluta precisão, uma solução razoável é construir uma lista dos nodos mais prováveis onde a falha ocorreu.
+Quanto mais próximo da primeira posição da lista estiver o nodo verdadeiro, menor será o custo de reparo da rede.
+Embora o metaclassificador desenvolvido possa ser utilizado para tarefas de \textit{ranking} de propósito geral, o problema definido acima será usado ao longo do trabalho como tarefa principal.
 
 \section{Contribuições}
 
 Neste trabalho propomos um método para geração de \textit{rankings} capaz de utilizar qualquer tipo de classificador para esta tarefa.
-De fato, como já citamos, da forma que foi implementado ele funciona como um meta-classificador.
+De fato, como já citamos, da forma que foi implementado ele funciona como um metaclassificador.
 
 O método elimina ruído sucessivamente do conjunto de treino à medida que a lista de saída é construída.
-Isso foi feito por meio de filtragens aplicadas aos dados, que removem intâncias de classes já incluídas na lista.
-Desta forma, os classificadores internos do meta-classificador são treinados com conjuntos de treino filtrados de formas diferentes.
+Isso foi feito por meio de filtragens aplicadas aos dados, que removem instâncias de classes já incluídas na lista.
+Desta forma, os classificadores internos do metaclassificador são treinados com conjuntos de treino filtrados de formas diferentes.
 Isto é, cada classificador gera um modelo único do qual algumas classes foram retiradas.
 Cada modelo é utilizado então para gerar um único elemento da lista de saída.
-Veremos que para classificar diversas intâncias, com listas de saída diferentes, uma grande quantidade de classificadores precisa ser gerada.
-Por exemplo, se o conjunto de dados tem sete classes diferentes o meta-classificador pode vir a ter mais de cem classificadores internos.
+Veremos que para classificar diversas instâncias, com listas de saída diferentes, uma grande quantidade de classificadores precisa ser gerada.
+Por exemplo, se o conjunto de dados tem sete classes diferentes o metaclassificador pode vir a ter mais de cem classificadores internos.
 
 Além disso, o método foi desenvolvido em duas versões: estática e dinâmica.
 As duas versões diferem no momento no qual os classificadores internos são treinados.
@@ -55,11 +56,11 @@ As duas versões diferem no momento no qual os classificadores internos são tre
 A primeira versão treina todos os classificadores internos possíveis a priori.
 Esta abordagem exigiu um tempo de treinamento maior.
 Isto por que, dependendo do conjunto de dados, a quantidade de classificadores possíveis pode ser grande.
-Todavia, uma vez que todos os classificadores foram treinados, o tempo de classificação das intâncias foi análogo ao de um classificador comum.
+Todavia, uma vez que todos os classificadores foram treinados, o tempo de classificação das instâncias foi análogo ao de um classificador comum.
 
 A segunda versão treina os classificadores à medida que o \textit{ranking} é gerado.
 Nesta versão, somente os classificadores necessários para construção daquela lista são treinados.
-Com isso o método dinâmico conseguiu tempos de treinamento melhores do que a versão anteriror.
+Com isso o método dinâmico conseguiu tempos de treinamento melhores do que a versão anterior.
 Por outro lado, seus tempos de classificação foram piores visto que o modelo é treinado durante a construção da lista de saída.
 
 Para avaliar os resultados de problemas como o da rede, desenvolvemos para este trabalho métricas denominadas \textit{k-Acurácia}, \textit{k-Precision} e \textit{k-Recall}.
@@ -68,20 +69,20 @@ Note que essas métricas refletem o cenário da rede \textit{R} descrito anterio
 Considere que equipes são enviadas para corrigir os erros; a 1-acurácia se aplica ao cenário onde uma equipe foi enviada, a 2-acurácia duas equipes e assim por diante.
 Portanto essa métricas apontam um melhor resultado quanto mais bem posicionada estiver a classe verdadeira na lista de saída.
 
-O método proposto foi implementado na forma de um meta-classificador.
+O método proposto foi implementado na forma de um metaclassificador.
 Este foi programado em Java e utiliza diretamente as classes para aprendizado de máquina do \textit{Framework Weka}.
-Com isso o meta-classificador é capaz de utilizar internamente a uma grande quantidade de classificadores diferentes disponíveis nesta ferramenta.
+Com isso o metaclassificador é capaz de utilizar internamente a uma grande quantidade de classificadores diferentes disponíveis nesta ferramenta.
 
 Propomos a utilização de classificadores probabilísticos para criar o \textit{Benchmark} dos testes de performance do método. 
 Esses classificadores foram utilizados para construir as listas usadas como base para a avaliação dos modelos.
 Isso foi possível pois, eles podem gerar a probabilidade de cada classe para uma dada instância.
 A partir desta informação montamos um \textit{ranking} de classes para a instância.
 
-Durante a avaliação do método, executamos e analisamos testes do meta-classificador em combinação com classificadores conhecidos como o SVM, a Árvore de Decisão e o KNN.
+Durante a avaliação do método, executamos e analisamos testes do metaclassificador em combinação com classificadores conhecidos como o SVM, a Árvore de Decisão e o KNN.
 Observamos que o metaclassificador destacou-se nos testes com alguns deles, principalmente com a Árvore de Decisão.
 Além disso, discutimos os resultados do método quando aplicado à conjuntos de dados reais e sintéticos.
 Os tempos de execução também foram analisados.
-Dependendo do npumero de classes envolvido o método proposto atinge tempos de execução razoáveis; ainda que mais lentos do que dos classificadores probabilísticos comuns.
+Dependendo do numero de classes envolvido o método proposto atinge tempos de execução razoáveis; ainda que mais lentos do que dos classificadores probabilísticos comuns.
 
 \section{Organização da Dissertação}
 
