@@ -26,9 +26,9 @@ O algoritmo de aprendizado deve gerar uma função $g: X \to Y$, onde \textit{X}
 Uma vez que processou os exemplos, o algoritmo gera um modelo que representa a função \textit{g}.
 Por fim, dados que ainda não foram vistos, desprovidos do atributo alvo, podem ser submetidos ao modelo.
 Com isso, ele pode executar automaticamente a tarefa para a qual foi treinado, e.g. determinar a qual classe o dado inédito pertence.
-Veja na figura \ref{fig:conceitosbasicos01} um diagrama que ilustra o processo de aprendizado supervisionado.
+Veja na Figura \ref{fig:conceitosbasicos01} um diagrama que ilustra o processo de aprendizado supervisionado.
 
-Para exemplificar como funciona o aprendizado supervisionado, consideremos o problema da figura \ref{fig:conceitosbasicos02}.
+Para exemplificar como funciona o aprendizado supervisionado, consideremos o problema da Figura \ref{fig:conceitosbasicos02}.
 Neste queremos um modelo capaz de diferenciar entre círculos e triângulos.
 Ou seja, temos um problema de classificação binária.
 Para resolvê-lo precisamos de um modelo que funcione como um separador linear.
@@ -63,7 +63,7 @@ onde,
 \end{figure}
 
 Com isso o problema se resume a calcular os valores do vetor de pesos \textit{w}.
-Considere que temos disponível os dados dos diversos exemplos de círculos e triângulos vistos na figura.
+Considere que temos disponível os dados dos diversos exemplos de círculos e triângulos vistos na Figura.
 Os exemplos envolvidos no processo de aprendizado são denominados \textit{conjunto de dados}.
 Cada exemplo contém as coordenadas \textit{(x,y)} mais o valor da classe (circulo ou triângulo).
 O algoritmo supervisionado simples proposto a seguir para resolver este problema é baseado no perceptron.
@@ -137,24 +137,30 @@ Quando realizamos os experimentos deste trabalho procuramos comparar classificad
 Foram usados os classificadores: SVM, \textit{Naive Bayes} \cite{Murphy}, Arvore de Decisão \cite{Quinlan}, \textit{Random Forest} \cite{Breiman} e \textit{k-nearest neighbors} (KNN) \cite{Duda}.
 Descreveremos a seguir de forma breve como esses algoritmos funcionam.
 
-Como foi dito, o \textbf{SVM} é derivado diretamente do Perceptron.
+\textbf{Support Vector Machines}.
+
+Como foi dito, o SVM é derivado diretamente do Perceptron.
 Ambos são classificadores binários lineares não probabilísticos.
-O SVM também pode ser usado para resolver problemas como o da figura \ref{fig:conceitosbasicos02}.
+O SVM também pode ser usado para resolver problemas como o da Figura \ref{fig:conceitosbasicos02}.
 Este classificador considera cada vetor de atributos de entrada \textit{x} com \textit{d} dimensões.
 Ele então calcula um hiperplano, com \textit{d-1} dimensões, para separar os pontos no espaço \textit{d}-dimensional dos exemplos.
-No exemplo da figura temos que \textit{d} é igual a 2 e portanto o hiperplano é uma reta.
+No exemplo da Figura temos que \textit{d} é igual a 2 e portanto o hiperplano é uma reta.
 Este calculo ocorre iterativamente, a partir do conjunto de treino, de forma análoga ao algorítimo apresentado anteriormente.
 Além disso, o SVM procura encontrar o melhor hiperplano de separação para os pontos, i.e. aquele mais afastado de todos. 
 Para tanto ele considera a existência uma \texiit{margem} que representa o afastamento do hiperplano para os pontos.
 Por fim ele calcula o hiperplano de margem máxima.
 
-\textbf{\textit{Naive Bayes}} são classificadores probabilísticos baseados no teorema de Bayes.
+\textbf{Naive Bayes}.
+
+\textit{Naive Bayes} são classificadores probabilísticos baseados no teorema de Bayes.
 Este algoritmo cria um modelo de probabilidade condicional que recebe como entrada o vetor $ \textit{x} = (x_1, x_2, ... , x_d) $, com \textit{d} atributos.
 Ele assume entretanto que estes atributos de entrada são independentes.
 Para classificar uma instância o modelo determina a probabilidade de cada classe $C_i$ possível, dada por $p(C_i|x_1, x_2, ... , x_d)$, com a ajuda do teorema de Bayes.
 Por fim, o classificador utiliza as probabilidades para decidir qual classe escolher baseado em uma regra preestabelecida, e.g. a classe mais provável.
 
-As \textbf{árvores de decisão} são modelos de predição que utilizam os atributos de entrada para tomar decisões e desta forma inferir a classe de uma instância.
+\textbf{Árvores de Decisão}.
+
+As Árvores de Decisão são modelos de predição que utilizam os atributos de entrada para tomar decisões e desta forma inferir a classe de uma instância.
 Sendo assim, as folhas da árvore representam classes enquanto os nodos representam decisões baseadas nos atributos.
 De forma geral, para construir um modelo a partir do conjunto de treino, a árvore de decisão escolhe a cada nodo o atributo que melhor divide o conjunto.
 Depois que o modelo está pronto, é possível utilizar os atributos de uma nova instância para percorrer a árvore de acordo com as decisões nos nodos.
@@ -162,12 +168,17 @@ Com isso chega-se até uma folha que determinará a classe da instância.
 Note que tipos distintos de árvore podem utilizar critérios diferentes para a escolha do atributo decisório dos nodos.
 O \textit{ Ganho de Informação} por exemplo é empregado nas arvores de decisão do tipo C4.5 (utilizadas nos testes conduzidos neste trabalho).
 
-O \textbf{\textit{Random Forest}} é um método que utiliza um comitê de árvores de decisão para classificação.
+\textbf{Random Forest}.
+
+O \textit{Random Forest} é um método que utiliza um comitê de árvores de decisão para classificação.
 Isto é, durante o treinamento o algoritmo cria diversas árvores de decisão que compõem o modelo.
 Cada árvore contribui votando em uma classe e no final a classe mais votada é escolhida.
 Esse algoritmo utiliza \textit{Bagging} para criar subconjuntos aleatórios do conjunto de treino.
 Cada subconjunto é utilizado para treinar uma das árvores de decisão.
 Além disso, o \textit{Random Forest} também emprega o \textit{Feature Bagging}, i.e. cada árvore utiliza somente um subgrupo aleatório dos atributos originais no treinamento.
+
+
+\textbf{k-Nearest Neighbors}.
 
 O algoritmo \textbf{KNN} apenas recebe os vetores de atributos de entrada do conjunto de treino em um primeiro momento.
 Para classificar uma instância ele simplesmente determina qual é a classe mais frequente entre os \textit{k} exemplos mais próximos, onde \textit{k} é definido pelo usuário.
@@ -195,7 +206,7 @@ Por fim, os resultados de todos os modelos são combinados para gerar as estatí
 
 Para explicar as métricas de avaliação suponha um exemplo onde temos um modelo \textit{M}.
 Ele foi treinado para identificar se uma máquina apresenta falha ou não, baseando-se em uma série de medidas recolhidas sobre a mesma (atributos).
-Aplicamos então esse modelo à um conjunto de 100 instâncias e obtemos um resultado como o da tabela \ref{tab:positivosenegativos}.
+Aplicamos então esse modelo à um conjunto de 100 instâncias e obtemos um resultado como o da Tabela \ref{tab:positivosenegativos}.
 
 \begin{table}[h!]
   \begin{center}
@@ -216,19 +227,26 @@ Aplicamos então esse modelo à um conjunto de 100 instâncias e obtemos um resu
 
 Os dados da Tabela \ref{tab:positivosenegativos} estão separados em \textit{true positive} (TP), \textit{true negative} (TN),\textit{false positive} (FP) e \textit{false negative} (FN).
 Os dois primeiros indicam o número de instâncias corretamente classificadas e o restante a quantidade classificada incorretamente.
+Isto é, \textit{TP} é o número de instâncias que foram classificadas como sendo da classe "com falha" e que realmente pertencem à essa classe.
+Já \textit{TN} é o número de instâncias de outras classes, no exemplo temos somente "sem falha", que foram classificados corretamente.
+Em contraste, \textit{FP} é a quantidade de instâncias que são da classe "com falha" mas que foram classificadas como sendo de outras classes.
+Por fim, \textit{FP} é a quantidade de instâncias da classe "sem falha" que foram erradamente classificadas como sendo "com falha".
+
+
 A partir desses valores é possível gerar algumas das métricas mais usuais em aprendizado de máquina, as quais apresentaremos nas equações a seguir.
 
 \begin{align*}
 
 \[ \textit{Acurácia} &= \frac{TP+TN}{TP+TN+FP+FN} \] \\
-\[ \textit{Precision} &= \frac{TP}{TP+FP} \] \\
-\[ \textit{Recall} &= \frac{TP}{TP+FN} \]
+\[ \textit{Precision_i} &= \frac{TP_i}{TP_i+FP_i} \] \\
+\[ \textit{Recall_i} &= \frac{TP_i}{TP_i+FN_i} \]
 \end{align*}
 
 Conforme as métricas foram apresentadas temos que a \textit{Acurácia} tem um valor único para o modelo.
 Contudo o \textit{Precision} e o \textit{Recall} se referem à uma classe por vez.
 Note que no exemplo temos duas classes: "com falha" e "sem falha".
-Logo, baseando-se nas equações, temos no exemplo da Tabela \ref{tab:positivosenegativos} para classe "com falha" um valor de \textit{Acurácia} igual a 85\%, \textit{Precision} igual a 50\% e \textit{Recall} igual a 33,33\%.
+Logo, baseando-se nas equações, temos no exemplo da Tabela \ref{tab:positivosenegativos} um valor de \textit{Acurácia} igual a 85\%.
+Para classe "com falha" temos o \textit{Precision} igual a 50\% e \textit{Recall} igual a 33,33\%.
 
 Notadamente cada uma dessas métricas é mais apropriada em casos distintos.
 A \textit{Acurácia} talvez seja a métrica mais intuitiva e simples, visto que ela representa a proporção de elementos corretamente classificados.
@@ -236,32 +254,67 @@ Mas nem sempre é possível avaliar um modelo da melhor maneira com ela.
 Considere por exemplo o caso de um modelo \textit{M'} que simplesmente classifica as instâncias como \textit{sem falha}.
 Ele atingiria uma \textit{Acurácia} de 85\% mas seria incapaz de identificar máquinas com falha, seu \textit{Recall} para classe "com falha" seria zero.
 
-É possível calcular o \textit{Precision} e o \textit{Recall} para o modelo como um todo de algumas formas.
-Podemos por exemplo somar os resultados \textit{true positive}, \textit{false positive} e \textit{false negative} para todas as classes.
-Seja \textit{k} o número de classes existentes no conjunto de dados, o \textit{Micro Precision} e o \textit{Micro Recall} multiclasse podem ser calculados pelas equações a seguir.
-
-\begin{align*}
-
-\[ \textit{Micro Precision} &= \frac{\sum_{i=1}^{k} TP_i}{\sum_{i=1}^{k} TP_i+FP_i} \] \\
-\[ \textit{Micro Recall} &= \frac{\sum_{i=1}^{k} TP_i}{\sum_{i=1}^{k} TP_i+FN_i} \]
-
-\end{align*}
-
-Outras formas de generalização dessas métricas que encontramos na literatura são denominadas \textit{Macro Precision} e \textit{Macro Recall}.
-Neste caso as métricas são calculadas individualmente para cada classe e no final é tirada uma média aritmética.
-Por fim, existe ainda a versão onde a média é ponderada pela quantidade de instâncias das classes.
+Generalizações dessas métricas para problemas multiclasse encontradas na literatura são denominadas \textit{Macro Precision} e \textit{Macro Recall}.
+Neste caso as métricas são calculadas normalmente para cada classe, mas no final é tirada uma média aritmética.
 Apresentamos a seguir as fórmulas dessas outras formas de calcular as métricas.
-Nestas fórmulas considere que $N_i$ é o número de instâncias da classe \textit{i} e $N_T$ o número de instâncias total.
+Nestas fórmulas considere que \textit{k} é o número de classes do conjunto de dados e que $TP_i$, $FP_i$, e $FN_i$ se referem à classe \textit{i}.
 
 \begin{align*}
 
 \[ \textit{Macro Precision} &= \frac{\sum_{i=1}^{k} \frac{TP_i}{TP_i+FP_i}}{k} \] \\
 \[ \textit{Macro Recall} &= \frac{\sum_{i=1}^{k} \frac{TP_i}{TP_i+FN_i}}{k} \]
-\[ \textit{Precision Ponderado} &= \frac{\sum_{i=1}^{k} N_i\frac{TP_i}{TP_i+FP_i}}{N_T} \]
-\[ \textit{Recall Ponderado} &= \frac{\sum_{i=1}^{k} N_i\frac{TP_i}{TP_i+FN_i}}{N_T} \]
 
 \end{align*}
 
+A Tabela \ref{tab:positivosenegativos2} mostra mais um exemplo, agora com três classes: A, B e C.
+Neste exemplo, para calcular o \textit{Precision} para classe A, devemos proceder conforme demonstrado a seguir.
+
+\begin{align*}
+
+\[ \textit{Precision_A} &= \frac{TP_A}{TP_A+FP_A} \] \\
+\[ \textit{Precision_A} &= \frac{30}{30+10+5} \] \\
+
+\end{align*}
+
+As demais métricas podem ser calculadas de forma análoga aplicando-se as fórmulas.
+Seus valores são apresentados na Tabela \ref{tab:resultados_exemplo2}.
+
+\begin{table}[h!]
+  \begin{center}
+    \begin{tabular}{cccc}
+      \hline
+        & \textbf{Real: A} & \textbf{Real: B} & \textbf{Real: C}\\
+      \hline
+
+      \textbf{Previsto: A} & 30 & 10 & 5 \\
+      \textbf{Previsto: B} & 5 & 25 & 5 \\
+      \textbf{Previsto: C} & 5 & 0 & 15 \\
+
+      \hline
+    \end{tabular}
+    \caption{Exemplo com três classes}
+    \label{tab:positivosenegativos2}
+  \end{center}
+\end{table}
+
+\begin{table}[h!]
+  \begin{center}
+    \begin{tabular}{ccccc}
+      \hline
+        & \textbf{Classe A} & \textbf{Classe B} & \textbf{Classe C} & \textbf{Macro}\\
+      \hline
+
+\textbf{Precision}	&	66.67	&	71.43	&	75	&	71.03	\\
+\textbf{recall}	&	75	&	71.43	&	60	&	68.81	\\
+
+      \hline
+    \end{tabular}
+    \caption{Exemplo com três classes}
+    \label{tab:resultados_exemplo2}
+  \end{center}
+\end{table}
+
 Para compreender intuitivamente o \textit{Precision} e o \textit{Recall} podemos recorrer à conceitos de \textit{Information Retrieval}.
-Neste contexto o \textit{Precision} denota qual proporção dos elementos selecionados pelo modelo realmente são relevantes, no caso do exemplo da tabela \ref{tab:positivosenegativos} máquinas com falha.
+Neste contexto o \textit{Precision} denota qual proporção dos elementos selecionados pelo modelo realmente são relevantes, no caso do exemplo da Tabela \ref{tab:positivosenegativos} máquinas com falha.
 Por outro lado, o \textit{Recall} representa qual proporção dos elementos relevantes presentes nos dados foi selecionada pelo modelo.
+

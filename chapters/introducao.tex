@@ -2,7 +2,7 @@
 
 Existem diversas tarefas importantes que o homem costuma desempenhar melhor do que a máquina.
 Entretanto, o aprendizado de máquina tem sido utilizado com sucesso para resolver algumas destas.
-Especialmente aquelas que exigem o processamento de uma grande quantidade de dados, o que seria inviável ser feito manualmente.
+Especialmente aquelas que exigem o processamento de uma grande quantidade de dados, o que seria inviável realizar manualmente.
 Exemplos destas tarefas são reconhecimento de imagens, tradução automática de idiomas, reconhecimento de fala, movimentação de autômatos, sistemas de recomendação, entre outras.
 
 \begin{figure}[h!]
@@ -12,8 +12,8 @@ Exemplos destas tarefas são reconhecimento de imagens, tradução automática d
 \end{figure}
 
 As soluções para algumas dessas tarefas utilizam conceitos de \textit{ranking}.
-Por exemplo, a figura \ref{fig:metodoproposto01} mostra o resultado de uma busca por páginas na \textit{web}.
-Mecanismos de busca como esse são parte importande da vida de todos hoje em dia, eles utilizam \textit{ranking} criar listas de páginas relevantes com base em divérsos critérios.
+Por exemplo, a Figura \ref{fig:metodoproposto01} mostra o resultado de uma busca por páginas na \textit{web}.
+Mecanismos de busca como esse são parte do cotidiano hoje em dia, eles utilizam \textit{ranking} para criar listas de páginas relevantes para uma busca.
 
 Motivado por isso, este trabalho se concentra em tarefas de \textit{ranking}.
 Durante o projeto, criamos um metaclassificador para aprendizado de máquina supervisionado adequado para este tipo de tarefa.
@@ -63,17 +63,18 @@ Nesta versão, somente os classificadores necessários para construção daquela
 Com isso o método dinâmico conseguiu tempos de treinamento melhores do que a versão anterior.
 Por outro lado, seus tempos de classificação foram piores visto que o modelo é treinado durante a construção da lista de saída.
 
-Para avaliar os resultados de problemas como o da rede, desenvolvemos para este trabalho métricas denominadas \textit{k-Acurácia}, \textit{k-Precision} e \textit{k-Recall}.
+Para avaliar os resultados de problemas como o da rede, desenvolvemos para este trabalho um conjunto de métricas denominadas \textit{k-Acurácia}, \textit{k-Precision} e \textit{k-Recall}.
+De forma geral essas métricas apontam um melhor resultado quanto mais bem posicionada estiver a classe verdadeira na lista de saída.
+Veremos em detalhes no Capítulo \ref{chap:descricaodostestes} como cada uma delas funciona.
+
 Onde \textit{k} denota a posição da lista de saída a qual cada uma se refere, e.g. a 1-acurácia remete à primeira posição da lista, a 2-acurácia à segunda e assim por diante.
-Note que essas métricas refletem o cenário da rede \textit{R} descrito anteriormente.
 Considere que equipes são enviadas para corrigir os erros; a 1-acurácia se aplica ao cenário onde uma equipe foi enviada, a 2-acurácia duas equipes e assim por diante.
-Portanto essa métricas apontam um melhor resultado quanto mais bem posicionada estiver a classe verdadeira na lista de saída.
 
 O método proposto foi implementado na forma de um metaclassificador.
-Este foi programado em Java e utiliza diretamente as classes para aprendizado de máquina do \textit{Framework Weka}.
+Este foi programado em Java e utiliza diretamente as classes para aprendizado de máquina do \textit{Framework Weka} \cite{Hall}.
 Com isso o metaclassificador é capaz de utilizar internamente a uma grande quantidade de classificadores diferentes disponíveis nesta ferramenta.
 
-Propomos a utilização de classificadores probabilísticos para criar o \textit{Benchmark} dos testes de performance do método. 
+Utilizamos classificadores probabilísticos para criar o \textit{Benchmark} dos testes de performance do método. 
 Esses classificadores foram utilizados para construir as listas usadas como base para a avaliação dos modelos.
 Isso foi possível pois, eles podem gerar a probabilidade de cada classe para uma dada instância.
 A partir desta informação montamos um \textit{ranking} de classes para a instância.
@@ -81,14 +82,14 @@ A partir desta informação montamos um \textit{ranking} de classes para a inst�
 Durante a avaliação do método, executamos e analisamos testes do metaclassificador em combinação com classificadores conhecidos como o SVM, a Árvore de Decisão e o KNN.
 Observamos que o metaclassificador destacou-se nos testes com alguns deles, principalmente com a Árvore de Decisão.
 Além disso, discutimos os resultados do método quando aplicado à conjuntos de dados reais e sintéticos.
-Os tempos de execução também foram analisados.
-Dependendo do numero de classes envolvido o método proposto atinge tempos de execução razoáveis; ainda que mais lentos do que dos classificadores probabilísticos comuns.
+Os tempos de execução também foram analisados.Dependendo do numero de classes envolvido o método proposto atinge tempos de execução razoáveis; ainda que mais lentos do que dos classificadores probabilísticos comuns.
+Dependendo do número de classes envolvido o método proposto atinge tempos de execução razoáveis; ainda que mais lentos do que dos classificadores probabilísticos comuns.
 
 \section{Organização da Dissertação}
 
 Os capítulos deste texto estão organizados da forma a seguir.
 Primeiro são introduzidos os conceitos necessários para o entendimento do trabalho no Capítulo \ref{chap:conceitosbasicos}.
-Em seguida, no Capítulo \ref{chap:metodoproposto} o método é discutido em detalhes.
+Em seguida, no Capítulo \ref{chap:metodoproposto}, o método é discutido em detalhes.
 Depois os experimentos realizados para testar o método são detalhados e seus resultados são discutidos no Capítulo \ref{chap:descricaodostestes}.
 Posteriormente, no Capítulo \ref{chap:trabalhosrelacionados}, uma compilação de trabalhos relacionados à este é apresentada.
 Por fim, o texto é concluído com nossas considerações finais sobre o trabalho.

@@ -45,7 +45,7 @@ Ou, sob a ótica do problema da rede, a confiança em reparar a falha se enviarm
 
 Observe na Figura \ref{fig:descricaodostestes01} diversos exemplos de listas e suas acurácias.
 Para estes exemplos imagine que temos um conjunto de dados com cinco classes diferentes: A, B, C, D e E.
-Considere também que a classe verdadeira em todos os casos ilustrados na figura é A (em vermelho).
+Considere também que a classe verdadeira em todos os casos ilustrados na Figura é A (em vermelho).
 Cada linha do exemplo refere-se então a lista retornada para uma instância distinta e suas consequentes acurácias.
 
 \begin{figure}[h!]
@@ -70,7 +70,7 @@ Ao gerar listas de saída para múltiplas instâncias, os valores obtidos para c
 Este valor total é então dividido pelo número de instâncias que foram ranqueadas e multiplicado por cem.
 Com isso os valores das acurácias apresentados neste trabalho estão na forma de percentuais.
 
-Desta forma, podemos calcular os valores percentuais das acurácias ao longo de todos os exemplos da figura \ref{fig:descricaodostestes01}.
+Desta forma, podemos calcular os valores percentuais das acurácias ao longo de todos os exemplos da Figura \ref{fig:descricaodostestes01}.
 Os valores são apresentados na tabela \ref{tab:valoresacuraciasexemplo}.
 
 \begin{table}[h!]
@@ -132,7 +132,7 @@ No segundo caso calculamos as métricas, usando as fórmulas, para cada classe a
 Depois tiramos uma média ponderada pela quantidade de cada classe no conjunto de dados.
 Em ambos os casos os valores apresentados neste trabalho são convertidos para a forma de percentuais.
 
-Desta forma, podemos calcular os valores percentuais do \textit{Micro Precision} e \textit{Micro Recall} ao longo de todos os exemplos da figura \ref{fig:descricaodostestes02}.
+Desta forma, podemos calcular os valores percentuais do \textit{Micro Precision} e \textit{Micro Recall} ao longo de todos os exemplos da Figura \ref{fig:descricaodostestes02}.
 Os valores são apresentados na tabela \ref{tab:valores_micro}.
 Note que sempre teremos o mesmo valor para essas duas métricas pois a contagem total de \textit{false positives} e sempre igual a de \textit{false negatives}.
 
@@ -164,7 +164,7 @@ Note que sempre teremos o mesmo valor para essas duas métricas pois a contagem 
 \end{figure}
 
 Para entender o cálculo do \textit{Precision Ponderado} e do \textit{Recall Ponderado} mutilasse, considere outro exemplo onde temos apenas as classes A, B e C.
-Este exemplo é apresentado na figura \ref{fig:descricaodostestes03}, que mostra as dez listas retornadas e suas contagem de \textit{true positives}, \textit{false positives} e \textit{false negatives} para os níveis 1 e 2.
+Este exemplo é apresentado na Figura \ref{fig:descricaodostestes03}, que mostra as dez listas retornadas e suas contagem de \textit{true positives}, \textit{false positives} e \textit{false negatives} para os níveis 1 e 2.
 
 A partir disso podemos chegar às matrizes apresentadas na Tabela \ref{tab:confusao1} para as métricas de nível 1 e \ref{tab:confusao2} para as de nível 2.
 Com os valores contabilizados em cada matriz é possível então calcular as métricas de nível 1 e 2 para cada classe, cujos resultados são apresentados na Tabela \ref{tab:valores_classes}.
@@ -593,8 +593,8 @@ Por outro lado, variamos as médias das distribuições e as quantidades de pont
 Todos os conjuntos de dados criados tem 4500 pontos.
 Entretanto versões com proporções diferentes de instâncias das classes foram criadas: \textit{balanceado}, \textit{normal} e \textit{desbalanceado}.
 A tabela \ref{tab:dados_sinteticos} mostra as quantidades de instâncias de classes para as diferentes versões de dados.
-A figura \ref{fig:dist_diferentes} apresenta um conjunto de dados de cada versão.
-Note que os três conjuntos de dados da figura tem quantidades diferentes de instâncias de cada classe.
+A Figura \ref{fig:dist_diferentes} apresenta um conjunto de dados de cada versão.
+Note que os três conjuntos de dados da Figura tem quantidades diferentes de instâncias de cada classe.
 Todavia as médias das distribuições de cada classe nos diferentes conjuntos de dados são as mesmas.
 
 \begin{table}[h!]
@@ -617,7 +617,7 @@ Desbalanceado (D)      & 4000 & 250 & 250	\\
 
 Além disso, os conjuntos de dados com a mesma distribuição também foram gerados em três versões diferentes.
 Estas versões se diferenciam pelo posicionamento relativo das distribuições de classes: \textit{próxima}, \textit{adjacente} e \textit{distante}.
-A figura \ref{fig:dist_iguais} ilustra essas três versões para o conjunto de dados \textit{desbalanceado}.
+A Figura \ref{fig:dist_iguais} ilustra essas três versões para o conjunto de dados \textit{desbalanceado}.
 Note que na versão \textit{próxima} a média da classe dominante (verde) está entre as médias das outras duas classes.
 Nas versões \textit{adjacente} e \textit{distante} a média da classe dominante é afastada sucessivamente das outras duas classes.
 
@@ -715,7 +715,7 @@ Ganhos menores são observáveis na mesma situação para os algorítimos \texti
 Novamente este resultado reforça que o método proposto melhora o resultado desses algoritmos para conjuntos de dados cujas classes tem distribuições com médias muito próximas e que portanto se sobrepõem.
 
 Como citamos, diversos outros testes com dados sintéticos foram feitos mas mostramos apenas os resultados de interesse nesta seção.
-Realizamos os mesmos testes discutidos aqui com dados onde as distribuições das classes estão mais afastadas (\textit{adjacente} e \textit{distante}), conforme ilustrado na figura \ref{fig:dist_iguais}.
+Realizamos os mesmos testes discutidos aqui com dados onde as distribuições das classes estão mais afastadas (\textit{adjacente} e \textit{distante}), conforme ilustrado na Figura \ref{fig:dist_iguais}.
 Porém nestes demais cenários o metaclassificador não se destacou de maneira substancial.
 Embora ele tenha apresentado algum ganho na maioria dos casos, estes são iguais ou inferiores a 1\%.
 Para ver o restante dos resultados com os dados sintéticos consulte o apêndice desta dissertação.

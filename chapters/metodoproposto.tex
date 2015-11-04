@@ -16,7 +16,7 @@ Assuma que temos 5 classes distintas no conjunto de dados: A, B, C, D e E.
 No exemplo da Figura \ref{fig:metodoproposto01} queremos gerar uma lista de saída de tamanho quatro, logo quatro classificadores internos são utilizados. 
 O classificador inicial (alfa),que foi treinado com o conjunto de treino completo, sempre gera o primeiro item de uma lista. 
 O metaclassificador precisa então escolher um de seus classificadores internos para gerar um próximo item. 
-Como a figura sugere, esta escolha depende de todos os elementos inseridos anteriormente na lista.
+Como a Figura sugere, esta escolha depende de todos os elementos inseridos anteriormente na lista.
 Repare na notação utiliza para nomear os classificadores, as letras depois barra "/" indicam as classes retiradas do conjunto de treino original para treinar aquele classificador.
 Ou seja, o classificador /D foi treinado com um conjunto de treino filtrado de forma a excluir todas as instâncias da classe D, já o /BD excluiu aquelas das classes B e D e assim por diante.
 Desta forma, o classificador /BD foi usado para gerar o terceiro elemento da lista por que as classes B e D já tinham sido colocadas na mesma.
@@ -156,7 +156,7 @@ De forma geral, considerando que $\textit{k} \leq \textit{v}$, temos que:
 
 \end{equation*}
 
-A Figura \ref{fig:metodoproposto03} ilustra os classificadores internos gerados quando as possibilidades de valor de classe são A, B, C e D. Na figura as numerações não somente identificam cada classificador interno, elas denotam como o conjunto de treino foi filtrado para gerar aquele classificador. Além disso, a figura divide os classificadores internos em camadas. Um classificador que pertence a camada \textit{k} pode ser usado apenas para gerar um elemento na posição \textit{k} da lista de saída.
+A Figura \ref{fig:metodoproposto03} ilustra os classificadores internos gerados quando as possibilidades de valor de classe são A, B, C e D. Na Figura as numerações não somente identificam cada classificador interno, elas denotam como o conjunto de treino foi filtrado para gerar aquele classificador. Além disso, a Figura divide os classificadores internos em camadas. Um classificador que pertence a camada \textit{k} pode ser usado apenas para gerar um elemento na posição \textit{k} da lista de saída.
 
 \begin{figure}[h!]
   \includegraphics[width=\linewidth]{images/metodoproposto03.eps}
