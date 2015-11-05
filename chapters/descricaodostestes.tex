@@ -88,7 +88,7 @@ Os valores são apresentados na tabela \ref{tab:valoresacuraciasexemplo}.
 
       \hline
     \end{tabular}
-    \caption{Valores percentuais das acurácias do exemplo}
+    \caption{Valores percentuais das acurácias do exemplo da Figura \ref{fig:descricaodostestes01}}
     \label{tab:valoresacuraciasexemplo}
   \end{center}
 \end{table}
@@ -102,18 +102,8 @@ Portanto, o \textit{k-Precision} e o \textit{k-Recall} também variam de 1 até 
 
 Como sabemos, os valores dessas métricas são calculados a partir da contabilização dos \textit{true positives (tp)}, \textit{false positives (fp)} e \textit{false negatives (fn)} (vide Capítulo \ref{chap:conceitosbasicos}).
 Estes por sua vez dependem da posição da classe verdadeira na lista.
-Se A é a classe verdadeira e ela aparece na posição \textit{i} da lista, onde $1 \leq \textit{i} \leq \textit{k}$, então as posições anteriores à \textit{i} contam como $fn_A$ e restante como $tp_A$.
+Se A é a classe verdadeira e ela aparece na posição \textit{i} da lista, onde $1 \leq \textit{i} \leq \textit{k}$, então as posições anteriores à \textit{i} contam como $fn_A$ e o restante como $tp_A$.
 Além disso, para cada posição anterior à \textit{i} também é contado um fp para a classe que foi prevista erradamente no lugar de A.
-
-Observe na Figura \ref{fig:descricaodostestes02} o mesmo exemplo anterior agora com a contagem de tp, fn e fp para cada classe.
-Recorde que no exemplo temos um conjunto de dados com as classes A, B, C, D e E, sendo A (em vermelho) a classe verdadeira em todos os exemplos.
-
-\begin{figure}[h!]
-  \centering
-  \includegraphics[width=120mm,scale=0.8]{images/descricaodostestes02.eps}
-  \caption{Exemplos de listas e suas contagens de tp, fn e fp.}
-  \label{fig:descricaodostestes02}
-\end{figure}
 
 Da mesma forma que fizemos para as \textit{k-Acurácias} o cálculo é feito de forma diferente para o \textit{benchmark} dos testes.
 Lembre que quando a probabilidade da classe verdadeira está empatada com a de uma ou mais classes, múltiplas listas poderiam ser criadas a partir desta distribuição.
@@ -125,60 +115,23 @@ Usando as probabilidades podemos contar de outra forma.
 A primeira posição conta 0.5 $tp_A$, 0.5 $fn_A$ e 0.5 $fp_B$, visto que existe 50\% de chance de cada caso ocorrer.
 O restante das posições conta simplesmente como um $tp_A$.
 
-O cálculo do \textit{k-Precision} e do \textit{k-Recall} é feito de duas formas: \textit{Micro} e \textit{Média Ponderada}.
-No primeiro caso somamos os \textit{true positives (tp)}, \textit{false positives (fp)} e \textit{false negatives (fn)} de todas as classes para cada \textit{i-Precision} e \textit{i-Recall}.
-Depois aplicamos esses valores totais às fórmulas do \textit{Precision} e \textit{Recall}.
-No segundo caso calculamos as métricas, usando as fórmulas, para cada classe a priori.
-Depois tiramos uma média ponderada pela quantidade de cada classe no conjunto de dados.
-Em ambos os casos os valores apresentados neste trabalho são convertidos para a forma de percentuais.
-
-Desta forma, podemos calcular os valores percentuais do \textit{Micro Precision} e \textit{Micro Recall} ao longo de todos os exemplos da Figura \ref{fig:descricaodostestes02}.
-Os valores são apresentados na tabela \ref{tab:valores_micro}.
-Note que sempre teremos o mesmo valor para essas duas métricas pois a contagem total de \textit{false positives} e sempre igual a de \textit{false negatives}.
-
-\begin{table}[h!]
-  \begin{center}
-    \begin{tabular}{ccc}
-      \hline
-      \textbf{k} & \textbf{Precision} & \textbf{Recall} \\
-      \hline
-
-      1 & 16,67 \% & 16,67 \% \\
-      2 & 66,67 \% & 66,67 \% \\
-      3 & 83,33 \% & 83,33 \% \\
-      4 & 83,33 \% & 83,33 \% \\
-      5 & 100 \% & 100 \% \\
-
-      \hline
-    \end{tabular}
-    \caption{Valores percentuais do \textit{Micro Precision} e \textit{Micro Recall} do exemplo}
-    \label{tab:valores_micro}
-  \end{center}
-\end{table}
+Observe na Figura \ref{fig:descricaodostestes03} um exemplo de conjunto de listas retornadas com a contagem de tp, fn e fp para cada classe.
+Neste exemplo temos um conjunto de dados com três classes (A, B e C).
+Em cada lista, a classe em vermelho indica a verdadeira.
 
 \begin{figure}[h!]
   \centering
-  \includegraphics[width=120mm,scale=0.9]{images/descricaodostestes03.eps}
-  \caption{Exemplos de listas com três classes e suas contagens de tp, fn e fp.}
+  \includegraphics[width=120mm,scale=0.8]{images/descricaodostestes03.eps}
+  \caption{Exemplos de listas e suas contagens de tp, fn e fp.}
   \label{fig:descricaodostestes03}
 \end{figure}
 
-Para entender o cálculo do \textit{Precision Ponderado} e do \textit{Recall Ponderado} mutilasse, considere outro exemplo onde temos apenas as classes A, B e C.
-Este exemplo é apresentado na Figura \ref{fig:descricaodostestes03}, que mostra as dez listas retornadas e suas contagem de \textit{true positives}, \textit{false positives} e \textit{false negatives} para os níveis 1 e 2.
+O \textit{k-Precision} e \textit{k-Recall} para problemas multiclasse são baseados no \textit{Macro Precision} e \textit{Macro recall} explicados no capítulo \ref{chap:conceitosbasicos}.
+Isto é, eles são uma média aritmética do \textit{k-Precision} e do \textit{k-Recall} de todas as classes. 
 
-A partir disso podemos chegar às matrizes apresentadas na Tabela \ref{tab:confusao1} para as métricas de nível 1 e \ref{tab:confusao2} para as de nível 2.
+Para efetuar o cálculo dessas métricas para o exemplo da Figura \ref{fig:descricaodostestes03}, primeiro é necessário contabilizar a quantidade de \textit{true positives}, \textit{false positives} e \textit{false negatives} de cada classe.
+Esses valores são apresentados nas matrizes das Tabela \ref{tab:confusao1}, para as métricas de nível 1, e \ref{tab:confusao2} para as de nível 2.
 Com os valores contabilizados em cada matriz é possível então calcular as métricas de nível 1 e 2 para cada classe, cujos resultados são apresentados na Tabela \ref{tab:valores_classes}.
-Por fim, o valor final das métricas ponderadas é apresentado na Tabela \ref{tab:valores_pon}.
-
-Para fazer esses cálculos utilizamos as fórmulas de \textit{Precision} e \textit{Recall} introduzidas no Capítulo \ref{chap:conceitosbasicos}.
-Por exemplo, para chegar os valores do \textit{1-Precision Ponderado} da Tabela \ref{tab:valores_pon} devemos fazer os cálculos a seguir.
-Considere que $N_A$, $N_B$ e $N_C$ são as quantidades de instancias das classes A, B e C respectivamente.
-
-\begin{align*}
-\text{1-Precision Ponderado} &= \frac{(\text{1-$Prec_A$} \times N_A)+(\text{1-$Prec_B$} \times N_B)+(\text{1-$Prec_C$} \times N_C)}{N_A+N_B+N_C} \\
-&= \frac{(50\% \times 4)+(60\% \times 4)+(33,33\% \times 2)}{10} \\
-&= 50,07\%
-\end{align*}
 
 \begin{table}[h!]
   \begin{center}
@@ -193,7 +146,7 @@ Considere que $N_A$, $N_B$ e $N_C$ são as quantidades de instancias das classes
 
       \hline
     \end{tabular}
-    \caption{Contabilização dos valores para métricas ponderadas de nível 1}
+    \caption{Contabilização dos valores para métricas de nível 1 do exemplo da Figura \ref{fig:descricaodostestes03}}
     \label{tab:confusao1}
   \end{center}
 \end{table}
@@ -211,7 +164,7 @@ Considere que $N_A$, $N_B$ e $N_C$ são as quantidades de instancias das classes
 
       \hline
     \end{tabular}
-    \caption{Contabilização dos valores para métricas ponderadas de nível 1}
+    \caption{Contabilização dos valores para métricas de nível 2 do exemplo da Figura \ref{fig:descricaodostestes03}}
     \label{tab:confusao2}
   \end{center}
 \end{table}
@@ -230,10 +183,13 @@ Considere que $N_A$, $N_B$ e $N_C$ são as quantidades de instancias das classes
       
       \hline
     \end{tabular}
-    \caption{Contabilização dos valores métricas ponderadas de nível 1}
+    \caption{Contabilização dos valores das métricas de cada classe de nível 1 e 2 para o exemplo da Figura \ref{fig:descricaodostestes03}}
     \label{tab:valores_classes}
   \end{center}
 \end{table}
+
+Desta forma, podemos calcular os valores percentuais do \textit{Macro k-Precision} e \textit{Macro k-Recall} ao longo de todos os exemplos da Figura \ref{fig:descricaodostestes02}.
+Os valores obtidos são apresentados na tabela \ref{tab:valores_macro}.
 
 \begin{table}[h!]
   \begin{center}
@@ -242,15 +198,25 @@ Considere que $N_A$, $N_B$ e $N_C$ são as quantidades de instancias das classes
       \textbf{k} & \textbf{Precision} & \textbf{Recall} \\
       \hline
 
-      1 & 50,07 \% & 50 \% \\
-      2 & 76,67 \% & 70 \% \\
+1	&	47.78 \%	&	50 \%	\\
+2	&	72.22 \%	&	66.67 \%	\\
 
       \hline
     \end{tabular}
-    \caption{Valores percentuais do \textit{Precision Ponderado} e \textit{Recall Ponderado} do exemplo}
-    \label{tab:valores_pon}
+    \caption{Valores percentuais do \textit{Macro Precision} e \textit{Macro Recall} do exemplo da Figura \ref{fig:descricaodostestes03}}
+    \label{tab:valores_macro}
   \end{center}
 \end{table}
+
+Para fazer esses cálculos utilizamos as fórmulas de \textit{Macro Precision} e \textit{Macro Recall} introduzidas no Capítulo \ref{chap:conceitosbasicos}.
+Por exemplo, para chegar ao valor do \textit{Macro 1-Precision} da Tabela \ref{tab:valores_macro} devemos fazer os cálculos a seguir.
+Considere que $N_A$, $N_B$ e $N_C$ são as quantidades de instancias das classes A, B e C respectivamente.
+
+\begin{align*}
+\text{Macro 1-Precision} &= \frac{\text{1-$Precision_A$}+\text{1-$Precision_B$}+(\text{1-$Precision_C$}}{N_A+N_B+N_C} \\
+&= \frac{50\%+60\%+33.33\%}{10} \\
+&= 47.78\%
+\end{align*}
 
 \section{Resultados dos Testes}
 

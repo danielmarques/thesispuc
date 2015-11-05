@@ -318,3 +318,6 @@ Para compreender intuitivamente o \textit{Precision} e o \textit{Recall} podemos
 Neste contexto o \textit{Precision} denota qual proporção dos elementos selecionados pelo modelo realmente são relevantes, no caso do exemplo da Tabela \ref{tab:positivosenegativos} máquinas com falha.
 Por outro lado, o \textit{Recall} representa qual proporção dos elementos relevantes presentes nos dados foi selecionada pelo modelo.
 
+Também é importante compreender essas métricas no contexto do problema da rede, onde precisamos enviar equipes para corrigir as falhas.
+Podemos entender o $Precision_i$ como o número de vezes que equipes são enviadas ao nodo \textit{i} e ele falhou, dividido pelo número de vezes total que equipes são enviadas à este nodo.
+Por outro lado, o $Recall_i$ é o número de vezes que equipes são enviadas ao nodo \textit{i} e ele falhou, dividio pelo número total de vezes que este nodo falhou.
