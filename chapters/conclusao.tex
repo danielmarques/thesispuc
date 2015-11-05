@@ -13,10 +13,9 @@ Se garantirmos que o nodo com falha está entre as \textit{k} primeiras posiçõ
 
 Note que as métricas \textit{k-Acurácia}, \textit{k-Precision} e \textit{k-Recall}, propostas neste trabalho, capturam exatamente esta problemática.
 Por exemplo, se temos um valor de \textit{3-Acurácia} de 100\% isso garante que se enviarmos 3 equipes, uma à cada  nodo das três primeiras posições do \textit{ranking}, conseguiremos encontrar e corrigir a falha.
-Sendo assim, este trabalho se focou em desenvolver um método de geração de \textit{rankings} com o intuito de maximizar o resultado obtido com essas métricas.
 
 Como vimos, o método proposto foi implementado na forma de um metaclassificador que pode utilizar qualquer outro classificador internamente.
-Exploramos essa característica durante os estudos experimentais, onde o metaclassificador foi testado em conjunto com diversos classificadores famosos.
+Exploramos essa característica durante os estudos experimentais, onde o metaclassificador foi testado em conjunto com diversos classificadores amplamente conhecidos.
 
 Outra característica importante do método proposto é o tratamento dado ao conjunto de treino.
 Isto é, à medida que o metaclassificador gera o \textit{ranking}, ele também remove dos dados as instâncias das classes que já foram colocadas na lista.
@@ -26,16 +25,16 @@ Durante o estudo experimental conjuntos de dados sintéticos foram construídos 
 Alguns desses dados simulavam situações onde a influência de uma classe poderia prejudicar o desempenho de um classificador, e.g. dados desbalanceados com uma classe dominante.
 Neste contexto observamos ganhos de desempenho substanciais do método proposto em relação o \textit{Benchmark}.
 
-Os testes conduzidos neste trabalho utilizaram diversos dados retirados de bases públicas.
+Os testes conduzidos neste trabalho também utilizaram diversos dados retirados de bases públicas.
 De forma geral, conseguimos identificar que o método proposto contribui para a melhoria do desempenho de diversos classificadores na geração de \textit{rankings}.
 Em grande parte dos casos essas melhorias foram pequenas, da ordem de 1\%.
 Porém podemos destacar que com os algoritmos \textit{Árvore de Decisão} e \textit{k-Nearest Neighbors} ganhos maiores foram medidos.
 Para reforçar esta conclusão exploramos métricas além da \textit{k-Acurácia}.
 Durante o estudo com dados sintéticos, utilizando o \textit{Macro k-Precision} e o \textit{Macro k-Recall}, pudemos observar com maior clareza esses ganhos de desempenho.
 
-Não obstante o foco deste trabalho tenha sido o problema da rede, inúmeras outras tarefas de destaque tem características análogas.
+Não obstante o foco deste trabalho tenha sido o problema da rede, outras tarefas relevantes tem características análogas.
 Muitas destas são aplicações de comum utilização do público geral atualmente como o \textit{ranking} de páginas na \textit{web}, sistemas de recomendação de produtos e sistemas de reconhecimento de voz e imagens.
-Portanto, o metaclassificador pode ser eficaz em diversos desses casos.
+Portanto, o metaclassificador talvez possa ser eficaz em alguns desses casos.
 Além disso, note que as métricas desenvolvidas se mostraram pertinentes na avaliação de modelos aplicados à problemas de \textit{ranking}.
 Por isso, elas podem contribuir de forma geral para a análise de problemas desse tipo.
-Sendo assim, o que foi produzido neste trabalho, tanto para a melhoria de geração de \textit{rankings} como para a análise de desempenho dos modelos, pode ser aplicado na solução de diversos problemas reais.
+Sendo assim, o que foi produzido neste trabalho, tanto para a melhoria de geração de \textit{rankings} como para a análise de desempenho dos modelos, tem potencial para ser aplicado na solução de diversos problemas reais.

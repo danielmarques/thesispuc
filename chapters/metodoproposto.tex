@@ -40,6 +40,7 @@ Ele deve ser treinado com conjuntos que apresentam apenas um único valor no atr
 Apos o treinamento com um conjunto de dados deste tipo o metaclassificador é capaz de gerar uma lista ordenada de classes para uma nova instância.
 
 \section{Motivação}
+\label{sec:mp_motivacao}
 
 A principal motivação para utilização deste método é a eliminação de ruído dos dados.
 Como explicamos na seção anterior isso é feito através de filtragens sucessivas do conjunto de treino que eliminam as instâncias cuja classe já foi colocada na lista.
@@ -123,7 +124,7 @@ O pseudocódigo a seguir descreve o procedimento de treinamento e classificaçã
 \hfill \break
 -- \textit{Treinamento}\newline
 Carrega o conjunto de treino completo\newline
-Gera todas as possíveis combinações de classe sem repetições\newline
+Gera todos os possíveis subconjuntos de classe (de tamanho k ou menor) sem repetições\newline
 Para cada combinação de classe que foi gerada faça:
 
 \quad Copia o conjunto de treino completo
@@ -140,7 +141,7 @@ Para cada item \textit{i} da lista de saída faça:
 
 \quad Recupera o modelo interno treinado sem essas classes
 
-\quad Utiliza este modelo para gerar o \textit{iésimo} item da lista de saída
+\quad Utiliza este modelo para gerar o \textit{i-ésimo} item da lista de saída
 
 \hline
 \hfill \break
@@ -182,7 +183,7 @@ O pseudocódigo a seguir descreve o procedimento de treinamento e classificaçã
 \hline
 \hfill \break
 Carrega o conjunto de treino completo\newline
-Para cada item \textit{i} da lista de saída faça:
+Para cada item \textit{i} da lista de saída (onde $1 \leq i \geq k$) faça:
 
 \quad Verifica as \textit{i-1} classes que já foram colocadas na lista de saída
 
@@ -194,7 +195,7 @@ Para cada item \textit{i} da lista de saída faça:
 
 \quad Armazena internamente o modelo gerado
 
-\quad Utiliza este modelo para gerar o \textit{iésimo} item da lista de saída
+\quad Utiliza este modelo para gerar o \textit{i-ésimo} item da lista de saída
 \hline
 \hfill \break
 

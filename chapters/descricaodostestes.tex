@@ -254,7 +254,7 @@ Considere que $N_A$, $N_B$ e $N_C$ são as quantidades de instancias das classes
 
 \section{Resultados dos Testes}
 
-Todos os testes realizados neste capítulo foram realizados com validação cruzada com partição em dez grupos.
+Todos os testes reportados neste capítulo foram realizados com validação cruzada com partição em dez grupos.
 Novamente, os componentes do \textit{framework} Weka foram utilizados para realizar as validações.
 Além disso, ao executar o programa 10 GB de memória são reservados para o \textit{heap} da Máquina Virtual Java com o comando \textit{java -Xmx10g}.
 
@@ -432,7 +432,7 @@ Como foi explicado, quando ocorre empate de probabilidades na construção desse
 Desta forma, as diferenças na \textit{1-Acurácia} observadas na Tabela \ref{tab:acuracias} são devidas ao tratamento diferente nestes casos de empate.
 
 Ainda na Tabela \ref{tab:acuracias}, note que o metaclassificador destacou-se nos testes com o algoritmo Árvore de Decisão.
-Ele teve cerca de 4,5\% de vantagem na \textit{2-Precision} e 5,5\% na \textit{3-Precision}.
+Ele teve cerca de 4,5\% de vantagem na \textit{2-Acurácia} e 5,5\% na \textit{3-Acurácia}.
 Nos demais casos as diferenças nas acurácias foram muito pequenas, em alguns o classificador teve um resultado marginalmente melhor em outros o metaclassificador.
 
 \subsection{Análise do \textit{Precision} e \textit{Recall}}
@@ -567,7 +567,7 @@ Desta forma pudemos utilizar as métricas \textit{k-Acurácia}, \textit{k-Precis
 
 Todos os conjuntos de dados sintéticos que criamos são compostos por três classes: azul, vermelha e verde.
 Para gerar os pontos dessas classes utilizamos distribuições normais bivariadas.
-Veja a seção Motivação do Capítulo \ref{chap:metodoproposto} para mais detalhes sobre esse tipo de distribuição.
+Veja a seção \ref{sec:mp_motivacao} para mais detalhes sobre esse tipo de distribuição.
 Sendo assim, cada instância tem dois atributos numéricos gerados aleatoriamente de acordo com a distribuição de sua classe.
 Utilizamos a mesma matriz de covariâncias nas distribuições das três classes (apresentada abaixo).
 Por outro lado, variamos as médias das distribuições e as quantidades de pontos de cada classe.
