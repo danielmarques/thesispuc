@@ -39,6 +39,7 @@ Note que o metaclassificador não foi desenvolvido para receber um conjunto de t
 Ele deve ser treinado com conjuntos que apresentam apenas um único valor no atributo classe.
 Apos o treinamento com um conjunto de dados deste tipo o metaclassificador é capaz de gerar uma lista ordenada de classes para uma nova instância.
 
+\newpage
 \section{Motivação}
 \label{sec:mp_motivacao}
 
@@ -106,7 +107,7 @@ O método proposto foi desenvolvido em duas versões: estático e dinâmico.
 
 \subsection{Método Estático}
 
-O método estático gera a priori todas os subconjuntos de classe que podem compor a lista de saída. 
+O método estático gera a priori todos os subconjuntos de classe que podem compor a lista de saída. 
 Ele então treina todos os possíveis classificadores, cada um com sua versão filtrada do conjunto de treino, armazenando-os internamente.
 Este conjunto de classificadores internos é efetivamente o modelo gerado pelo metaclassificador. 
 Este pode ser usado então para gerar rankings ao receber novas instâncias. 

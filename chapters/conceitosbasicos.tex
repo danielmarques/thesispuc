@@ -68,7 +68,7 @@ Os exemplos envolvidos no processo de aprendizado são denominados \textit{conju
 Cada exemplo contém as coordenadas \textit{(x,y)} mais o valor da classe (circulo ou triângulo).
 O algoritmo supervisionado simples proposto a seguir para resolver este problema é baseado no perceptron.
 \\
-
+\newpage
 \hline
 \begin{center}
 \textbf{Algoritmo de aprendizado}
@@ -225,7 +225,7 @@ Aplicamos então esse modelo à um conjunto de 100 instâncias e obtemos um resu
   \end{center}
 \end{table}
 
-Os dados da Tabela \ref{tab:positivosenegativos} estão separados em \textit{true positive} (TP), \textit{true negative} (TN),\textit{false positive} (FP) e \textit{false negative} (FN).
+Os dados da Tabela \ref{tab:positivosenegativos} estão separados em \textit{true positive} (TP), \textit{true negative} (TN), \textit{false positive} (FP) e \textit{false negative} (FN).
 Os dois primeiros indicam o número de instâncias corretamente classificadas e o restante a quantidade classificada incorretamente.
 Isto é, \textit{TP} é o número de instâncias que foram classificadas como sendo da classe "com falha" e que realmente pertencem à essa classe.
 Já \textit{TN} é o número de instâncias de outras classes, no exemplo temos somente "sem falha", que foram classificados corretamente.
@@ -237,9 +237,9 @@ A partir desses valores é possível gerar algumas das métricas mais usuais em 
 
 \begin{align*}
 
-\[ \textit{Acurácia} &= \frac{TP+TN}{TP+TN+FP+FN} \] \\
-\[ \textit{Precision_i} &= \frac{TP_i}{TP_i+FP_i} \] \\
-\[ \textit{Recall_i} &= \frac{TP_i}{TP_i+FN_i} \]
+\[ Acurácia &= \frac{TP+TN}{TP+TN+FP+FN} \] \\
+\[ Precision_i &= \frac{TP_i}{TP_i+FP_i} \] \\
+\[ Recall_i &= \frac{TP_i}{TP_i+FN_i} \]
 \end{align*}
 
 Conforme as métricas foram apresentadas temos que a \textit{Acurácia} tem um valor único para o modelo.
@@ -271,9 +271,9 @@ Neste exemplo, para calcular o \textit{Precision} para classe A, devemos procede
 
 \begin{align*}
 
-\[ \textit{Precision_A} &= \frac{TP_A}{TP_A+FP_A} \] \\
-\[ \textit{Precision_A} &= \frac{30}{30+10+5} \] \\
-
+\[ Precision_A &= \frac{TP_A}{TP_A+FP_A} \] \\
+\[ Precision_A &= \frac{30}{30+10+5} \] \\
+\[ Precision_A &= 66,67\% \]
 \end{align*}
 
 As demais métricas podem ser calculadas de forma análoga aplicando-se as fórmulas.
@@ -304,12 +304,12 @@ Seus valores são apresentados na Tabela \ref{tab:resultados_exemplo2}.
         & \textbf{Classe A} & \textbf{Classe B} & \textbf{Classe C} & \textbf{Macro}\\
       \hline
 
-\textbf{Precision}	&	66.67	&	71.43	&	75	&	71.03	\\
-\textbf{recall}	&	75	&	71.43	&	60	&	68.81	\\
+\textbf{Precision}	&	66.67\%	&	71.43\%	&	75\%	&	71.03\%	\\
+\textbf{Recall}	&	75\%	&	71.43\%	&	60\%	&	68.81\%	\\
 
       \hline
     \end{tabular}
-    \caption{Exemplo com três classes}
+    \caption{Resultados do exemplo com três classes}
     \label{tab:resultados_exemplo2}
   \end{center}
 \end{table}

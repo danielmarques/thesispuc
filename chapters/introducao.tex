@@ -8,11 +8,11 @@ Exemplos destas tarefas são reconhecimento de imagens, tradução automática d
 \begin{figure}[h!]
   \includegraphics[width=\linewidth]{images/intro01.eps}
   \caption{Exemplo de aplicação de ranking}
-  \label{fig:metodoproposto01}
+  \label{fig:introducao01}
 \end{figure}
 
 As soluções para algumas dessas tarefas utilizam conceitos de \textit{ranking}.
-Por exemplo, a Figura \ref{fig:metodoproposto01} mostra o resultado de uma busca por páginas na \textit{web}.
+Por exemplo, a Figura \ref{fig:introducao01} mostra o resultado de uma busca por páginas na \textit{web}.
 Mecanismos de busca como esse são parte do cotidiano hoje em dia, eles utilizam \textit{ranking} para criar listas de páginas relevantes para uma busca.
 
 Motivado por isso, este trabalho se concentra em tarefas de \textit{ranking}.
@@ -37,6 +37,7 @@ Tendo em vista a dificuldade de gerar essa informação com absoluta precisão, 
 Quanto mais próximo da primeira posição da lista estiver o nodo verdadeiro, menor será o custo de reparo da rede.
 Embora o metaclassificador desenvolvido possa ser utilizado para tarefas de \textit{ranking} de propósito geral, o problema definido acima será usado ao longo do trabalho como tarefa principal.
 
+\newpage
 \section{Contribuições}
 
 Neste trabalho propomos um método para geração de \textit{rankings} capaz de utilizar qualquer tipo de classificador para esta tarefa.
@@ -67,12 +68,8 @@ Para avaliar os resultados de problemas como o da rede, desenvolvemos para este 
 De forma geral essas métricas apontam um melhor resultado quanto mais bem posicionada estiver a classe verdadeira na lista de saída.
 Veremos em detalhes no Capítulo \ref{chap:descricaodostestes} como cada uma delas funciona.
 
-Onde \textit{k} denota a posição da lista de saída a qual cada uma se refere, e.g. a 1-acurácia remete à primeira posição da lista, a 2-acurácia à segunda e assim por diante.
-Considere que equipes são enviadas para corrigir os erros; a 1-acurácia se aplica ao cenário onde uma equipe foi enviada, a 2-acurácia duas equipes e assim por diante.
-
-O método proposto foi implementado na forma de um metaclassificador.
-Este foi programado em Java e utiliza diretamente as classes para aprendizado de máquina do \textit{Framework Weka} \cite{Hall}.
-Com isso o metaclassificador é capaz de utilizar internamente a uma grande quantidade de classificadores diferentes disponíveis nesta ferramenta.
+O metaclassificador foi programado em Java e utiliza diretamente as classes para aprendizado de máquina do \textit{Framework Weka} \cite{Hall}.
+Com isso o ele é capaz de utilizar internamente a uma grande quantidade de classificadores diferentes disponíveis nesta ferramenta.
 
 Utilizamos classificadores probabilísticos para criar o \textit{Benchmark} dos testes de performance do método. 
 Esses classificadores foram utilizados para construir as listas usadas como base para a avaliação dos modelos.
