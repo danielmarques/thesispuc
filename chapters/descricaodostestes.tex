@@ -112,9 +112,8 @@ Retornemos ao exemplo da seção anterior, onde tínhamos as classes A, B e C co
 Podemos ter as listas de saída (1) A, B e C ou (2) B, A e C.
 No primeiro caso as posições de um a três contam como um $tp_A$.
 No segundo caso a primeira posição conta um $fn_A$, um $fp_B$ e o restante das posições conta um $tp_A$.
-Usando as probabilidades podemos contar de outra forma.
-A primeira posição conta 0.5 $tp_A$, 0.5 $fn_A$ e 0.5 $fp_B$, visto que existe 50\% de chance de cada caso ocorrer.
-O restante das posições conta simplesmente como um $tp_A$.
+Com isso podemos fazer a contabilização de outra forma.
+A primeira posição conta 0.5 $tp_A$, 0.5 $fn_A$ e 0.5 $fp_B$ e o restante conta simplesmente como um $tp_A$.
 
 Observe na Figura \ref{fig:descricaodostestes03} um exemplo de conjunto de listas retornadas com a contagem de tp, fn e fp para cada classe.
 Neste exemplo temos um conjunto de dados com três classes (A, B e C).
@@ -518,7 +517,8 @@ Nos demais casos as diferenças entre classificador e metaclassificador foram mu
 
 \section{Testes com Dados Sintéticos}
 
-Nos experimentos com conjuntos de dados retirados de bases públicas as métricas indicaram que o resultado do metaclassificador foi similar ao do \textit{benchmark}, superando este em alguns casos.
+Nos experimentos com conjuntos de dados retirados de bases públicas as métricas não indicaram um diferença clara entre o resultado do metaclassificador do \textit{benchmark}.
+Em alguns casos o metaclassificador foi melhor, em outros o foi pior, geralmente com uma pequena margem de diferença.
 Entretanto, no intuito de entender melhor o comportamento do método proposto decidimos conduzir uma série de testes com dados sintéticos.
 Estes dados foram construídos para emular características específicas nos dados, como por exemplo as quantidades de instâncias de cada classe balanceadas ou não.
 Desta forma pudemos utilizar as métricas \textit{k-Acurácia}, \textit{k-Precision} e \textit{k-Recall} para entender como o método proposto responde à essas características dos conjuntos de dados.
