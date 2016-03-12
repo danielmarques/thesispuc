@@ -784,7 +784,7 @@
   \puc@leftmargin{\arial%
     \ifthenelse{\boolean{puc@phd}}%
       {Tese apresentada ao Programa de Pós--graduação em \puc@program\ do Departamento de \puc@department\ da \puc@uni\ como requisito parcial para obtenção Do título de Doutor em \puc@program}%
-      {Dissertação apresentada como requisito parcial para obtenção do grau de Mestre pelo Programa de Pós--graduação em \puc@program\ do Departamento de \puc@department\ da \puc@uni}%
+      {Disserta\c c\~ao apresentada como requisito parcial para obten\c c\~ao do grau de Mestre pelo Programa de P\'os--gradua\c c\~ao em \puc@program\ do Departamento de \puc@department\ da \puc@uni}%
   }%
   \vspace*{\stretch{1}}%
   \par%
@@ -827,8 +827,8 @@
   \puc@leftmargin{\arial%
   \ifthenelse{\boolean{puc@phd}}%
   {Tese apresentada ao Programa de Pós--graduação em \puc@program\ do Departamento de \puc@department\ do \puc@school\ da \puc@uni\ como requisito parcial para obtenção Do título de Doutor em \puc@program. }%
-  {Dissertação apresentada como requisito parcial para obtenção do grau de Mestre pelo Programa de Pós--graduação em \puc@program\ do Departamento de \puc@department\ do \puc@school\ da \puc@uni. }%
-  Aprovada pela Comissão Examinadora abaixo assinada.%
+  {Disserta\c c\~ao apresentada como requisito parcial para obten\c c\~ao do grau de Mestre pelo Programa de P\'os--gradua\c c\~ao em \puc@program\ do Departamento de \puc@department\ do \puc@school\ da \puc@uni. }%
+  Aprovada pela Comiss\~ao Examinadora abaixo assinada.%
   }%
   \vspace*{\stretch{1}}%
   \renewcommand{\jurymember}[2]{\ifthenelse{\equal{##1}{}}{}{%
@@ -878,7 +878,7 @@
       \noindent \puc@authorR \\ \\ \par%
       \hspace*{.6cm} \puc@title\relax\ / \puc@author; orientador: \puc@adviser\ifthenelse{\equal{\puc@coadviser}{}}{}{; co--orientador\ifthenelse{\equal{\puc@coadviserII}{}}{}{es}: \puc@coadviser}\ifthenelse{\equal{\puc@coadviserII}{}}{}{, \puc@coadviserII}\ifthenelse{\equal{\puc@coadviserIII}{}}{}{, \puc@coadviserIII}. --- \puc@city\ : \puc@uni, Departamento de \puc@department, \puc@year. \\ \\ \par%
       \hspace*{.6cm} v., \pageref{LastPage} f: il. ; 29,7 cm \\ \\ \par%
-      \hspace*{.6cm} 1.   \ifthenelse{\boolean{puc@phd}}{Tese (doutorado)}{Dissertação (mestrado)} - \puc@university, Departamento de \puc@department. \\ \\ \par%
+      \hspace*{.6cm} 1.   \ifthenelse{\boolean{puc@phd}}{Tese (doutorado)}{Disserta\c c\~ao (mestrado)} - \puc@university, Departamento de \puc@department. \\ \\ \par%
       \hspace*{.6cm} Inclui referências bibliográficas. \\ \\ \par%
       \hspace*{.6cm}%
         \newcounter{keycount}\setcounter{keycount}{1}%
@@ -955,7 +955,7 @@
   \vspace{\stretch{3}}%
   \par\indent%
   \begin{minipage}{12cm}\singlespacing%
-  \puc@authorR; \puc@adviserR\ifthenelse{\equal{\puc@coadviser}{}}{}{; \puc@coadviserR}\ifthenelse{\equal{\puc@coadviserII}{}}{}{; \puc@coadviserIIR}\ifthenelse{\equal{\puc@coadviserIII}{}}{}{; \puc@coadviserIIIR}. \textbf{\puc@title}. \puc@city, \puc@year. \pageref{LastPage}p.   \ifthenelse{\boolean{puc@phd}}{Tese de Doutorado}{Dissertação de Mestrado} --- Departamento de \puc@department, \puc@university.%
+  \puc@authorR; \puc@adviserR\ifthenelse{\equal{\puc@coadviser}{}}{}{; \puc@coadviserR}\ifthenelse{\equal{\puc@coadviserII}{}}{}{; \puc@coadviserIIR}\ifthenelse{\equal{\puc@coadviserIII}{}}{}{; \puc@coadviserIIIR}. \textbf{\puc@title}. \puc@city, \puc@year. \pageref{LastPage}p.   \ifthenelse{\boolean{puc@phd}}{Tese de Doutorado}{Disserta\c c\~ao de Mestrado} --- Departamento de \puc@department, \puc@university.%
   \end{minipage}\onehalfspacing%
   \vspace*{\stretch{1}}%
   \par%

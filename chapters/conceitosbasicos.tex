@@ -1,4 +1,4 @@
-\chapter{Conceitos Básicos}
+chapter{Conceitos Básicos}
 \label{chap:conceitosbasicos}
 
 Aprendizado de máquina é um dos campos de pesquisa da inteligência artificial e por sua vez da ciência da computação.
@@ -31,7 +31,7 @@ Veja na Figura \ref{fig:conceitosbasicos01} um diagrama que ilustra o processo d
 Para exemplificar como funciona o aprendizado supervisionado, consideremos o problema da Figura \ref{fig:conceitosbasicos02}.
 Neste queremos um modelo capaz de diferenciar entre círculos e triângulos.
 Ou seja, temos um problema de classificação binária.
-Para resolvê-lo precisamos de um modelo que funcione como um separador linear.
+Para resolvê-lo precisamos de um modelo que seja capaz de classificar as duas formas geométricas.
 O algoritmo utilizado para gerar o modelo deve então aprender uma função \textit{f(x)} que mapeia o vetor de entrada \textit{x} em um único valor de saída. Esta função pode ser definida como:
 
 \begin{equation*}
@@ -184,21 +184,21 @@ O algoritmo \textbf{KNN} apenas recebe os vetores de atributos de entrada do con
 Para classificar uma instância ele simplesmente determina qual é a classe mais frequente entre os \textit{k} exemplos mais próximos, onde \textit{k} é definido pelo usuário.
 Este método pode utilizar diferentes métricas de proximidade para determinar os vetores próximos, uma das mais utilizadas é a distância euclidiana.
 
-\subsection{Avaliação de Performance}
+\subsection{Avaliação de Desempenho}
 
 Para treinar e avaliar a performance de um algoritmo de aprendizado, tipicamente o conjunto de dados é dividido em dois.
 O primeiro, \textit{conjunto de treino}, contém os exemplos que efetivamente serão usados para treinar o algoritmo.
-O restante, \textit{conjunto de testes}, é usado para fornecer exemplos inéditos ao modelo.
-O resultado obtido quando o conjunto de testes é submetido ao modelo é utilizando para calcular as métricas pertinentes.
+O restante, \textit{conjunto de avaliação}, é usado para fornecer exemplos inéditos ao modelo.
+O resultado obtido quando o conjunto de avaliação é submetido ao modelo é utilizando para calcular as métricas pertinentes.
 Essa divisão de dados é feita para garantir que o modelo foi capaz de generalizar e não apenas decorou o conjunto de dados (\textit{overfitting}).
-Note que esta técnica de avaliação acaba por não utilizar uma parte dos dados (conjunto de teste) no treinamento.
+Note que esta técnica de avaliação acaba por não utilizar uma parte dos dados (conjunto de avaliação) no treinamento.
 Isso pode criar dificuldades quando a quantidade de dados disponível for muito limitada.
 
 Outra forma de avaliação importante é chamada \textit{validação cruzada}.
 Neste caso o conjunto de dados é dividido em \textit{k} subconjuntos.
 Estes podem ou não manter aproximadamente as mesmas proporções de classes do conjunto de dados original, dependendo do que se deseja fazer.
 A partir disso o algoritmo de aprendizado é executado \textit{k} vezes, gerando um modelo diferente por vez.
-A cada iteração, aquele modelo é treinado com \textit{k-1} subconjuntos como conjunto de treino e o restante (1 subconjunto) como conjunto de testes.
+A cada iteração, aquele modelo é treinado com \textit{k-1} subconjuntos como conjunto de treino e o restante (1 subconjunto) como conjunto de avaliação.
 Desta forma, no decorrer das \textit{k} iterações do treinamento, todos os dados são usados.
 Por fim, os resultados de todos os modelos são combinados para gerar as estatísticas finais.
 
@@ -220,7 +220,7 @@ Aplicamos então esse modelo à um conjunto de 100 instâncias e obtemos um resu
 
       \hline
     \end{tabular}
-    \caption{Resultados do modelo \textit{M}}
+    \caption{Matriz de confusão do modelo \textit{M}}
     \label{tab:positivosenegativos}
   \end{center}
 \end{table}

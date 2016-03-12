@@ -15,6 +15,9 @@ Ele pode ser utilizado para aplicar os algoritmos aos dados por meio de sua inte
 
 \section{\textit{Benchmark} dos testes}
 
+O {\textit{Benchmark} dos testes permitirá uma comparação do método proposto com outra metodologia.
+Esta metodologia determina uma nota para cada classe e depois as ordena com base neste valor.
+
 Para avaliar a performance do método proposto um \textit{benchmark} específico é empregado em cada teste.
 Quando um algoritmo é utilizado internamente no metaclassificador, e.g. Árvore de Decisão, o resultado deste mesmo algoritmo sem o metaclassificador é usado como \textit{benchmark}.
 Isso é possível pois as classes que implementam estes algoritmos, que fazem parte do \textit{framework} Weka, são capazes de gerar uma distribuição de probabilidades de classes como saída.
@@ -109,11 +112,12 @@ Além disso, para cada posição anterior à \textit{i} também é contado um fp
 Da mesma forma que fizemos para as \textit{k-Acurácias} o cálculo é feito de forma diferente para o \textit{benchmark} dos testes.
 Lembre que quando a probabilidade da classe verdadeira está empatada com a de uma ou mais classes, múltiplas listas poderiam ser criadas a partir desta distribuição.
 Retornemos ao exemplo da seção anterior, onde tínhamos as classes A, B e C com probabilidades 0.4, 0.4 e 0.2 respectivamente e onde a classe verdadeira é A.
-Podemos ter as listas de saída (1) A, B e C ou (2) B, A e C.
-No primeiro caso as posições de um a três contam como um $tp_A$.
-No segundo caso a primeira posição conta um $fn_A$, um $fp_B$ e o restante das posições conta um $tp_A$.
-Com isso podemos fazer a contabilização de outra forma.
-A primeira posição conta 0.5 $tp_A$, 0.5 $fn_A$ e 0.5 $fp_B$ e o restante conta simplesmente como um $tp_A$.
+Podemos ter duas possíveis listas de saída: (1) A, B e C ou (2) B, A e C.
+No primeiro caso as posições de um a três são contabilizadas como um $tp_A$ cada.
+No segundo caso a primeira posição é contabilizada como um $fn_A$ e um $fp_B$; e o restante das posições como $tp_A$.
+Com isso podemos fazer a contabilização de uma forma que leve em consideração todas as possíveis listas de saída.
+Podemos considerar a primeira posição como 0.5 $tp_A$, 0.5 $fn_A$ e 0.5 $fp_B$ e o restante conta simplesmente como um $tp_A$.
+Note que esse resultado é simpesmente uma média dos resultados das duas possíveis listas de saída.
 
 Observe na Figura \ref{fig:descricaodostestes03} um exemplo de conjunto de listas retornadas com a contagem de tp, fn e fp para cada classe.
 Neste exemplo temos um conjunto de dados com três classes (A, B e C).

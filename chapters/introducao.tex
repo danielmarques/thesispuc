@@ -24,6 +24,7 @@ Este metaclassificador é capaz de utilizar internamente qualquer tipo de classi
 Para entender o problema de \textit{ranking} no qual este trabalho se concentra, considere um exemplo onde temos uma rede \textit{R} com \textit{n} nodos.
 Imagine que esta rede eventualmente pode apresentar falhas em seus nodos, sendo que cada falha pode causar sérios danos à operação da rede.
 Para corrigi-las é necessário fazê-lo diretamente no nodo afetado pela falha.
+Isto por que não é possivel estabelecer comunicação direta com ele, por que o mesmo está submerso por exemplo.
 Além disso, para corrigir uma falha rapidamente, é necessário determinar logo onde ela ocorreu.
 Para tanto poderíamos verificar simultaneamente todos os \textit{n} nodos, por exemplo enviando equipes até os locais.
 Entretanto o custo do deslocamento até um dos nodos é muito elevado, sendo inviável checar toda a rede sempre que ocorre uma falha.
@@ -55,6 +56,7 @@ Além disso, o método foi desenvolvido em duas versões: estática e dinâmica.
 As duas versões diferem no momento no qual os classificadores internos são treinados.
 
 A primeira versão treina todos os classificadores internos possíveis a priori.
+Isto é, gera todos os subconjuntos possíveis dos dados originais e treina um classificador para cada.
 Esta abordagem exigiu um tempo de treinamento maior.
 Isto por que, dependendo do conjunto de dados, a quantidade de classificadores possíveis pode ser grande.
 Todavia, uma vez que todos os classificadores foram treinados, o tempo de classificação das instâncias foi análogo ao de um classificador comum.
@@ -79,13 +81,14 @@ A partir desta informação montamos um \textit{ranking} de classes para a inst�
 Durante a avaliação do método, executamos e analisamos testes do metaclassificador em combinação com classificadores conhecidos como o SVM, a Árvore de Decisão e o KNN.
 Observamos que o metaclassificador destacou-se nos testes com alguns deles, principalmente com a Árvore de Decisão.
 Além disso, discutimos os resultados do método quando aplicado à conjuntos de dados reais e sintéticos.
-Os tempos de execução também foram analisados.Dependendo do numero de classes envolvido o método proposto atinge tempos de execução razoáveis; ainda que mais lentos do que dos classificadores probabilísticos comuns.
-Dependendo do número de classes envolvido o método proposto atinge tempos de execução razoáveis; ainda que mais lentos do que dos classificadores probabilísticos comuns.
+Os tempos de execução também foram analisados.
+Dependendo do numero de classes envolvido o método proposto atinge tempos de execução razoáveis; ainda que mais lentos do que dos classificadores probabilísticos comuns.
 
 \section{Organização da Dissertação}
 
 Os capítulos deste texto estão organizados da forma a seguir.
-Primeiro são introduzidos os conceitos necessários para o entendimento do trabalho no Capítulo \ref{chap:conceitosbasicos}.
+Primeiro são introduzidos os conceitos necessários de aprendizado de máquina para o entendimento do trabalho no Capítulo \ref{chap:conceitosbasicos}.
+Este capítulo discute o aprendizado supervisionado, algoritmos de aprendizado e avaliação de performance.
 Em seguida, no Capítulo \ref{chap:metodoproposto}, o método é discutido em detalhes.
 Depois os experimentos realizados para testar o método são detalhados e seus resultados são discutidos no Capítulo \ref{chap:descricaodostestes}.
 Posteriormente, no Capítulo \ref{chap:trabalhosrelacionados}, uma compilação de trabalhos relacionados à este é apresentada.

@@ -6,7 +6,7 @@ O método proposto deve receber como entrada um conjunto de treino, a partir do 
 O método proposto compreende um metaclassificador que por sua vez é composto por um conjunto de classificadores internos. Estes diversos classificadores são empregados em cascata para gerar a lista ordenada de saída. Note que, cada item da lista é dado por apenas um classificador interno. 
 
 \begin{figure}[h!]
-  \includegraphics[width=\linewidth]{images/metodoproposto01.eps}
+  \includegraphics[width=\linewidth]{images/metodoproposto01v2.eps}
   \caption{Classificadores em cascata e lista de saída.}
   \label{fig:metodoproposto01}
 \end{figure}
@@ -31,7 +31,7 @@ Qualquer outro classificador interno é treinado com uma versão filtrada de  \t
 De forma geral, o classificador que será usado para classificar o item da lista na posição \textit{k}, onde \textit{k} $<$ \textit{v}, deve ser treinado com um conjunto de treino filtrado \textit{k-1} vezes. 
 Estas filtragens retiram sucessivamente do conjunto de treino as instâncias cujas classes já foram colocadas na lista.
 
-No exemplo anterior, da Figura \ref{fig:metodoproposto01}, o classificador /ABD é usado para gerar o quarto elemento da lista.
+No exemplo anterior, da Figura \ref{fig:metodoproposto01}, o classificador /DBA é usado para gerar o quarto elemento da lista.
 Este classificador foi treinado com um conjunto filtrado 3 vezes (para retirar as instâncias com as classes A, B e D).
 O processo de treinamento e classificação para um classificador interno é ilustrado na Figura \ref{fig:metodoproposto02}.
 
@@ -148,7 +148,7 @@ Para cada item \textit{i} da lista de saída faça:
 \hfill \break
 
 Note que, quanto mais valores a classe do conjunto de treino original puder assumir, mais classificadores internos comporão o modelo do metaclassificador.
-Sejam \textit{N} o número de classificadores geados pelo método estático, \textit{v} o número de valores de classe distintos no conjunto universo e \textit{k} o tamanho da lista que se deseja gerar. 
+Sejam \textit{N} o número de classificadores gerados pelo método estático, \textit{v} o número de valores de classe distintos no conjunto universo e \textit{k} o tamanho da lista que se deseja gerar. 
 De forma geral, considerando que $\textit{k} \leq \textit{v}$, temos que:
 
 \begin{equation*}
@@ -158,6 +158,9 @@ De forma geral, considerando que $\textit{k} \leq \textit{v}$, temos que:
 
 \end{equation*}
 
+Desta forma, o número \textit{N} de classificadores gerados aumenta muito com o tamanho \tesxtit{k} da lista.
+Com isso o método estático pode não ser indicado para problemas onde queremos gerar uma lista muito grande.
+
 A Figura \ref{fig:metodoproposto03} ilustra os classificadores internos gerados quando as possibilidades de valor de classe são A, B, C e D. Na Figura as numerações não somente identificam cada classificador interno, elas denotam como o conjunto de treino foi filtrado para gerar aquele classificador. Além disso, a Figura divide os classificadores internos em camadas. Um classificador que pertence a camada \textit{k} pode ser usado apenas para gerar um elemento na posição \textit{k} da lista de saída.
 
 \begin{figure}[h!]
@@ -166,7 +169,9 @@ A Figura \ref{fig:metodoproposto03} ilustra os classificadores internos gerados 
   \label{fig:metodoproposto03}
 \end{figure}
 
-A versão estática pode ser lenta durante a fase de treinamento, pois precisa treinar um grande número de classificadores antes de classificar qualquer nova instância. Por outro lado, uma vez treinado o modelo pode ser usado para classificar diversas novas instâncias rapidamente.
+A versão estática pode ser lenta durante a fase de treinamento, pois precisa treinar um grande número de classificadores antes de classificar qualquer nova instância. 
+Esse ônus pode se tornar proibitivo se a quantidade de classes do conjunto de dados for grande, pois aumenta muito o número de classificadores (como vimos na equação anterior).
+Por outro lado, uma vez treinado o modelo pode ser usado para classificar diversas novas instâncias rapidamente.
 
 \subsection{Método Dinâmico}
 
