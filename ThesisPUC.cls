@@ -862,7 +862,7 @@
   \puc@setmargins@front%
   \thispagestyle{empty}%
   \singlespacing\arial%
-  \puc@leftmargin{\normalfont \normalsize Todos os direitos reservados. É proibida a reprodução total ou parcial do trabalho sem autorização da universidade, do autor e do orientador.}%
+  \puc@leftmargin{\normalfont \normalsize Todos os direitos reservados. \'{E} proibida a reprodu\c c\~ ao total ou parcial do trabalho sem autoriza\c c\~ ao da universidade, do autor e do orientador.}%
   \vspace*{\stretch{2}}%
   \par%
   \puc@rightmargin{\arial \textbf{\puc@author}}%
