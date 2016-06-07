@@ -989,7 +989,7 @@
   \vspace{\stretch{3}}%
   \par\indent%
   \begin{minipage}{12cm}\singlespacing%
-  \puc@authorR; \puc@adviserR\ifthenelse{\equal{\puc@coadviser}{}}{}{; \puc@coadviserR}\ifthenelse{\equal{\puc@coadviserII}{}}{}{; \puc@coadviserIIR}\ifthenelse{\equal{\puc@coadviserIII}{}}{}{; \puc@coadviserIIIR}. \textbf{\puc@titleuk}. \puc@city, \puc@year. \pageref{LastPage}p.   \ifthenelse{\boolean{puc@phd}}{PhD Thesis}{MsC Thesis} --- Department of \puc@department, \puc@university.%
+  \puc@authorR; \puc@adviserR\ifthenelse{\equal{\puc@coadviser}{}}{}{; \puc@coadviserR}\ifthenelse{\equal{\puc@coadviserII}{}}{}{; \puc@coadviserIIR}\ifthenelse{\equal{\puc@coadviserIII}{}}{}{; \puc@coadviserIIIR} (Advisor). \textbf{\puc@titleuk}. \puc@city, \puc@year. \pageref{LastPage}p.   \ifthenelse{\boolean{puc@phd}}{PhD Thesis}{MsC Thesis} --- Department of \puc@department, \puc@university.%
   \end{minipage}\onehalfspacing%
   \vspace*{\stretch{1}}%
   \par%
@@ -1127,7 +1127,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \AtBeginDocument{%
-  \renewcommand{\bibname}{Referências Bibliográficas}%
+  \renewcommand{\bibname}{Referências bibliográficas}%
   \bibliographystyle{ThesisPUC}%
   \renewcommand{\key}[1]{#1. }
   \special{ pdf: docinfo << /Author (\puc@author) /Title (\puc@title) /Keywords (\puc@keywords) >> }%

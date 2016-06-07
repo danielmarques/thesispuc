@@ -31,11 +31,11 @@ RM        = rm -f
 SRC       := thesis.tex      
 CLASSES   := ThesisPUC.cls  
 STYLES    := atbeginend.sty chngpage.sty fancyhdr.sty indentfirst.sty inputenc.sty lastpage.sty setspace.sty subfigure.sty titlesec.sty tocloft.sty   
-INPUTS    := chapters/descricaodostestes.tex chapters/metodoproposto.tex   
+INPUTS    := chapters/conceitosbasicos.tex chapters/conclusao.tex chapters/descricaodostestes.tex chapters/introducao.tex chapters/metodoproposto.tex chapters/trabalhosrelacionados.tex   
 BIBFILE   := thesis.bib  
 BIBSTYLES := ThesisPUC.bst
 INPUTENCS := noaccent.def
-EPSPICS   := images/descricaodostestes01.eps images/metodoproposto01.eps images/metodoproposto02.eps images/metodoproposto03.eps puc.ps  
+EPSPICS   := images/conceitosbasicos01.eps images/conceitosbasicos02.eps images/descricaodostestes01.eps images/descricaodostestes03.eps images/dist1000-2500-5.eps images/dist1500-1500-5.eps images/dist250-4000-12.eps images/dist250-4000-20.eps images/dist250-4000-5.eps images/intro01.eps images/metodoproposto01v2.eps images/metodoproposto02.eps images/metodoproposto03.eps images/random_data_01.eps images/random_data_50.eps puc.ps  
 
 # END DEPENDENCIES
 
